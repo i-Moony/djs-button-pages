@@ -74,13 +74,14 @@ More complicated and interesting examples with commentary can be found at GitHub
 There is also documentation that you can read for more information.
 
 # ❔ Links:
+* [Additional Examples](https://github.com/i-Moony/djs-button-pages/tree/djs13/examples)
 * Documentation
-* GitHub
-* NotABug
+* [GitHub](https://github.com/i-Moony/djs-button-pages)
+* [NotABug](https://notabug.org/m00ny/djs-button-pages)
 * NPM
-* Discord.JS
-* Discord.JS Documenation
-* Discord.JS Guide
+* [Discord.JS](https://discord.js.org/)
+* [Discord.JS Documenation](https://discord.js.org/#/docs/)
+* [Discord.JS Guide](https://discordjs.guide/)
 
 # 🐛 Bug reporting
 For bug-reporting look for [GitHub Issues](https://github.com/i-Moony/djs-button-pages/issues).
