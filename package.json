@@ -7,7 +7,8 @@
 
   "files": 
   [
-    "dist/**/*"
+    "dist/**/*",
+    "LICENSE.md"
   ],
 
   "scripts":
