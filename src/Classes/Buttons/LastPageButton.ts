@@ -15,11 +15,18 @@
  */
 
 import { MessageButton } from "discord.js";
-import { PaginationData } from "../Paginations/Abstract/PaginationData";
-import { ButtonData } from "./Abstract/ButtonData";
+import PaginationData from "../Paginations/Abstract/PaginationData";
+import ButtonData from "./Abstract/ButtonData";
 
+/**
+ * Last page button. Switches pagination to the last page.
+ */
 class LastPageButton extends ButtonData
 {
+    /**
+     * Last page button. Switches pagination to the last page.
+     * @param {MessageButton} style Button style.
+     */
     public constructor(style?:MessageButton)
     {
         super();
@@ -32,6 +39,11 @@ class LastPageButton extends ButtonData
         this._setDisableWhen(LastPageButton._doAction);
     };
 
+    /**
+     * Gets last page.
+     * @param {PaginationData} pagination Pagination Data.
+     * @returns {Promise<number>} Last page number.
+     */
     private static async _doAction(pagination:PaginationData): Promise<number>
     {
         if (!pagination.embeds)
@@ -41,4 +53,4 @@ class LastPageButton extends ButtonData
     };
 };
 
-export { LastPageButton };
+export default LastPageButton;

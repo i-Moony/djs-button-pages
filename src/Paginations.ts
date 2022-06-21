@@ -14,12 +14,28 @@
  * limitations under the License.
  */
 
-export { ChannelPagination } from "./Classes/Paginations/ChannelPagination";
-export { MessageReplyPagination } from "./Classes/Paginations/MessageReplyPagination";
-export { InteractionPagination } from "./Classes/Paginations/InteractionPagination";
-export { CustomButton } from "./Classes/Buttons/CustomButton";
-export { FirstPageButton } from "./Classes/Buttons/FirstPageButton";
-export { LastPageButton } from "./Classes/Buttons/LastPageButton";
-export { NextPageButton } from "./Classes/Buttons/NextPageButton";
-export { PreviousPageButton } from "./Classes/Buttons/PreviousPageButton";
-export { StopButton } from "./Classes/Buttons/StopButton";
+import ChannelPagination from "./Classes/Paginations/ChannelPagination";
+import MessageReplyPagination from "./Classes/Paginations/MessageReplyPagination";
+import InteractionPagination from "./Classes/Paginations/InteractionPagination";
+import CustomButton from "./Classes/Buttons/CustomButton";
+import FirstPageButton from "./Classes/Buttons/FirstPageButton";
+import LastPageButton from "./Classes/Buttons/LastPageButton";
+import NextPageButton from "./Classes/Buttons/NextPageButton";
+import PreviousPageButton from "./Classes/Buttons/PreviousPageButton";
+import StopButton from "./Classes/Buttons/StopButton";
+import BasePagination from "./Classes/Paginations/Abstract/BasePagination";
+import PaginationData from "./Classes/Paginations/Abstract/PaginationData";
+import ButtonData from "./Classes/Buttons/Abstract/ButtonData";
+
+export { ChannelPagination,
+    MessageReplyPagination,
+    InteractionPagination,
+    CustomButton,
+    FirstPageButton,
+    LastPageButton,
+    NextPageButton,
+    PreviousPageButton,
+    StopButton,
+    BasePagination,
+    PaginationData,
+    ButtonData };

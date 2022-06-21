@@ -15,11 +15,18 @@
  */
 
 import { MessageButton } from "discord.js";
-import { PaginationData } from "../Paginations/Abstract/PaginationData";
-import { ButtonData } from "./Abstract/ButtonData";
+import PaginationData from "../Paginations/Abstract/PaginationData";
+import ButtonData from "./Abstract/ButtonData";
 
+/**
+ * Custom button. Helps to create buttons with custom actions.
+ */
 class CustomButton extends ButtonData
 {
+    /**
+     * Custom button. Helps to create buttons with custom actions.
+     * @param {MessageButton} style Button style.
+     */
     public constructor(style?:MessageButton)
     {
         super();
@@ -28,11 +35,13 @@ class CustomButton extends ButtonData
             this.setStyle(style);
     };
 
+    /**
+     * Sets button action.
+     * @param {((pagination:PaginationData) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @returns {this} Button data.
+     */
     public setAction(action: ((pagination:PaginationData) => Promise<number>) | number): this
     {
-        if (!action && action !== 0)
-            throw new TypeError("Button action should be defined.");
-
         if (typeof action === "number" && (!Number.isInteger(action) || action < 0))
             throw new RangeError("Action should return natural number.");
 
@@ -41,11 +50,13 @@ class CustomButton extends ButtonData
         return this;
     };
 
+    /**
+     * Sets either a page number or a function that define when to disable button.
+     * @param {((pagination:PaginationData, nextPage:number) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @returns {this} Button data.
+     */
     public setDisableWhen(disableWhen: ((pagination:PaginationData, nextPage:number) => Promise<number>) | number): this
     {
-        if (!disableWhen && disableWhen !== 0)
-            throw new TypeError("Button action should be defined.");
-
         if (typeof disableWhen === "number" && (!Number.isInteger(disableWhen) || disableWhen < -1))
             throw new RangeError("Action should return natural number or minus one to be always turned on.");
 
@@ -55,4 +66,4 @@ class CustomButton extends ButtonData
     };
 };
 
-export { CustomButton };
+export default CustomButton;

@@ -15,10 +15,17 @@
  */
 
 import { MessageButton } from "discord.js";
-import { ButtonData } from "./Abstract/ButtonData";
+import ButtonData from "./Abstract/ButtonData";
 
+/**
+ * Stop button. Stops pagination.
+ */
 class StopButton extends ButtonData
 {
+    /**
+     * Stop button. Stops pagination.
+     * @param {MessageButton} style Button style.
+     */
     public constructor(style?:MessageButton)
     {
         super();
@@ -32,4 +39,4 @@ class StopButton extends ButtonData
     };
 };
 
-export { StopButton };
+export default StopButton;

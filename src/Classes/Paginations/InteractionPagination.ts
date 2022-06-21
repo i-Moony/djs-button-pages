@@ -19,7 +19,7 @@ import { Interaction,
     Message,
     User } from "discord.js";
 import Constants from "../../Constants";
-import { BasePagination } from "./Abstract/BasePagination";
+import BasePagination from "./Abstract/BasePagination";
 
 class InteractionPagination extends BasePagination<InteractionReplyOptions>
 {
@@ -28,6 +28,11 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         super();
     };
 
+    /**
+     * Sets life-time of pagination.
+     * @param {number} time Time in milliseconds.
+     * @returns {this} Pagination.
+     */
     public override setTime(time:number): this
     {
         if (this.isActive)
@@ -47,7 +52,13 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         return this;
     };
 
-    public override async send(interaction:Interaction, user?:User)
+    /**
+     * Sends pagination as the reply to specified interaction.
+     * @param {Interaction} channel Interaction to that the reply should be sent.
+     * @param {User} user Needed only if one user should be able to use pagination.
+     * @returns {Promise<void>} Sends pagination.
+     */
+    public async send(interaction:Interaction, user?:User)
     {
         if (this.isActive)
             throw new Error("The pagination is already sent!");
@@ -88,8 +99,8 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         const collector = message.createMessageComponentCollector({
             time: this.time,
             componentType: "BUTTON",
-            maxUsers: this.filterOptions?.onlyAuthor ? undefined : this.filterOptions?.limitUsers,
-            max: this.filterOptions?.limit,
+            maxUsers: this.filterOptions?.onlyOneUser ? undefined : this.filterOptions?.limitUsers,
+            max: this.filterOptions?.limitInteractions,
             filter: this._formFilter(message, user)
         });
 
@@ -102,6 +113,13 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         return;
     };
     
+    /**
+     * Fetches message using data from APIMessage.
+     * @param {interaction} interaction Interaction that bot got.
+     * @param {string} channelId ID of the channel there was message sent.
+     * @param {string} messageId ID of the message.
+     * @returns {Promise<Message>} Message.
+     */
     private async _fetchMessage(interaction:Interaction, channelId:string, messageId:string): Promise<Message>
     {
         const channel = await interaction.client.channels.fetch(channelId).catch(() => undefined);
@@ -121,4 +139,4 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
     };
 };
 
-export { InteractionPagination };
+export default InteractionPagination;

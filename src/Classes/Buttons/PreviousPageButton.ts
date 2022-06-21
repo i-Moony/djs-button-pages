@@ -15,11 +15,18 @@
  */
 
 import { MessageButton } from "discord.js";
-import { PaginationData } from "../Paginations/Abstract/PaginationData";
-import { ButtonData } from "./Abstract/ButtonData";
+import PaginationData from "../Paginations/Abstract/PaginationData";
+import ButtonData from "./Abstract/ButtonData";
 
+/**
+ * Previous page button. Switches pagination to previous page.
+ */
 class PreviousPageButton extends ButtonData
 {
+    /**
+     * Previous page button. Switches pagination to previous page.
+     * @param {MessageButton} style Button style.
+     */
     public constructor(style?:MessageButton)
     {
         super();
@@ -32,10 +39,15 @@ class PreviousPageButton extends ButtonData
         this._setDisableWhen(0);
     };
 
+    /**
+     * Gets previous page of pagination.
+     * @param {PaginationData} pagination Pagination data.
+     * @returns {Promise<number>} Page number.
+     */
     private static async _doAction(pagination:PaginationData): Promise<number>
     {
         return pagination.currentPage - 1;
     };
 };
 
-export { PreviousPageButton };
+export default PreviousPageButton;

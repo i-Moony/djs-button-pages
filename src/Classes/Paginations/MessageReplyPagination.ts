@@ -17,7 +17,7 @@
 import { Message,
     ReplyMessageOptions,
     User } from "discord.js";
-import { BasePagination } from "./Abstract/BasePagination";
+import BasePagination from "./Abstract/BasePagination";
 
 class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
 {
@@ -26,7 +26,13 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
         super();
     };
 
-    public override async send(message:Message, user?:User)
+    /**
+     * Sends pagination as the reply to specified message.
+     * @param {Message} message Message to that the reply should be sent.
+     * @param {User} user Needed only if one user should be able to use pagination.
+     * @returns {Promise<void>} Sends pagination.
+     */
+    public async send(message:Message, user?:User)
     {
         if (this.isActive)
             throw new Error("The pagination is already sent!");
@@ -50,8 +56,8 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
         const collector = reply.createMessageComponentCollector({
             time: this.time,
             componentType: "BUTTON",
-            maxUsers: this.filterOptions?.onlyAuthor ? undefined : this.filterOptions?.limitUsers,
-            max: this.filterOptions?.limit,
+            maxUsers: this.filterOptions?.onlyOneUser ? undefined : this.filterOptions?.limitUsers,
+            max: this.filterOptions?.limitInteractions,
             filter: this._formFilter(reply, user)
         });
 
@@ -65,4 +71,4 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
     };
 };
 
-export { MessageReplyPagination };
+export default MessageReplyPagination;

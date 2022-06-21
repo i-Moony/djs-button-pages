@@ -19,12 +19,12 @@
  */
 interface FilterOptions
 {
-    onlyAuthor?: boolean,
-    notAuthorReply?: string,
-    limit?: number,
+    onlyOneUser?: boolean,
+    notThatUserReply?: string,
+    limitInteractions?: number,
     limitUsers?: number,
     resetTimer?: boolean,
     removeButtonsAfterEnd?: boolean,
 };
 
-export { FilterOptions };
+export default FilterOptions;

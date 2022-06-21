@@ -15,11 +15,18 @@
  */
 
 import { MessageButton } from "discord.js";
-import { PaginationData } from "../Paginations/Abstract/PaginationData";
-import { ButtonData } from "./Abstract/ButtonData";
+import PaginationData from "../Paginations/Abstract/PaginationData";
+import ButtonData from "./Abstract/ButtonData";
 
+/**
+ * Next page button. Switches pagination to the next page.
+ */
 class NextPageButton extends ButtonData
 {
+    /**
+     * Next page button. Switches pagination to the next page.
+     * @param {MessageButton} style Button style.
+     */
     public constructor(style?:MessageButton)
     {
         super();
@@ -32,11 +39,21 @@ class NextPageButton extends ButtonData
         this._setDisableWhen(NextPageButton._shouldBeDisabled);
     };
 
+    /**
+     * Gets next page of the pagination.
+     * @param {PaginationData} pagination Pagination data.
+     * @returns {Promise<number>} Next page number.
+     */
     private static async _doAction(pagination:PaginationData): Promise<number>
     {
         return pagination.currentPage + 1;
     };
 
+    /**
+     * Gets last page number.
+     * @param {PaginationData} pagination Pagination data.
+     * @returns {Promise<number>} Last page number.
+     */
     private static async _shouldBeDisabled(pagination:PaginationData): Promise<number>
     {
         if (!pagination.embeds)
@@ -46,4 +63,4 @@ class NextPageButton extends ButtonData
     };
 };
 
-export { NextPageButton };
+export default NextPageButton;

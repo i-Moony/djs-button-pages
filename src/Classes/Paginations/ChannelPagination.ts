@@ -18,7 +18,7 @@ import { DMChannel,
     MessageOptions,
     TextChannel, 
     User } from "discord.js";
-import { BasePagination } from "./Abstract/BasePagination";
+import BasePagination from "./Abstract/BasePagination";
 
 class ChannelPagination extends BasePagination<MessageOptions>
 {
@@ -27,7 +27,13 @@ class ChannelPagination extends BasePagination<MessageOptions>
         super();
     };
 
-    public override async send(channel:TextChannel | DMChannel, user?:User): Promise<void>
+    /**
+     * Sends pagination to the specified channel.
+     * @param {TextChannel | DMChannel} channel Channel where the pagination should be sent.
+     * @param {User} user Needed only if one user should be able to use pagination.
+     * @returns {Promise<void>} Sends pagination.
+     */
+    public async send(channel:TextChannel | DMChannel, user?:User): Promise<void>
     {
         if (this.isActive)
             throw new Error("The pagination is already sent!");
@@ -51,8 +57,8 @@ class ChannelPagination extends BasePagination<MessageOptions>
         const collector = message.createMessageComponentCollector({
             time: this.time,
             componentType: "BUTTON",
-            maxUsers: this.filterOptions?.onlyAuthor ? undefined : this.filterOptions?.limitUsers,
-            max: this.filterOptions?.limit,
+            maxUsers: this.filterOptions?.onlyOneUser ? undefined : this.filterOptions?.limitUsers,
+            max: this.filterOptions?.limitInteractions,
             filter: this._formFilter(message, user)
         });
 
@@ -66,4 +72,4 @@ class ChannelPagination extends BasePagination<MessageOptions>
     };
 };
 
-export { ChannelPagination };
+export default ChannelPagination;

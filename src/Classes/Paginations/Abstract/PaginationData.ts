@@ -18,17 +18,23 @@ import { ButtonInteraction,
     InteractionCollector,
     MessageEmbed } from "discord.js";
 import Constants from "../../../Constants";
-import { FilterOptions } from "../../../Interfaces/FilterOptions";
-import { ButtonData } from "../../Buttons/Abstract/ButtonData";
+import FilterOptions from "../../../Interfaces/FilterOptions";
+import ButtonData from "../../Buttons/Abstract/ButtonData";
 
+/**
+ * Class for storing and modifying pagination data.
+ */
 abstract class PaginationData
 {
+    /**
+     * Class for storing and modifying pagination data.
+     */
     protected constructor()
     {
         this._isActive = false;
 
         this._currentPage = 0;
-        this._filterOptions = {onlyAuthor: true};
+        this._filterOptions = {onlyOneUser: true};
 
         this._time = 0;
         this._buttons = [];
@@ -43,46 +49,85 @@ abstract class PaginationData
     private _time:number;
     private _collector:InteractionCollector<ButtonInteraction>;
 
+    /**
+     * Indicates whether this pagination sent.
+     * @type {boolean}
+     */
     public get isActive(): boolean
     {
         return this._isActive;
     };
 
+    /**
+     * How long the pagination will exist.
+     * @type {number | null}
+     */
     public get time(): number | null
     {
         return this._time > 0 ? this._time : null;
     };
     
+    /**
+     * The buttons of this pagination.
+     * @type {Array<ButtonData> | null}
+     */
     public get buttons(): Array<ButtonData> | null
     {
         return this._buttons && this._buttons.length !== 0 ? this._buttons : null;
     };
 
+    /**
+     * Embed-pages of this pagination.
+     * @type {Array<MessageEmbed> | null}
+     */
     public get embeds(): Array<MessageEmbed> | null
     {
         return this._embeds && this._embeds.length !== 0 ? this._embeds : null;
     };
 
+    /**
+     * Current page number. Zero-based.
+     * @type {number}
+     */
     public get currentPage(): number
     {
         return this._currentPage;
     };
 
+    /**
+     * Options for filtering button interactions.
+     * @type {FilterOptions}
+     */
     public get filterOptions(): FilterOptions
     {
         return this._filterOptions;
     };
 
+    /**
+     * Collector that collects button interactions.
+     * @type {InteractionCollector<ButtonInteraction> | null}
+     */
     public get collector(): InteractionCollector<ButtonInteraction> | null
     {
         return this._collector ?? null;
     };
 
+    /**
+     * Gets {@link ButtonData} by it's customId.
+     * @param {string} customId Button's customId. Should be a string.
+     * @returns {ButtonData | undefined} Button data.
+     */
     public getButtonByCustomId(customId:string): ButtonData | undefined
     {
         return this.buttons?.find((but) => but.style?.customId === customId);
     };
 
+    /**
+     * Sets pagination active phase duration.
+     * @param {number} time Time in milliseconds.
+     * @param {boolean} bypassLibraryLimits Should the time bypass library limits or not.
+     * @returns {this} Pagination.
+     */
     public setTime(time:number, bypassLibraryLimits?:boolean): this
     {
         if (this._isActive)
@@ -102,7 +147,13 @@ abstract class PaginationData
         return this;
     };
 
-    public insertEmbeds(embeds:MessageEmbed | Array<MessageEmbed>, index:number = -1): this
+    /**
+     * Inserts embeds.
+     * @param {MessageEmbed | Array<MessageEmbed>} embeds Embed(-s) that is/are meant to be inserted.
+     * @param {number} index Zero-based location in the array there the embed(-s) should be inserted.
+     * @returns {this} Pagination.
+     */
+    public insertEmbeds(embeds:MessageEmbed | Array<MessageEmbed>, index:number): this
     {
         if (this._isActive)
             throw new Error("The pagination is already sent.");
@@ -116,14 +167,20 @@ abstract class PaginationData
         if (embeds.some((embed => embed.length > Constants.EMBED_TOTAL_MAX_LENGTH)))
             throw new RangeError(`No embeds from the array can be longer than ${Constants.EMBED_TOTAL_MAX_LENGTH}.`);
 
-        if (index < -1 || !Number.isInteger(index))
+        if (index < 0 || !Number.isInteger(index))
             throw new RangeError("Index should be natural.");
 
-        index === -1 ? this._embeds.push(...embeds) : this._embeds.splice(index, 0, ...embeds);
+        index || index === this._embeds?.length ? this._embeds.push(...embeds) : this._embeds.splice(index, 0, ...embeds);
 
         return this;
     };
 
+    /**
+     * Removes embed(-s) by it's index in the array of embeds.
+     * @param {number} index Zero-based location in the array from which to start removing embeds.
+     * @param {number} count Quantity of embeds to remove.
+     * @returns {this} Pagination.
+     */
     public removeEmbeds(index:number, count:number = 1): this
     {
         if (this._isActive)
@@ -140,6 +197,11 @@ abstract class PaginationData
         return this;
     };
 
+    /**
+     * Sets embed(-s). Overrides current embed(-s).
+     * @param {MessageEmbed | Array<MessageEmbed>} embeds Embed(-s) that is/are meant to be set.
+     * @returns {this} Pagination.
+     */
     public setEmbeds(embeds:MessageEmbed | Array<MessageEmbed>): this
     {
         if (this._isActive)
@@ -159,6 +221,11 @@ abstract class PaginationData
         return this;
     };
 
+    /**
+     * Sets button(-s). Overrides current button(-s).
+     * @param {ButtonData | Array<ButtonData>} buttons Button(-s) that is/are meant to be set.
+     * @returns {this} Pagination.
+     */
     public setButtons(buttons:ButtonData | Array<ButtonData>): this
     {
         if (this._isActive)
@@ -187,21 +254,26 @@ abstract class PaginationData
         return this;
     };
 
+    /**
+     * Sets filter options. Overrides current options.
+     * @param {FilterOptions} options Options for filtering out button interactions.
+     * @returns {this} Pagination.
+     */
     public setFilterOptions(options:FilterOptions): this
     {
         if (this._isActive)
             throw new Error("The pagination is already sent.");
 
-        if (options.onlyAuthor === true && options.limitUsers)
+        if (options.onlyOneUser === true && options.limitUsers)
             console.warn("Passing onlyAuthor and limitUsers options together has no sense.");
 
-        if (options.limit && (options.limit < 0 || !Number.isInteger(options.limit)))
+        if (options.limitInteractions && (options.limitInteractions < 0 || !Number.isInteger(options.limitInteractions)))
             throw new RangeError("Limit should be natural.");
 
         if (options.limitUsers && (options.limitUsers < 0 || !Number.isInteger(options.limitUsers)))
             throw new RangeError("Users limit should be natural.");
 
-        if (options.notAuthorReply && options.notAuthorReply.length < 1)
+        if (options.notThatUserReply && options.notThatUserReply.length < 1)
             throw new RangeError("Reply should be at least one symbol long.");
 
         this._filterOptions = options;
@@ -209,11 +281,21 @@ abstract class PaginationData
         return this;
     };
 
+    /**
+     * Sets active state.
+     * @param {boolean} active Whether to set pagination as active. 
+     * @returns {boolean} Active state.
+     */
     protected _setActive(active:boolean = true): boolean
     {
         return this._isActive = active;
     };
 
+    /**
+     * Sets current page number.
+     * @param {number} page Number of the page.
+     * @returns {number} Number of the current page.
+     */
     protected _setCurrentPage(page:number = 0): number
     {
         if (page < 0 || !Number.isInteger(page))
@@ -222,6 +304,11 @@ abstract class PaginationData
         return this._currentPage = page;
     };
 
+    /**
+     * Sets life-time of pagination.
+     * @param {number} time Time in milliseconds.
+     * @returns {number} Time in milliseconds.
+     */
     protected _setTime(time:number): number
     {
         if (this._isActive)
@@ -236,6 +323,11 @@ abstract class PaginationData
         return this._time = time;
     };
 
+    /**
+     * Sets collector of the pagination.
+     * @param {InteractionCollector<ButtonInteraction>} collector Collector that collects button interactions.
+     * @returns {InteractionCollector<ButtonInteraction>} Collector that collects button interactions.
+     */
     protected _setCollector(collector:InteractionCollector<ButtonInteraction>): InteractionCollector<ButtonInteraction>
     {
         if (!this._isActive)
@@ -244,11 +336,8 @@ abstract class PaginationData
         if (this._collector)
             throw new Error("Can't reassign already assigned collector!");
 
-        if (!collector) 
-            throw new Error("Collector should be defined!");
-
         return this._collector = collector;
     };
 };
 
-export { PaginationData };
+export default PaginationData;

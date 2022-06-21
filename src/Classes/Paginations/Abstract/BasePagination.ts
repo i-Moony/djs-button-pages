@@ -21,15 +21,19 @@ import { ButtonInteraction,
     ReplyMessageOptions,
     MessageOptions,
     User,
-    InteractionReplyOptions, 
-    TextChannel,
-    DMChannel,
+    InteractionReplyOptions,
     Interaction } from "discord.js";
 import Constants from "../../../Constants";
-import { PaginationData } from "./PaginationData";
+import PaginationData from "./PaginationData";
 
+/**
+ * Base pagination class that works with collector and it's events.
+ */
 abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | InteractionReplyOptions> extends PaginationData
 {
+    /**
+     * Base pagination class that works with collector and it's events.
+     */
     protected constructor()
     {
         super();
@@ -37,13 +41,20 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
 
     private _messageOptions:T;
 
-    public abstract send(channel:TextChannel | DMChannel | Interaction | Message, user?:User): Promise<void>;
-
+    /**
+     * Options for sending message.
+     * @type {T}
+     */
     public get messageOptions(): T
     {
         return this._messageOptions ?? null;
     };
 
+    /**
+     * Sets options for sending message.
+     * @param {T} options Options for sending message.
+     * @returns {this} Pagination.
+     */
     public setMessageOptions(options:T): this
     {
         if (this.isActive)
@@ -60,15 +71,17 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         return this;
     };
 
+    /**
+     * Method that handles `collect` event.
+     * @param {ButtonInteraction} interaction Interaction that the collector got.
+     * @returns {Promise<void>} Updates pagination.
+     */
     protected async _collected(interaction:ButtonInteraction): Promise<void>
     {
         if (!this.embeds || !this.collector)
-            throw new Error("This function may be triggered only if the pagination is already sent!");
+            throw new Error("This method may be triggered only if the pagination is already sent!");
 
-        const nextPage = await this._getPage(interaction.customId);
-
-        if (!nextPage && nextPage !== 0)
-            throw new TypeError("Page for this button is not defined!");
+        const nextPage = await this._getPageNumber(interaction.customId);
         
         if (!interaction.deferred)
             await interaction.deferUpdate();
@@ -97,31 +110,78 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         return;
     };
 
-    private async _getPage(customId: string): Promise<number>
+    /**
+     * Method that handles `stop` event.
+     * @param {Message | Interaction} message Message that was sent or Interaction that was replied.
+     * @returns {Promise<void>} Updates pagination.
+     */
+    protected async _stop(message:Message | Interaction): Promise<void>
     {
-        const fullButton = this.getButtonByCustomId(customId);
+        const actionRows = this._buildActionRows(true);
 
-        if (!fullButton)
-            throw new Error("No buttons for this customId!");
+        if (message instanceof Message && message.editable)
+        {
+            await message.edit({components: this.filterOptions?.removeButtonsAfterEnd ? [] : actionRows});
+        }
+        else if (message instanceof Interaction && message.isRepliable())
+        {
+            await message.editReply({components: this.filterOptions?.removeButtonsAfterEnd ? [] : actionRows});
+        };
 
-        if (!fullButton.action && fullButton.action !== 0)
-            throw new Error("This button doesn't have an action.");
-
-        return fullButton.action instanceof Function ? fullButton.action(this) : fullButton.action;
+        return;
     };
 
-    protected async _getActionRows(nextPage:number): Promise<Array<MessageActionRow<MessageButton>>>
+    /**
+     * Forms filter for InteractionCollector.
+     * @param {Message} message Message that collector should stick to.
+     * @param {User} user Needed only if one user should be able to use pagination and filterOptions have only
+     * @returns {(interaction:ButtonInteraction) => Promise<boolean>} Function that filters out interactions.
+     */
+    protected _formFilter(message:Message, user?: User): (interaction:ButtonInteraction) => Promise<boolean>
+    {
+        return async (interaction:ButtonInteraction) => 
+        {
+            if (interaction.message.id !== message.id)
+                return false;
+
+            if (this.filterOptions.onlyOneUser && user && interaction.user.id !== user.id)
+            {
+                await interaction.reply({content: this.filterOptions?.notThatUserReply ?? "These buttons are not for you!", ephemeral: true});
+
+                return false;
+            }
+            else
+            {
+                await interaction.deferUpdate();
+            };
+
+            return true;
+        };
+    };
+
+    /**
+     * Gets array of action rows for the page with specified number.
+     * @param {number} page Number of page.
+     * @returns {Promise<Array<MessageActionRow<MessageButton>>>} Array of action rows.
+     */
+    protected async _getActionRows(page:number): Promise<Array<MessageActionRow<MessageButton>>>
     {
         const actionRows = this._buildActionRows();
 
         for (const row of actionRows)
             for (const button of row.components)
-                await this._disableButton(button, nextPage);
+                await this._disableButton(button, page);
 
         return actionRows;
     };
-
-    private async _disableButton(button:MessageButton, nextPage:number): Promise<void>
+    
+    /**
+     * Disables button if needed for the specified page.
+     * @param {MessageButton} button Button style.
+     * @param {number} page Page number.
+     * @returns {Promise<void>} Updates button style.
+     */
+    private async _disableButton(button:MessageButton, page:number): Promise<void>
     {
         if (!button.customId)
             throw new Error("Button should have customId!");
@@ -134,14 +194,37 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         if (!fullButton.disableWhen && fullButton.disableWhen !== 0)
             return;
 
-        const disableWhen = fullButton.disableWhen instanceof Function ? await fullButton.disableWhen(this, nextPage) : fullButton.disableWhen;
+        const disableWhen = fullButton.disableWhen instanceof Function ? await fullButton.disableWhen(this, page) : fullButton.disableWhen;
 
-        if (disableWhen === nextPage)
+        if (disableWhen === page)
             button.setDisabled(true);
 
         return;
     };
 
+    /**
+     * Gets page number from customId of button that was pressed.
+     * @param {string} customId CustomId of button that was pressed.
+     * @returns {Promise<number>} Number of page.
+     */
+    private async _getPageNumber(customId: string): Promise<number>
+    {
+        const fullButton = this.getButtonByCustomId(customId);
+
+        if (!fullButton)
+            throw new Error("No buttons for this customId!");
+
+        if (!fullButton.action && fullButton.action !== 0)
+            throw new Error("This button doesn't have an action.");
+
+        return fullButton.action instanceof Function ? fullButton.action(this) : fullButton.action;
+    };
+
+    /**
+     * Builds array of action rows and disables or enables every button.
+     * @param {boolean} disableButtons Disable or enable all buttons.
+     * @returns {Array<MessageActionRow<MessageButton>>} Array of action rows.
+     */
     private _buildActionRows(disableButtons:boolean = false): Array<MessageActionRow<MessageButton>>
     {
         const actionRows:Array<MessageActionRow<MessageButton>> = [];
@@ -165,44 +248,6 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
 
         return actionRows;
     };
-
-    protected async _stop(message:Message | Interaction): Promise<void>
-    {
-        const actionRows = this._buildActionRows(true);
-
-        if (message instanceof Message && message.editable)
-        {
-            await message.edit({components: this.filterOptions?.removeButtonsAfterEnd ? [] : actionRows});
-        }
-        else if (message instanceof Interaction && message.isRepliable())
-        {
-            await message.editReply({components: this.filterOptions?.removeButtonsAfterEnd ? [] : actionRows});
-        };
-
-        return;
-    };
-
-    protected _formFilter(message:Message, user?: User)
-    {
-        return async (interaction:ButtonInteraction) => 
-        {
-            if (interaction.message.id !== message.id)
-                return false;
-
-            if (this.filterOptions.onlyAuthor && user && interaction.user.id !== user.id)
-            {
-                await interaction.reply({content: this.filterOptions?.notAuthorReply ?? "These buttons are not for you!", ephemeral: true});
-
-                return false;
-            }
-            else
-            {
-                await interaction.deferUpdate();
-            };
-
-            return true;
-        };
-    };
 };
 
-export { BasePagination };
+export default BasePagination;

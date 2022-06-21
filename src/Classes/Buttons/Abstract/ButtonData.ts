@@ -15,29 +15,49 @@
  */
 
 import { MessageButton } from "discord.js";
-import { PaginationData } from "../../Paginations/Abstract/PaginationData";
+import PaginationData from "../../Paginations/Abstract/PaginationData";
 
+/**
+ * Class for storing and modifying Button Data.
+ */
 abstract class ButtonData
 {
     private _style:MessageButton;
     private _action:((pagination:PaginationData) => Promise<number>) | number;
     private _disableWhen:((pagination:PaginationData, nextPage:number) => Promise<number>) | number;
 
+    /**
+     * Style of this button.
+     * @type {MessageButton | null}
+     */
     public get style(): MessageButton | null
     {
         return this._style ?? null;
     };
 
+    /**
+     * Either a number of page or a function that completes after the button is pressed.
+     * @type {((pagination:PaginationData) => Promise<number>) | number | null}
+     */
     public get action(): ((pagination:PaginationData) => Promise<number>) | number | null
     {
         return this._action || this._action === 0 ? this._action : null;
     };
 
+    /**
+     * Either a number of page or a function that completes to know when to disable button.
+     * @type {((pagination:PaginationData, nextPage:number) => Promise<number>) | number | null}
+     */
     public get disableWhen(): ((pagination:PaginationData, nextPage:number) => Promise<number>) | number | null
     {
         return this._disableWhen || this._disableWhen === 0 ? this._disableWhen : null;
     };
 
+    /**
+     * Sets button style.
+     * @param {MessageButton} style Button style.
+     * @returns {this} Button data.
+     */
     public setStyle(style:MessageButton): this
     {
         if (!style.customId || (!style.emoji && !style.label) || !style.style)
@@ -51,6 +71,11 @@ abstract class ButtonData
         return this;
     };
 
+    /**
+     * Sets button action.
+     * @param {((pagination:PaginationData) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @returns {this} Button data.
+     */
     protected _setAction(action: ((pagination:PaginationData) => Promise<number>) | number): this
     {
         if (typeof action === "number" && (!Number.isInteger(action) || action < -1))
@@ -61,6 +86,11 @@ abstract class ButtonData
         return this;
     };
 
+    /**
+     * Sets either a page number or a function that define when to disable button.
+     * @param {((pagination:PaginationData, nextPage:number) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @returns {this} Button data.
+     */
     protected _setDisableWhen(disableWhen: ((pagination:PaginationData, nextPage:number) => Promise<number>) | number): this
     {
         if (typeof disableWhen === "number" && (!Number.isInteger(disableWhen) || disableWhen < -1))
@@ -72,4 +102,4 @@ abstract class ButtonData
     };
 };
 
-export { ButtonData };
+export default ButtonData;
