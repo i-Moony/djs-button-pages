@@ -48,6 +48,11 @@
     "url": "https://www.github.com/i-Moony/djs-button-pages/issues"
   },
 
+  "engines":
+  {
+    "node": ">=16.6.0"
+  },
+
   "homepage": "https://www.npmjs.com/package/djs-button-pages",
 
   "license": "Apache-2.0",
