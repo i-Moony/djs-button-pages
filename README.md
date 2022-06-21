@@ -75,10 +75,10 @@ There is also documentation that you can read for more information.
 
 # ❔ Links:
 * [Additional Examples](https://github.com/i-Moony/djs-button-pages/tree/djs13/examples)
-* Documentation
+* [Documentation](https://i-moony.github.io/djs-button-pages/)
 * [GitHub](https://github.com/i-Moony/djs-button-pages)
 * [NotABug](https://notabug.org/m00ny/djs-button-pages)
-* NPM
+* [NPM](https://www.npmjs.com/package/djs-button-pages)
 * [Discord.JS](https://discord.js.org/)
 * [Discord.JS Documenation](https://discord.js.org/#/docs/)
 * [Discord.JS Guide](https://discordjs.guide/)
