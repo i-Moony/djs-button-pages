@@ -15,7 +15,8 @@
  */
 
 import { MessageButton } from "discord.js";
-import PaginationData from "../Paginations/Abstract/PaginationData";
+import ButtonAction from "../../Typings/ButtonAction";
+import ButtonDisableWhen from "../../Typings/ButtonDisableWhen";
 import ButtonData from "./Abstract/ButtonData";
 
 /**
@@ -37,10 +38,10 @@ class CustomButton extends ButtonData
 
     /**
      * Sets button action.
-     * @param {((pagination:PaginationData) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @param {ButtonAction} action Page number or function that completes after the button is pressed.
      * @returns {this} Button data.
      */
-    public setAction(action: ((pagination:PaginationData) => Promise<number>) | number): this
+    public setAction(action: ButtonAction): this
     {
         if (typeof action === "number" && (!Number.isInteger(action) || action < 0))
             throw new RangeError("Action should return natural number.");
@@ -52,10 +53,10 @@ class CustomButton extends ButtonData
 
     /**
      * Sets either a page number or a function that define when to disable button.
-     * @param {((pagination:PaginationData, nextPage:number) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @param {((pagination:PaginationData, nextPage:number) => number | Promise<number>) | number} action Page number or function that completes after the button is pressed.
      * @returns {this} Button data.
      */
-    public setDisableWhen(disableWhen: ((pagination:PaginationData, nextPage:number) => Promise<number>) | number): this
+    public setDisableWhen(disableWhen: ButtonDisableWhen): this
     {
         if (typeof disableWhen === "number" && (!Number.isInteger(disableWhen) || disableWhen < -1))
             throw new RangeError("Action should return natural number or minus one to be always turned on.");

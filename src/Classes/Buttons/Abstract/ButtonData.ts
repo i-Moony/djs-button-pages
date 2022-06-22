@@ -15,7 +15,8 @@
  */
 
 import { MessageButton } from "discord.js";
-import PaginationData from "../../Paginations/Abstract/PaginationData";
+import ButtonAction from "../../../Typings/ButtonAction";
+import ButtonDisableWhen from "../../../Typings/ButtonDisableWhen";
 
 /**
  * Class for storing and modifying Button Data.
@@ -23,8 +24,8 @@ import PaginationData from "../../Paginations/Abstract/PaginationData";
 abstract class ButtonData
 {
     private _style:MessageButton;
-    private _action:((pagination:PaginationData) => Promise<number>) | number;
-    private _disableWhen:((pagination:PaginationData, nextPage:number) => Promise<number>) | number;
+    private _action:ButtonAction;
+    private _disableWhen:ButtonDisableWhen;
 
     /**
      * Style of this button.
@@ -37,18 +38,18 @@ abstract class ButtonData
 
     /**
      * Either a number of page or a function that completes after the button is pressed.
-     * @type {((pagination:PaginationData) => Promise<number>) | number | null}
+     * @type {ButtonAction | null}
      */
-    public get action(): ((pagination:PaginationData) => Promise<number>) | number | null
+    public get action(): ButtonAction | null
     {
         return this._action || this._action === 0 ? this._action : null;
     };
 
     /**
      * Either a number of page or a function that completes to know when to disable button.
-     * @type {((pagination:PaginationData, nextPage:number) => Promise<number>) | number | null}
+     * @type {ButtonDisableWhen | null}
      */
-    public get disableWhen(): ((pagination:PaginationData, nextPage:number) => Promise<number>) | number | null
+    public get disableWhen(): ButtonDisableWhen | null
     {
         return this._disableWhen || this._disableWhen === 0 ? this._disableWhen : null;
     };
@@ -73,10 +74,10 @@ abstract class ButtonData
 
     /**
      * Sets button action.
-     * @param {((pagination:PaginationData) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @param {ButtonAction} action Page number or function that completes after the button is pressed.
      * @returns {this} Button data.
      */
-    protected _setAction(action: ((pagination:PaginationData) => Promise<number>) | number): this
+    protected _setAction(action: ButtonAction): this
     {
         if (typeof action === "number" && (!Number.isInteger(action) || action < -1))
             throw new RangeError("Action should return natural number or minus one to stop pagination.");
@@ -88,10 +89,10 @@ abstract class ButtonData
 
     /**
      * Sets either a page number or a function that define when to disable button.
-     * @param {((pagination:PaginationData, nextPage:number) => Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * @param {ButtonDisableWhen} action Page number or function that completes after the button is pressed.
      * @returns {this} Button data.
      */
-    protected _setDisableWhen(disableWhen: ((pagination:PaginationData, nextPage:number) => Promise<number>) | number): this
+    protected _setDisableWhen(disableWhen: ButtonDisableWhen): this
     {
         if (typeof disableWhen === "number" && (!Number.isInteger(disableWhen) || disableWhen < -1))
             throw new RangeError("Action should return natural number or minus one to be always turned on.");
