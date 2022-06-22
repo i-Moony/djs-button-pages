@@ -27,6 +27,8 @@ import BasePagination from "./Classes/Paginations/Abstract/BasePagination";
 import PaginationData from "./Classes/Paginations/Abstract/PaginationData";
 import ButtonData from "./Classes/Buttons/Abstract/ButtonData";
 import filterOptions from "./Interfaces/FilterOptions";
+import buttonAction from "./Typings/ButtonAction";
+import buttonDisableWhen from "./Typings/ButtonDisableWhen";
 
 export { ChannelPagination,
     MessageReplyPagination,
@@ -40,4 +42,6 @@ export { ChannelPagination,
     BasePagination,
     PaginationData,
     ButtonData,
-    filterOptions };
+    filterOptions,
+    buttonAction,
+    buttonDisableWhen };
