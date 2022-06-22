@@ -26,6 +26,7 @@ import StopButton from "./Classes/Buttons/StopButton";
 import BasePagination from "./Classes/Paginations/Abstract/BasePagination";
 import PaginationData from "./Classes/Paginations/Abstract/PaginationData";
 import ButtonData from "./Classes/Buttons/Abstract/ButtonData";
+import filterOptions from "./Interfaces/FilterOptions";
 
 export { ChannelPagination,
     MessageReplyPagination,
@@ -38,4 +39,5 @@ export { ChannelPagination,
     StopButton,
     BasePagination,
     PaginationData,
-    ButtonData };
+    ButtonData,
+    filterOptions };
