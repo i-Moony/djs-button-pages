@@ -1,4 +1,14 @@
-![DJS-BUTTON-PAGES](https://user-images.githubusercontent.com/80977522/174433134-54e6e9f6-b618-4d94-8552-5b5ba3c22a88.png)
+<div align = "center">
+    <br />
+    <p>
+        <a href = "https://i-moony.github.io/djs-button-pages/"><img src = "https://user-images.githubusercontent.com/80977522/174433134-54e6e9f6-b618-4d94-8552-5b5ba3c22a88.png" alt = "logo" /></a>
+    </p>
+    <p>
+        <img src = "https://img.shields.io/npm/v/djs-button-pages?color=FF4433&style=flat-square" alt = "npm-version" />
+        <img src = "https://img.shields.io/npm/dt/djs-button-pages?color=FF4433&style=flat-square" alt = "npm-downloads" />
+        <img src = "https://img.shields.io/github/issues/i-Moony/djs-button-pages?color=FF4433&style=flat-square" alt = "github-issues" />
+    </p>
+</div>
 
 # 📚 About package:
 
