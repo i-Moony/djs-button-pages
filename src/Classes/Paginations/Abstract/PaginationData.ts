@@ -34,7 +34,8 @@ abstract class PaginationData
         this._isActive = false;
 
         this._currentPage = 0;
-        this._filterOptions = {onlyOneUser: true};
+        this._filterOptions = {onlyOneUser: true,
+            sendReplyIfNotThatUser: true};
 
         this._time = 0;
         this._buttons = [];
