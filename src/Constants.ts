@@ -17,16 +17,34 @@
 /**
  * Constants that may be changed in the future.
  */
-const enum globalConstants
+enum Constants
 {
+    /**
+     * Current embed length limit.
+     */
     EMBED_TOTAL_MAX_LENGTH = 6000,
 
+    /**
+     * Current Discord limit for buttons per row.
+     */
     DISCORD_TOTAL_BUTTONS_PER_ROW = 5,
+    /**
+     * Current Discord limit for rows per message.
+     */
     DISCORD_TOTAL_ROWS_PER_MESSAGE = 3,
+    /**
+     * Current Discord limit for interaction life-time.
+     */
     DISCORD_MAX_INTERACTION_LIFE_TIME = 900000,
 
+    /**
+     * Current library limit for max life-time.
+     */
     LIBRARY_MAX_PAGES_LIFE_TIME = 3600000,
+    /**
+     * Current library limit for minimum life-time.
+     */
     LIBRARY_MIN_PAGES_LIFE_TIME = 1000,
 };
 
-export default globalConstants;
+export default Constants;
