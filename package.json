@@ -1,6 +1,6 @@
 {
   "name": "djs-button-pages",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fast, reliable and easy to use modern library to implement customizable embed pages in Discord Chat.",
   "main": "dist/Paginations.js",
   "types": "dist/Paginations.d.ts",
@@ -11,19 +11,22 @@
     "LICENSE.md"
   ],
 
-  "scripts":
+  "scripts": 
   {
     "prepare": "npm run build",
     "build": "tsc",
-    "docs": "typedoc -out docs src/Paginations.ts"
+    "docs": "typedoc -out docs src/Paginations.ts",
+    "lint": "eslint . --ext .ts",
+    "test": "jest --coverage"
   },
 
-  "keywords":
+  "keywords": 
   [
     "djs",
     "discord",
     "discord.js",
     "embed",
+    "embeds",
     "pages",
     "button",
     "page",
@@ -33,25 +36,24 @@
     "node"
   ],
 
-  "author":
+  "author": 
   {
     "name": "moony",
     "url": "https://www.notabug.org/m00ny",
     "discord": "moony#6815"
   },
 
-  "repository":
+  "repository": 
   {
     "type": "git",
     "url": "git+https://www.github.com/i-Moony/djs-button-pages"
   },
-
-  "bugs":
+  "bugs": 
   {
     "url": "https://www.github.com/i-Moony/djs-button-pages/issues"
   },
 
-  "engines":
+  "engines": 
   {
     "node": ">=16.6.0"
   },
@@ -60,13 +62,17 @@
 
   "license": "Apache-2.0",
 
-  "dependencies":
+  "dependencies": 
   {
     "discord.js": "13.x"
   },
-  "devDependencies":
+
+  "devDependencies": 
   {
     "@types/jest": "^28.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "eslint": "^8.18.0",
     "jest": "^28.1.0",
     "ts-jest": "^28.0.3",
     "typescript": "^4.7.2"
