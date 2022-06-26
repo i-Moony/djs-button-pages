@@ -59,7 +59,8 @@ class ChannelPagination extends BasePagination<MessageOptions>
             componentType: "BUTTON",
             maxUsers: this.filterOptions?.onlyOneUser ? undefined : this.filterOptions?.limitUsers,
             max: this.filterOptions?.limitInteractions,
-            filter: this._formFilter(message, user)
+            idle: this.filterOptions?.limitIdleTime,
+            filter: this._formFilter(message, user),
         });
 
         this._setCollector(collector);

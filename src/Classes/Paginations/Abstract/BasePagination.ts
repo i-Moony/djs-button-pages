@@ -132,34 +132,6 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     };
 
     /**
-     * Forms filter for InteractionCollector.
-     * @param {Message} message Message that collector should stick to.
-     * @param {User} user Needed only if one user should be able to use pagination and filterOptions have only
-     * @returns {(interaction:ButtonInteraction) => Promise<boolean>} Function that filters out interactions.
-     */
-    protected _formFilter(message:Message, user?: User): (interaction:ButtonInteraction) => Promise<boolean>
-    {
-        return async (interaction:ButtonInteraction) => 
-        {
-            if (interaction.message.id !== message.id)
-                return false;
-
-            if (this.filterOptions.onlyOneUser && user && interaction.user.id !== user.id)
-            {
-                await interaction.reply({content: this.filterOptions?.notThatUserReply ?? "These buttons are not for you!", ephemeral: true});
-
-                return false;
-            }
-            else
-            {
-                await interaction.deferUpdate();
-            };
-
-            return true;
-        };
-    };
-
-    /**
      * Gets array of action rows for the page with specified number.
      * @param {number} page Number of page.
      * @returns {Promise<Array<MessageActionRow<MessageButton>>>} Array of action rows.
@@ -173,6 +145,34 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
                 await this._disableButton(button, page);
 
         return actionRows;
+    };
+
+    /**
+     * Forms filter for InteractionCollector.
+     * @param {Message} message Message that collector should stick to.
+     * @param {User} user Needed only if one user should be able to use pagination and filterOptions onlyOneUser is true.
+     * @returns {(interaction:ButtonInteraction) => Promise<boolean>} Function that filters out interactions.
+     */
+    protected _formFilter(message:Message, user?: User): (interaction:ButtonInteraction) => Promise<boolean>
+    {
+        return async (interaction:ButtonInteraction) => 
+        {
+            if (interaction.message.id !== message.id)
+                return false;
+
+            if (this.filterOptions.onlyOneUser && user && interaction.user.id !== user.id && this.filterOptions.sendReplyIfNotThatUser)
+            {
+                await interaction.reply({content: this.filterOptions?.notThatUserReply ?? "These buttons are not for you!", ephemeral: true});
+
+                return false;
+            }
+            else
+            {
+                await interaction.deferUpdate();
+            };
+
+            return true;
+        };
     };
     
     /**
@@ -225,7 +225,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
      * @param {boolean} disableButtons Disable or enable all buttons.
      * @returns {Array<MessageActionRow<MessageButton>>} Array of action rows.
      */
-    private _buildActionRows(disableButtons:boolean = false): Array<MessageActionRow<MessageButton>>
+    private _buildActionRows(disableButtons = false): Array<MessageActionRow<MessageButton>>
     {
         const actionRows:Array<MessageActionRow<MessageButton>> = [];
 

@@ -20,11 +20,15 @@
 interface FilterOptions
 {
     /**
-     * If the pagination should be available only for one user.
+     * Defines whether the pagination should be available for only one user.
      */
     onlyOneUser?: boolean,
     /**
-     * Used if onlyOneUser option is enabled.
+     * Whether to reply to user that can't use pagination or not.
+     */
+    sendReplyIfNotThatUser?: boolean,
+    /**
+     * Used if onlyOneUser and sendReplyIfNotThatUser options are true.
      * Defines reply to user that can't use pagination.
      */
     notThatUserReply?: string,
@@ -33,17 +37,20 @@ interface FilterOptions
      */
     limitInteractions?: number,
     /**
-     * Used if onlyOneUser option isn't enabled.
-     * Maximum number of users that can interact with pagination.
+     * Used if onlyOneUser option is false.
+     * Maximum number of users that can interact with pagination during it's lifetime.
      */
     limitUsers?: number,
+    /**
+     * Maximum amount of time (in milliseconds) that pagination can be idle. Afterwards stops.
+     */
+    limitIdleTime?: number,
     /**
      * Option that defines if the pagination should reset the timer after collecting interaction.
      */
     resetTimer?: boolean,
     /**
      * Option that defines what to do with buttons after pagination is stopped.
-     * If enabled - removes them. If disabled - disables them.
      */
     removeButtonsAfterEnd?: boolean,
 };

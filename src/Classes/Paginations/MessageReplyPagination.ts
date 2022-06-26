@@ -53,12 +53,13 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
 
         const reply = await message.reply(replyOptions);
         
-        const collector = reply.createMessageComponentCollector({
+        const collector = message.createMessageComponentCollector({
             time: this.time,
             componentType: "BUTTON",
             maxUsers: this.filterOptions?.onlyOneUser ? undefined : this.filterOptions?.limitUsers,
             max: this.filterOptions?.limitInteractions,
-            filter: this._formFilter(reply, user)
+            idle: this.filterOptions?.limitIdleTime,
+            filter: this._formFilter(message, user),
         });
 
         this._setCollector(collector);

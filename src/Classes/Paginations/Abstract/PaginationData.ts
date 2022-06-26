@@ -181,7 +181,7 @@ abstract class PaginationData
      * @param {number} count Quantity of embeds to remove.
      * @returns {this} Pagination.
      */
-    public removeEmbeds(index:number, count:number = 1): this
+    public removeEmbeds(index:number, count = 1): this
     {
         if (this._isActive)
             throw new Error("The pagination is already sent.");
@@ -273,6 +273,12 @@ abstract class PaginationData
         if (options.limitUsers && (options.limitUsers < 0 || !Number.isInteger(options.limitUsers)))
             throw new RangeError("Users limit should be natural.");
 
+        if (options.limitIdleTime && (options.limitIdleTime < 0 || !Number.isInteger(options.limitIdleTime)))
+            throw new RangeError("Idle time limit should be natural.");
+
+        if (options.limitIdleTime && options.limitIdleTime < Constants.LIBRARY_MIN_PAGES_LIFE_TIME)
+            throw new RangeError("Idle time limit should be no less than one second.");
+
         if (options.notThatUserReply && options.notThatUserReply.length < 1)
             throw new RangeError("Reply should be at least one symbol long.");
 
@@ -286,7 +292,7 @@ abstract class PaginationData
      * @param {boolean} active Whether to set pagination as active. 
      * @returns {boolean} Active state.
      */
-    protected _setActive(active:boolean = true): boolean
+    protected _setActive(active = true): boolean
     {
         return this._isActive = active;
     };
@@ -296,7 +302,7 @@ abstract class PaginationData
      * @param {number} page Number of the page.
      * @returns {number} Number of the current page.
      */
-    protected _setCurrentPage(page:number = 0): number
+    protected _setCurrentPage(page = 0): number
     {
         if (page < 0 || !Number.isInteger(page))
             throw new RangeError("Page should be natural.");
