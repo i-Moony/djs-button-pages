@@ -37,7 +37,9 @@ abstract class ButtonData
     };
 
     /**
-     * Either a number of page or a function that completes after the button is pressed.
+     * Represents button action.
+     * 
+     * Either a number of a page or a function that determines number of a page.
      * @type {ButtonAction | null}
      */
     public get action(): ButtonAction | null
@@ -46,7 +48,9 @@ abstract class ButtonData
     };
 
     /**
-     * Either a number of page or a function that completes to know when to disable button.
+     * Represents condition of disabling button.
+     * 
+     * Either a number of a page or a function that determines number of a page.
      * @type {ButtonDisableWhen | null}
      */
     public get disableWhen(): ButtonDisableWhen | null
@@ -74,7 +78,7 @@ abstract class ButtonData
 
     /**
      * Sets button action.
-     * @param {ButtonAction} action Page number or function that completes after the button is pressed.
+     * @param {ButtonAction} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
     protected _setAction(action: ButtonAction): this
@@ -88,8 +92,8 @@ abstract class ButtonData
     };
 
     /**
-     * Sets either a page number or a function that define when to disable button.
-     * @param {ButtonDisableWhen} action Page number or function that completes after the button is pressed.
+     * Sets condition of disabling button.
+     * @param {ButtonDisableWhen} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
     protected _setDisableWhen(disableWhen: ButtonDisableWhen): this

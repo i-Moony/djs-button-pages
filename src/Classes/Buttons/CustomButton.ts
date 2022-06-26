@@ -38,7 +38,7 @@ class CustomButton extends ButtonData
 
     /**
      * Sets button action.
-     * @param {ButtonAction} action Page number or function that completes after the button is pressed.
+     * @param {ButtonAction} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
     public setAction(action: ButtonAction): this
@@ -52,8 +52,8 @@ class CustomButton extends ButtonData
     };
 
     /**
-     * Sets either a page number or a function that define when to disable button.
-     * @param {((pagination:PaginationData, nextPage:number) => number | Promise<number>) | number} action Page number or function that completes after the button is pressed.
+     * Sets condition of disabling button.
+     * @param {ButtonDisableWhen} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
     public setDisableWhen(disableWhen: ButtonDisableWhen): this
