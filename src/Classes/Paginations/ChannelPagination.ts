@@ -20,8 +20,14 @@ import { DMChannel,
     User } from "discord.js";
 import BasePagination from "./Abstract/BasePagination";
 
+/**
+ * Pagination that is sent to a text channel.
+ */
 class ChannelPagination extends BasePagination<MessageOptions>
 {
+    /**
+     * Pagination that is sent to a text channel.
+     */
     public constructor()
     {
         super();

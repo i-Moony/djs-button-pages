@@ -28,6 +28,14 @@ abstract class PaginationData
 {
     /**
      * Class for storing and modifying pagination data.
+     * 
+     * Has default values.
+     * 
+     * @example
+     * console.log(PaginationData.isActive); //false
+     * console.log(PaginationData.currentPage); //0
+     * console.log(PaginationData.filterOptions); // {onlyOneUser: true, sendReplyIfNotThatUser: true}
+     * console.log(PaginationData.time); //0
      */
     protected constructor()
     {
@@ -53,7 +61,8 @@ abstract class PaginationData
     private _actionOnStop:() => void | Promise<void>;
 
     /**
-     * Indicates whether this pagination sent.
+     * Indicates whether this pagination sent or not.
+     * For default value look for constructor.
      * @type {boolean}
      */
     public get isActive(): boolean
@@ -62,7 +71,8 @@ abstract class PaginationData
     };
 
     /**
-     * How long the pagination will exist.
+     * How long the pagination will exist (in milliseconds).
+     * For default value look for constructor.
      * @type {number | null}
      */
     public get time(): number | null
@@ -80,7 +90,7 @@ abstract class PaginationData
     };
 
     /**
-     * Embed-pages of this pagination.
+     * Embeds of this pagination.
      * @type {Array<MessageEmbed> | null}
      */
     public get embeds(): Array<MessageEmbed> | null
@@ -90,6 +100,7 @@ abstract class PaginationData
 
     /**
      * Current page number. Zero-based.
+     * For default value look for constructor.
      * @type {number}
      */
     public get currentPage(): number
@@ -99,6 +110,7 @@ abstract class PaginationData
 
     /**
      * Options for filtering button interactions.
+     * For default value look for constructor.
      * @type {FilterOptions}
      */
     public get filterOptions(): FilterOptions
@@ -170,7 +182,7 @@ abstract class PaginationData
     /**
      * Sets pagination active phase duration.
      * @param {number} time Time in milliseconds.
-     * @param {boolean} bypassLibraryLimits Should the time bypass library limits or not.
+     * @param {boolean} bypassLibraryLimits Should the time bypass library limit or not.
      * @returns {this} Pagination.
      */
     public setTime(time:number, bypassLibraryLimits?:boolean): this
@@ -221,7 +233,7 @@ abstract class PaginationData
     };
 
     /**
-     * Removes embed(-s) by it's index in the array of embeds.
+     * Removes embed(-s) by it's/theirs index(-es) in the array of embeds.
      * @param {number} index Zero-based location in the array from which to start removing embeds.
      * @param {number} count Quantity of embeds to remove.
      * @returns {this} Pagination.
@@ -382,7 +394,7 @@ abstract class PaginationData
     protected _setCollector(collector:InteractionCollector<ButtonInteraction>): InteractionCollector<ButtonInteraction>
     {
         if (!this._isActive)
-            throw new Error("The pagination should be already started!");
+            throw new Error("The pagination should be already sent!");
 
         if (this._collector)
             throw new Error("Can't reassign already assigned collector!");

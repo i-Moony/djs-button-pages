@@ -19,8 +19,14 @@ import { Message,
     User } from "discord.js";
 import BasePagination from "./Abstract/BasePagination";
 
+/**
+ * Pagination that is sent as a reply to message.
+ */
 class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
 {
+    /**
+     * Pagination that is sent as a reply to message.
+     */
     public constructor()
     {
         super();

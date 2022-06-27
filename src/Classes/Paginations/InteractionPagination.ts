@@ -21,8 +21,14 @@ import { Interaction,
 import Constants from "../../Constants";
 import BasePagination from "./Abstract/BasePagination";
 
+/**
+ * Pagination that is sent as a reply to interaction.
+ */
 class InteractionPagination extends BasePagination<InteractionReplyOptions>
 {
+    /**
+     * Pagination that is sent as a reply to interaction.
+     */
     public constructor()
     {
         super();
