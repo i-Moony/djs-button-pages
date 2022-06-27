@@ -28,14 +28,6 @@ abstract class PaginationData
 {
     /**
      * Class for storing and modifying pagination data.
-     * 
-     * Has default values.
-     * 
-     * @example
-     * console.log(PaginationData.isActive); //false
-     * console.log(PaginationData.currentPage); //0
-     * console.log(PaginationData.filterOptions); // {onlyOneUser: true, sendReplyIfNotThatUser: true}
-     * console.log(PaginationData.time); //0
      */
     protected constructor()
     {
@@ -62,7 +54,7 @@ abstract class PaginationData
 
     /**
      * Indicates whether this pagination sent or not.
-     * For default value look for constructor.
+     * By default is false.
      * @type {boolean}
      */
     public get isActive(): boolean
@@ -72,7 +64,7 @@ abstract class PaginationData
 
     /**
      * How long the pagination will exist (in milliseconds).
-     * For default value look for constructor.
+     * By default is zero.
      * @type {number | null}
      */
     public get time(): number | null
@@ -100,7 +92,7 @@ abstract class PaginationData
 
     /**
      * Current page number. Zero-based.
-     * For default value look for constructor.
+     * By default is zero.
      * @type {number}
      */
     public get currentPage(): number
@@ -110,7 +102,7 @@ abstract class PaginationData
 
     /**
      * Options for filtering button interactions.
-     * For default value look for constructor.
+     * By default onlyOneUser and sendReplyIfNotThatUser are true.
      * @type {FilterOptions}
      */
     public get filterOptions(): FilterOptions
