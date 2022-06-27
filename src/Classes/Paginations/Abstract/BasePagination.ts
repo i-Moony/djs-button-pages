@@ -152,12 +152,33 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     };
 
     /**
+     * Forms collector.
+     * @param {Message} message Message that collector should stick to.
+     * @param {User} user Used only if {@link filterOptions} onlyOne user is true. Needed only if only one user should be able to use pagination.
+     * @returns {InteractionCollector<ButtonInteraction>} Interaction Collector.
+     */
+    protected _formCollector(message:Message, user?:User): InteractionCollector<ButtonInteraction>
+    {
+        if (!this.time)
+            throw new Error("This method can be used only if time is already defined!");
+
+        return message.createMessageComponentCollector({
+            time: this.time,
+            componentType: "BUTTON",
+            maxUsers: this.filterOptions?.onlyOneUser ? undefined : this.filterOptions?.limitUsers,
+            max: this.filterOptions?.limitInteractions,
+            idle: this.filterOptions?.limitIdleTime,
+            filter: this._formFilter(message, user),
+        })
+    };
+
+    /**
      * Forms filter for InteractionCollector.
      * @param {Message} message Message that collector should stick to.
      * @param {User} user Needed only if one user should be able to use pagination and filterOptions onlyOneUser is true.
      * @returns {(interaction:ButtonInteraction) => Promise<boolean>} Function that filters out interactions.
      */
-    protected _formFilter(message:Message, user?: User): (interaction:ButtonInteraction) => Promise<boolean>
+    private _formFilter(message:Message, user?: User): (interaction:ButtonInteraction) => Promise<boolean>
     {
         return async (interaction:ButtonInteraction) => 
         {
