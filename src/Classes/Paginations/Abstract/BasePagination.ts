@@ -22,7 +22,8 @@ import { ButtonInteraction,
     MessageOptions,
     User,
     InteractionReplyOptions,
-    Interaction } from "discord.js";
+    Interaction, 
+    InteractionCollector} from "discord.js";
 import Constants from "../../../Constants";
 import PaginationData from "./PaginationData";
 
@@ -127,6 +128,9 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         {
             await message.editReply({components: this.filterOptions?.removeButtonsAfterEnd ? [] : actionRows});
         };
+
+        if (this.actionOnStop)
+            await this.actionOnStop();
 
         return;
     };

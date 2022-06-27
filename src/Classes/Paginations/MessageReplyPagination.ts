@@ -66,7 +66,8 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
         
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
-        collector.on("end", async () => this._stop(reply));
+        if (this.actionAfterSending)
+            await this.actionAfterSending();
 
         return;
     };

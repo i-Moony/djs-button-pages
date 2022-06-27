@@ -49,6 +49,8 @@ abstract class PaginationData
     private _currentPage:number;
     private _time:number;
     private _collector:InteractionCollector<ButtonInteraction>;
+    private _actionAfterSending:() => void | Promise<void>;
+    private _actionOnStop:() => void | Promise<void>;
 
     /**
      * Indicates whether this pagination sent.
@@ -114,6 +116,24 @@ abstract class PaginationData
     };
 
     /**
+     * Action that will be completed after the pagination was sent.
+     * @type {(() => void | Promise<void>) | null}
+     */
+    public get actionAfterSending(): (() => void | Promise<void>) | null
+    {
+        return this._actionAfterSending ?? null;
+    };
+
+    /**
+     * Action that will be completed after the pagination was stopped.
+     * @type {(() => void | Promise<void>) | null}
+     */
+    public get actionOnStop(): (() => void | Promise<void>) | null
+    {
+        return this._actionOnStop ?? null;
+    };
+
+    /**
      * Gets {@link ButtonData} by it's customId.
      * @param {string} customId Button's customId. Should be a string.
      * @returns {ButtonData | undefined} Button data.
@@ -121,6 +141,30 @@ abstract class PaginationData
     public getButtonByCustomId(customId:string): ButtonData | undefined
     {
         return this.buttons?.find((but) => but.style?.customId === customId);
+    };
+
+    /**
+     * Sets action that will be completed after the pagination was sent.
+     * @param {() => void | Promise<void>} action Action that will be completed.
+     * @returns {this} Pagination.
+     */
+    public setActionAfterSending(action:() => void | Promise<void>): this
+    {
+        this._actionAfterSending = action;
+
+        return this;
+    };
+
+    /**
+     * Sets action that will be completed after the pagination was stopped.
+     * @param {() => void | Promise<void>} action Action that will be completed.
+     * @returns {this} Pagination.
+     */
+    public setActionOnStop(action:() => void | Promise<void>): this
+    {
+        this._actionOnStop = action;
+
+        return this;
     };
 
     /**

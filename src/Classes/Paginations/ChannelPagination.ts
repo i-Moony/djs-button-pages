@@ -69,6 +69,9 @@ class ChannelPagination extends BasePagination<MessageOptions>
 
         collector.on("end", async () => await this._stop(message));
 
+        if (this.actionAfterSending)
+            await this.actionAfterSending();
+
         return;
     };
 };
