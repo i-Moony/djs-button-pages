@@ -19,7 +19,7 @@ import ButtonAction from "../../../Typings/ButtonAction";
 import ButtonDisableWhen from "../../../Typings/ButtonDisableWhen";
 
 /**
- * Class for storing and modifying Button Data.
+ * Class for storing and modifying button data.
  */
 abstract class ButtonData
 {
@@ -37,7 +37,7 @@ abstract class ButtonData
     };
 
     /**
-     * Represents button action.
+     * Represents an action that should be completed after the button is pressed.
      * 
      * Either a number of a page or a function that determines number of a page.
      * @type {ButtonAction | null}
@@ -48,7 +48,7 @@ abstract class ButtonData
     };
 
     /**
-     * Represents condition of disabling button.
+     * Represents a condition of disabling button.
      * 
      * Either a number of a page or a function that determines number of a page.
      * @type {ButtonDisableWhen | null}
@@ -77,7 +77,7 @@ abstract class ButtonData
     };
 
     /**
-     * Sets button action.
+     * Sets an action that should be completed when the button is pressed.
      * @param {ButtonAction} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
@@ -92,7 +92,7 @@ abstract class ButtonData
     };
 
     /**
-     * Sets condition of disabling button.
+     * Sets a condition of disabling button.
      * @param {ButtonDisableWhen} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */

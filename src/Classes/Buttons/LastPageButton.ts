@@ -19,12 +19,12 @@ import PaginationData from "../Paginations/Abstract/PaginationData";
 import ButtonData from "./Abstract/ButtonData";
 
 /**
- * Last page button. Switches pagination to the last page.
+ * Button that switches pagination to the last page.
  */
 class LastPageButton extends ButtonData
 {
     /**
-     * Last page button. Switches pagination to the last page.
+     * Button that switches pagination to the last page.
      * @param {MessageButton} style Button style.
      */
     public constructor(style?:MessageButton)
@@ -40,7 +40,7 @@ class LastPageButton extends ButtonData
     };
 
     /**
-     * Gets last page.
+     * Gets number of the last page of the pagination.
      * @param {PaginationData} pagination Pagination Data.
      * @returns {Promise<number>} Last page number.
      */

@@ -20,12 +20,12 @@ import ButtonDisableWhen from "../../Typings/ButtonDisableWhen";
 import ButtonData from "./Abstract/ButtonData";
 
 /**
- * Custom button. Helps to create buttons with custom actions.
+ * Button with custom set of scripts.
  */
 class CustomButton extends ButtonData
 {
     /**
-     * Custom button. Helps to create buttons with custom actions.
+     * Button with custom set of scripts.
      * @param {MessageButton} style Button style.
      */
     public constructor(style?:MessageButton)
@@ -37,7 +37,7 @@ class CustomButton extends ButtonData
     };
 
     /**
-     * Sets button action.
+     * Sets an action that should be completed when the button is pressed.
      * @param {ButtonAction} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
@@ -52,7 +52,7 @@ class CustomButton extends ButtonData
     };
 
     /**
-     * Sets condition of disabling button.
+     * Sets a condition of disabling button.
      * @param {ButtonDisableWhen} action Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */

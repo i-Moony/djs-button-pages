@@ -18,12 +18,12 @@ import { MessageButton } from "discord.js";
 import ButtonData from "./Abstract/ButtonData";
 
 /**
- * First page button. Switches pagination to the first page.
+ * Button that switches pagination to the first page.
  */
 class FirstPageButton extends ButtonData
 {
     /**
-     * First page button. Switches pagination to the first page.
+     * Button that switches pagination to the first page.
      * @param {MessageButton} style Button style.
      */
     public constructor(style?:MessageButton)

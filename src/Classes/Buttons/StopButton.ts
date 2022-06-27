@@ -18,12 +18,12 @@ import { MessageButton } from "discord.js";
 import ButtonData from "./Abstract/ButtonData";
 
 /**
- * Stop button. Stops pagination.
+ * Button that stops pagination.
  */
 class StopButton extends ButtonData
 {
     /**
-     * Stop button. Stops pagination.
+     * Button that stops pagination.
      * @param {MessageButton} style Button style.
      */
     public constructor(style?:MessageButton)

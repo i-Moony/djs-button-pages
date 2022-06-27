@@ -19,12 +19,12 @@ import PaginationData from "../Paginations/Abstract/PaginationData";
 import ButtonData from "./Abstract/ButtonData";
 
 /**
- * Next page button. Switches pagination to the next page.
+ * Button that switches pagination to the next page.
  */
 class NextPageButton extends ButtonData
 {
     /**
-     * Next page button. Switches pagination to the next page.
+     * Button that switches pagination to the next page.
      * @param {MessageButton} style Button style.
      */
     public constructor(style?:MessageButton)
@@ -40,7 +40,7 @@ class NextPageButton extends ButtonData
     };
 
     /**
-     * Gets next page of the pagination.
+     * Gets number of the next page of the pagination.
      * @param {PaginationData} pagination Pagination data.
      * @returns {Promise<number>} Next page number.
      */
@@ -50,7 +50,7 @@ class NextPageButton extends ButtonData
     };
 
     /**
-     * Gets last page number.
+     * Gets number of the last page of the pagination.
      * @param {PaginationData} pagination Pagination data.
      * @returns {Promise<number>} Last page number.
      */

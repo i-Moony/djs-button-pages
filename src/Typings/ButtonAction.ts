@@ -1,7 +1,7 @@
 import PaginationData from "../Classes/Paginations/Abstract/PaginationData";
 
 /**
- * Type to represent button action.
+ * Type to represent an action that should be completed when the button is pressed.
  * 
  * May be either a number of a page or a function that determines number of a page.
  */

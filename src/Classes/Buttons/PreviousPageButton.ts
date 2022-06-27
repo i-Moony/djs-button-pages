@@ -19,12 +19,12 @@ import PaginationData from "../Paginations/Abstract/PaginationData";
 import ButtonData from "./Abstract/ButtonData";
 
 /**
- * Previous page button. Switches pagination to previous page.
+ * Button that switches pagination to previous page.
  */
 class PreviousPageButton extends ButtonData
 {
     /**
-     * Previous page button. Switches pagination to previous page.
+     * Button that switches pagination to previous page.
      * @param {MessageButton} style Button style.
      */
     public constructor(style?:MessageButton)
