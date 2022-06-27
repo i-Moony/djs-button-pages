@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { DMChannel,
-    MessageOptions,
-    TextChannel, 
+import { MessageOptions,
+    TextBasedChannel,
     User } from "discord.js";
 import BasePagination from "./Abstract/BasePagination";
 
@@ -39,7 +38,7 @@ class ChannelPagination extends BasePagination<MessageOptions>
      * @param {User} user Needed only if one user should be able to use pagination.
      * @returns {Promise<void>} Sends pagination.
      */
-    public async send(channel:TextChannel | DMChannel, user?:User): Promise<void>
+    public async send(channel:TextBasedChannel, user?:User): Promise<void>
     {
         if (this.isActive)
             throw new Error("The pagination is already sent!");
