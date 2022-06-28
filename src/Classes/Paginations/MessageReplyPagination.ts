@@ -59,7 +59,7 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
 
         const reply = await message.reply(replyOptions);
         
-        const collector = this._formCollector(message, user);
+        const collector = this._formCollector(reply, user);
         
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
