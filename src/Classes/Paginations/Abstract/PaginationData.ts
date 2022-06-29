@@ -19,6 +19,7 @@ import { ButtonInteraction,
     MessageEmbed } from "discord.js";
 import Constants from "../../../Constants";
 import FilterOptions from "../../../Interfaces/FilterOptions";
+import ColletorOptions from "../../../Interfaces/CollectorOptions";
 import ButtonData from "../../Buttons/Abstract/ButtonData";
 import OnStop from "../../../Typings/OnStop";
 import AfterSending from "../../../Typings/AfterSending";
@@ -27,7 +28,7 @@ import AfterSending from "../../../Typings/AfterSending";
  * Class for storing and modifying pagination data.
  */
 abstract class PaginationData
-{
+{   
     private _isActive = false;
     private _filterOptions:FilterOptions = {singleUserAccess: true, noAccessReply: true, noAccessReplyContent: "You're disallowed to use this very pagination!"};
     private _collectorOptions:ColletorOptions;
