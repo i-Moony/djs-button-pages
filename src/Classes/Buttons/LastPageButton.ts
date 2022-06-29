@@ -29,10 +29,7 @@ class LastPageButton extends ButtonData
      */
     public constructor(style?:MessageButton)
     {
-        super();
-
-        if (style)
-            this.setStyle(style);
+        super(style);
 
         this._setAction(LastPageButton._doAction);
 

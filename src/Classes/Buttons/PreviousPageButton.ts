@@ -29,10 +29,7 @@ class PreviousPageButton extends ButtonData
      */
     public constructor(style?:MessageButton)
     {
-        super();
-
-        if (style)
-            this.setStyle(style);
+        super(style);
 
         this._setAction(PreviousPageButton._doAction);
 
