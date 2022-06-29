@@ -33,14 +33,6 @@ import PaginationData from "./PaginationData";
  */
 abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | InteractionReplyOptions> extends PaginationData
 {
-    /**
-     * Base pagination class that works with collector and it's events.
-     */
-    protected constructor()
-    {
-        super();
-    };
-
     private _messageOptions:T;
 
     /**
@@ -114,24 +106,25 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
 
     /**
      * Method that handles `stop` event.
+     * @param {string} reason Reason of collector's stop event.
      * @param {Message | Interaction} message Message that was sent or Interaction that was replied.
      * @returns {Promise<void>} Updates pagination.
      */
-    protected async _stop(message:Message | Interaction): Promise<void>
+    protected async _stop(reason:string, message:Message | Interaction): Promise<void>
     {
         const actionRows = this._buildActionRows(true);
 
         if (message instanceof Message && message.editable)
         {
-            await message.edit({components: this.filterOptions?.removeButtonsAfterEnd ? [] : actionRows});
+            await message.edit({components: this.filterOptions?.removeButtonsOnEnd ? [] : actionRows});
         }
         else if (message instanceof Interaction && message.isRepliable())
         {
-            await message.editReply({components: this.filterOptions?.removeButtonsAfterEnd ? [] : actionRows});
+            await message.editReply({components: this.filterOptions?.removeButtonsOnEnd ? [] : actionRows});
         };
 
-        if (this.actionOnStop)
-            await this.actionOnStop();
+        if (this.onStop)
+            await this.onStop(reason);
 
         return;
     };
@@ -166,11 +159,11 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         return message.createMessageComponentCollector({
             time: this.time,
             componentType: "BUTTON",
-            maxUsers: this.filterOptions?.onlyOneUser ? undefined : this.filterOptions?.limitUsers,
-            max: this.filterOptions?.limitInteractions,
-            idle: this.filterOptions?.limitIdleTime,
+            maxUsers: this.collectorOptions?.maxUsers,
+            max: this.collectorOptions?.maxInteractions,
+            idle: this.collectorOptions?.maxIdleTime,
             filter: this._formFilter(message, user),
-        })
+        });
     };
 
     /**
@@ -186,9 +179,10 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
             if (interaction.message.id !== message.id)
                 return false;
 
-            if (this.filterOptions.onlyOneUser && user && interaction.user.id !== user.id && this.filterOptions.sendReplyIfNotThatUser)
+            if (this.filterOptions?.singleUserAccess && user && interaction.user.id !== user.id)
             {
-                await interaction.reply({content: this.filterOptions?.notThatUserReply ?? "These buttons are not for you!", ephemeral: true});
+                if (this.filterOptions?.noAccessReply && this.filterOptions?.noAccessReplyContent)
+                    await interaction.reply(typeof this.filterOptions.noAccessReplyContent === "object" ? this.filterOptions.noAccessReplyContent : {content: this.filterOptions?.noAccessReplyContent, ephemeral: true});
 
                 return false;
             }
@@ -255,11 +249,11 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     {
         const actionRows:Array<MessageActionRow<MessageButton>> = [];
 
-        for (let i = 0; i < Constants.DISCORD_TOTAL_ROWS_PER_MESSAGE - 1; i++)
+        for (let i = 0; i < Constants.DISCORD_MAX_ROWS_PER_MESSAGE - 1; i++)
         {
             actionRows.push(new MessageActionRow());
 
-            this.buttons?.slice(i*Constants.DISCORD_TOTAL_BUTTONS_PER_ROW, (i+1)*Constants.DISCORD_TOTAL_BUTTONS_PER_ROW).forEach((button) =>
+            this.buttons?.slice(i*Constants.DISCORD_MAX_ROWS_PER_MESSAGE, (i+1)*Constants.DISCORD_MAX_BUTTONS_PER_ROW).forEach((button) =>
             {
                 if (button.style)
                     actionRows[i].addComponents(button.style.setDisabled(disableButtons));
