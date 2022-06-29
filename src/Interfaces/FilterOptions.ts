@@ -14,45 +14,35 @@
  * limitations under the License.
  */
 
+import { InteractionReplyOptions } from "discord.js";
+
 /**
  * Options for filtering button interactions.
  */
 interface FilterOptions
 {
     /**
-     * Defines whether the pagination should be available for only one user.
+     * Option that defines if the pagination should be accessable only for one explict user.
      */
-    onlyOneUser?: boolean,
+    singleUserAccess?: boolean,
     /**
-     * Whether to reply to user that can't use pagination or not.
+     * Option that defines if the pagination should reply with a special message to user that has no access to use that pagination.
+     * Works only in pair with {@link singleUserAccess}.
      */
-    sendReplyIfNotThatUser?: boolean,
+    noAccessReply?: boolean,
     /**
-     * Used if onlyOneUser and sendReplyIfNotThatUser options are true.
-     * Defines reply to user that can't use pagination.
+     * Contents of the reply to user that has no access to use that pagination.
+     * Works only with {@link singleUserAccess} and {@link noAccessReply}.
      */
-    notThatUserReply?: string,
-    /**
-     * Maximum number of interactions that pagination can collect.
-     */
-    limitInteractions?: number,
-    /**
-     * Used if onlyOneUser option is false.
-     * Maximum number of users that can interact with pagination during it's lifetime.
-     */
-    limitUsers?: number,
-    /**
-     * Maximum amount of time (in milliseconds) that pagination can be idle. Afterwards stops.
-     */
-    limitIdleTime?: number,
+    noAccessReplyContent?: string | InteractionReplyOptions,
     /**
      * Option that defines if the pagination should reset the timer after collecting interaction.
      */
     resetTimer?: boolean,
     /**
-     * Option that defines what to do with buttons after pagination is stopped.
+     * Option that defines what to do with buttons after the pagination is stopped.
      */
-    removeButtonsAfterEnd?: boolean,
+    removeButtonsOnEnd?: boolean,
 };
 
 export default FilterOptions;
