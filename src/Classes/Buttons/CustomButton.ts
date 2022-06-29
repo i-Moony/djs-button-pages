@@ -30,10 +30,7 @@ class CustomButton extends ButtonData
      */
     public constructor(style?:MessageButton)
     {
-        super();
-
-        if (style)
-            this.setStyle(style);
+        super(style);
     };
 
     /**
@@ -43,27 +40,17 @@ class CustomButton extends ButtonData
      */
     public setAction(action: ButtonAction): this
     {
-        if (typeof action === "number" && (!Number.isInteger(action) || action < 0))
-            throw new RangeError("Action should return natural number.");
-
-        this._setAction(action);
-
-        return this;
+        return this._setAction(action);
     };
 
     /**
      * Sets a condition of disabling button.
-     * @param {ButtonDisableWhen} action Either a number of a page or a function that determines number of a page.
+     * @param {ButtonDisableWhen} disableWhen Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
     public setDisableWhen(disableWhen: ButtonDisableWhen): this
     {
-        if (typeof disableWhen === "number" && (!Number.isInteger(disableWhen) || disableWhen < -1))
-            throw new RangeError("Action should return natural number or minus one to be always turned on.");
-
-        this._setDisableWhen(disableWhen);
-
-        return this;
+        return this._setDisableWhen(disableWhen);
     };
 };
 
