@@ -20,29 +20,29 @@
 enum Constants
 {
     /**
-     * Current embed length limit.
+     * Current Discord's embed length limit.
      */
-    EMBED_TOTAL_MAX_LENGTH = 6000,
+    DISCORD_MAX_EMBED_LENGTH = 6000,
 
     /**
-     * Current Discord limit for buttons per row.
+     * Current Discord's limit for buttons per row.
      */
-    DISCORD_TOTAL_BUTTONS_PER_ROW = 5,
+    DISCORD_MAX_BUTTONS_PER_ROW = 5,
     /**
-     * Current Discord limit for rows per message.
+     * Current Discord's limit for rows per message.
      */
-    DISCORD_TOTAL_ROWS_PER_MESSAGE = 3,
+    DISCORD_MAX_ROWS_PER_MESSAGE = 3,
     /**
-     * Current Discord limit for interaction life-time.
+     * Current Discord's limit for interaction life-time.
      */
     DISCORD_MAX_INTERACTION_LIFE_TIME = 900000,
 
     /**
-     * Current library limit for max life-time.
+     * Current library limit for max pagination life-time.
      */
     LIBRARY_MAX_PAGES_LIFE_TIME = 3600000,
     /**
-     * Current library limit for minimum life-time.
+     * Current library limit for minimum pagination life-time.
      */
     LIBRARY_MIN_PAGES_LIFE_TIME = 1000,
 };
