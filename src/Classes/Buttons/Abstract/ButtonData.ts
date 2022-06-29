@@ -23,6 +23,16 @@ import ButtonDisableWhen from "../../../Typings/ButtonDisableWhen";
  */
 abstract class ButtonData
 {
+    /**
+     * Class for storing and modifying button data.
+     * @param {MessageButton} style Button style.
+     */
+    protected constructor(style?:MessageButton)
+    {
+        if (style)
+            this.setStyle(style);
+    };
+
     private _style:MessageButton;
     private _action:ButtonAction;
     private _disableWhen:ButtonDisableWhen;
@@ -93,7 +103,7 @@ abstract class ButtonData
 
     /**
      * Sets a condition of disabling button.
-     * @param {ButtonDisableWhen} action Either a number of a page or a function that determines number of a page.
+     * @param {ButtonDisableWhen} disableWhen Either a number of a page or a function that determines number of a page.
      * @returns {this} Button data.
      */
     protected _setDisableWhen(disableWhen: ButtonDisableWhen): this
