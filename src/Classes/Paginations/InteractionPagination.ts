@@ -27,14 +27,6 @@ import BasePagination from "./Abstract/BasePagination";
 class InteractionPagination extends BasePagination<InteractionReplyOptions>
 {
     /**
-     * Pagination that is sent as a reply to interaction.
-     */
-    public constructor()
-    {
-        super();
-    };
-
-    /**
      * Sets life-time of pagination.
      * @param {number} time Time in milliseconds.
      * @returns {this} Pagination.
@@ -60,7 +52,7 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
 
     /**
      * Sends pagination as the reply to specified interaction.
-     * @param {Interaction} channel Interaction to that the reply should be sent.
+     * @param {Interaction} interaction Interaction to that the reply should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.
      * @returns {Promise<void>} Sends pagination.
      */
@@ -106,12 +98,12 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
-        collector.on("end", async () => await this._stop(interaction));
+        collector.on("end", async (collected, reason) => await this._stop(reason, interaction));
         
         this._setCollector(collector);
 
-        if (this.actionAfterSending)
-            await this.actionAfterSending();
+        if (this.afterSending)
+            await this.afterSending(message);
 
         return;
     };
