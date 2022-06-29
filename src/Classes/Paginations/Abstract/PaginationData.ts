@@ -56,6 +56,7 @@ abstract class PaginationData
     
     /**
      * The buttons of this pagination.
+     * By default is an empty array.
      * @type {Array<ButtonData> | null}
      */
     public get buttons(): Array<ButtonData> | null
@@ -65,6 +66,7 @@ abstract class PaginationData
 
     /**
      * Embeds of this pagination.
+     * By default is an empty array.
      * @type {Array<MessageEmbed> | null}
      */
     public get embeds(): Array<MessageEmbed> | null
