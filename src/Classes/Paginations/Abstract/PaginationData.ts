@@ -20,6 +20,8 @@ import { ButtonInteraction,
 import Constants from "../../../Constants";
 import FilterOptions from "../../../Interfaces/FilterOptions";
 import ButtonData from "../../Buttons/Abstract/ButtonData";
+import OnStop from "../../../Typings/OnStop";
+import AfterSending from "../../../Typings/AfterSending";
 
 /**
  * Class for storing and modifying pagination data.
@@ -29,8 +31,8 @@ abstract class PaginationData
     private _filterOptions:FilterOptions = {singleUserAccess: true, noAccessReply: true, noAccessReplyContent: "You're disallowed to use this very pagination!"};
     private _collectorOptions:ColletorOptions;
     private _collector:InteractionCollector<ButtonInteraction>;
-    private _actionAfterSending:() => void | Promise<void>;
-    private _actionOnStop:() => void | Promise<void>;
+    private _afterSending:AfterSending;
+    private _onStop:OnStop;
 
     /**
      * Indicates whether this pagination sent or not.
@@ -110,20 +112,20 @@ abstract class PaginationData
 
     /**
      * Action that will be completed after the pagination was sent.
-     * @type {(() => void | Promise<void>) | null}
+     * @type {AfterSending | null}
      */
-    public get actionAfterSending(): (() => void | Promise<void>) | null
+    public get afterSending(): AfterSending | null
     {
-        return this._actionAfterSending ?? null;
+        return this._afterSending ?? null;
     };
 
     /**
      * Action that will be completed after the pagination was stopped.
-     * @type {(() => void | Promise<void>) | null}
+     * @type {OnStop | null}
      */
-    public get actionOnStop(): (() => void | Promise<void>) | null
+    public get onStop(): OnStop | null
     {
-        return this._actionOnStop ?? null;
+        return this._onStop ?? null;
     };
 
     /**
@@ -138,24 +140,24 @@ abstract class PaginationData
 
     /**
      * Sets action that will be completed after the pagination was sent.
-     * @param {() => void | Promise<void>} action Action that will be completed.
+     * @param {AfterSending} action Action that will be completed.
      * @returns {this} Pagination.
      */
-    public setActionAfterSending(action:() => void | Promise<void>): this
+    public setAfterSendingAction(action:AfterSending): this
     {
-        this._actionAfterSending = action;
+        this._afterSending = action;
 
         return this;
     };
 
     /**
      * Sets action that will be completed after the pagination was stopped.
-     * @param {() => void | Promise<void>} action Action that will be completed.
+     * @param {OnStop} action Action that will be completed.
      * @returns {this} Pagination.
      */
-    public setActionOnStop(action:() => void | Promise<void>): this
+    public setOnStopAction(action:OnStop): this
     {
-        this._actionOnStop = action;
+        this._onStop = action;
 
         return this;
     };
