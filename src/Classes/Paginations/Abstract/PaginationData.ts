@@ -82,7 +82,7 @@ abstract class PaginationData
 
     /**
      * Options for filtering button interactions.
-     * By default onlyOneUser and sendReplyIfNotThatUser are true.
+     * By default {@link singleUserAccess} and {@link noAccessReply} are true. And {@link noAccessReplyContent} is "You're disallowed to use this very pagination!".
      * @type {FilterOptions}
      */
     public get filterOptions(): FilterOptions
@@ -202,8 +202,8 @@ abstract class PaginationData
         if (embeds.some((embed) => !embed || !embed.length || embed.length < 1))
             throw new Error("No embeds from the array can be empty.");
 
-        if (embeds.some((embed => embed.length > Constants.EMBED_TOTAL_MAX_LENGTH)))
-            throw new RangeError(`No embeds from the array can be longer than ${Constants.EMBED_TOTAL_MAX_LENGTH}.`);
+        if (embeds.some((embed => embed.length > Constants.DISCORD_MAX_EMBED_LENGTH)))
+            throw new RangeError(`No embeds from the array can be longer than ${Constants.DISCORD_MAX_EMBED_LENGTH}.`);
 
         if (index < 0 || !Number.isInteger(index))
             throw new RangeError("Index should be natural.");
@@ -251,8 +251,8 @@ abstract class PaginationData
         if (embeds.some((embed) => !embed || !embed.length || embed.length < 1))
             throw new TypeError("No embeds from the array can be empty.");
 
-        if (embeds.some((embed => embed.length > Constants.EMBED_TOTAL_MAX_LENGTH)))
-            throw new RangeError(`No embeds from the array can be longer than ${Constants.EMBED_TOTAL_MAX_LENGTH}.`);
+        if (embeds.some((embed => embed.length > Constants.DISCORD_MAX_EMBED_LENGTH)))
+            throw new RangeError(`No embeds from the array can be longer than ${Constants.DISCORD_MAX_EMBED_LENGTH}.`);
 
         this._embeds = embeds;
 
@@ -272,8 +272,8 @@ abstract class PaginationData
         if (!Array.isArray(buttons))
             buttons = [buttons];
 
-        if (buttons.length > Constants.DISCORD_TOTAL_BUTTONS_PER_ROW * Constants.DISCORD_TOTAL_ROWS_PER_MESSAGE)
-            throw new RangeError(`There can not be more than ${Constants.DISCORD_TOTAL_BUTTONS_PER_ROW * Constants.DISCORD_TOTAL_ROWS_PER_MESSAGE} buttons per message because of Discord's limit.`);
+        if (buttons.length > Constants.DISCORD_MAX_BUTTONS_PER_ROW * Constants.DISCORD_MAX_ROWS_PER_MESSAGE)
+            throw new RangeError(`There can not be more than ${Constants.DISCORD_MAX_BUTTONS_PER_ROW * Constants.DISCORD_MAX_ROWS_PER_MESSAGE} buttons per message because of Discord's limit.`);
 
         if (buttons.some((button) => !button))
             throw new TypeError("Buttons can not be empty.");
