@@ -26,28 +26,8 @@ import ButtonData from "../../Buttons/Abstract/ButtonData";
  */
 abstract class PaginationData
 {
-    /**
-     * Class for storing and modifying pagination data.
-     */
-    protected constructor()
-    {
-        this._isActive = false;
-
-        this._currentPage = 0;
-        this._filterOptions = {onlyOneUser: true,
-            sendReplyIfNotThatUser: true};
-
-        this._time = 0;
-        this._buttons = [];
-        this._embeds = [];
-    };
-    
-    private _isActive:boolean;
-    private _filterOptions:FilterOptions;
-    private _buttons:Array<ButtonData>;
-    private _embeds:Array<MessageEmbed>;
-    private _currentPage:number;
-    private _time:number;
+    private _filterOptions:FilterOptions = {singleUserAccess: true, noAccessReply: true, noAccessReplyContent: "You're disallowed to use this very pagination!"};
+    private _collectorOptions:ColletorOptions;
     private _collector:InteractionCollector<ButtonInteraction>;
     private _actionAfterSending:() => void | Promise<void>;
     private _actionOnStop:() => void | Promise<void>;
@@ -108,6 +88,15 @@ abstract class PaginationData
     public get filterOptions(): FilterOptions
     {
         return this._filterOptions;
+    };
+
+    /**
+     * Options for collecting button interactions.
+     * @type {ColletorOptions}
+     */
+    public get collectorOptions(): ColletorOptions
+    {
+        return this._collectorOptions;
     };
 
     /**
@@ -313,25 +302,34 @@ abstract class PaginationData
         if (this._isActive)
             throw new Error("The pagination is already sent.");
 
-        if (options.onlyOneUser === true && options.limitUsers)
-            console.warn("Passing onlyAuthor and limitUsers options together has no sense.");
-
-        if (options.limitInteractions && (options.limitInteractions < 0 || !Number.isInteger(options.limitInteractions)))
-            throw new RangeError("Limit should be natural.");
-
-        if (options.limitUsers && (options.limitUsers < 0 || !Number.isInteger(options.limitUsers)))
-            throw new RangeError("Users limit should be natural.");
-
-        if (options.limitIdleTime && (options.limitIdleTime < 0 || !Number.isInteger(options.limitIdleTime)))
-            throw new RangeError("Idle time limit should be natural.");
-
-        if (options.limitIdleTime && options.limitIdleTime < Constants.LIBRARY_MIN_PAGES_LIFE_TIME)
-            throw new RangeError("Idle time limit should be no less than one second.");
-
-        if (options.notThatUserReply && options.notThatUserReply.length < 1)
-            throw new RangeError("Reply should be at least one symbol long.");
+        if (options.noAccessReplyContent && typeof options.noAccessReplyContent === "string" && options.noAccessReplyContent.length < 1)
+            throw new RangeError("Reply should be longer than zero symbols.");
 
         this._filterOptions = options;
+
+        return this;
+    };
+
+    /**
+     * Sets collector options. Overrides current options.
+     * @param {FilterOptions} options Options for collecting button interactions.
+     * @returns {this} Pagination.
+     */
+    public setCollectorOptions(options:ColletorOptions): this
+    {
+        if (this._isActive)
+            throw new Error("The pagination is already sent.");
+
+        if (options.maxIdleTime && (!Number.isInteger(options.maxIdleTime) || options.maxIdleTime < 0))
+            throw new RangeError("Max collector's idle time should be a natural number!");
+
+        if (options.maxInteractions && (!Number.isInteger(options.maxInteractions) || options.maxInteractions < 0))
+            throw new RangeError("Max number of interactions should be a natural number!");
+
+        if (options.maxUsers && (!Number.isInteger(options.maxUsers) || options.maxUsers < 0))
+            throw new RangeError("Max number of users should be a natural number!");
+
+        this._collectorOptions = options;
 
         return this;
     };
