@@ -28,8 +28,13 @@ import AfterSending from "../../../Typings/AfterSending";
  */
 abstract class PaginationData
 {
+    private _isActive = false;
     private _filterOptions:FilterOptions = {singleUserAccess: true, noAccessReply: true, noAccessReplyContent: "You're disallowed to use this very pagination!"};
     private _collectorOptions:ColletorOptions;
+    private _buttons:Array<ButtonData> = [];
+    private _embeds:Array<MessageEmbed> = [];
+    private _currentPage = 0;
+    private _time = 0;
     private _collector:InteractionCollector<ButtonInteraction>;
     private _afterSending:AfterSending;
     private _onStop:OnStop;
