@@ -26,9 +26,12 @@ import StopButton from "./Classes/Buttons/StopButton";
 import BasePagination from "./Classes/Paginations/Abstract/BasePagination";
 import PaginationData from "./Classes/Paginations/Abstract/PaginationData";
 import ButtonData from "./Classes/Buttons/Abstract/ButtonData";
-import filterOptions from "./Interfaces/FilterOptions";
-import buttonAction from "./Typings/ButtonAction";
-import buttonDisableWhen from "./Typings/ButtonDisableWhen";
+import FilterOptions from "./Interfaces/FilterOptions";
+import ColletorOptions from "./Interfaces/CollectorOptions";
+import ButtonAction from "./Typings/ButtonAction";
+import ButtonDisableWhen from "./Typings/ButtonDisableWhen";
+import AfterSending from "./Typings/AfterSending";
+import OnStop from "./Typings/OnStop";
 import Constants from "./Constants";
 
 export { ChannelPagination,
@@ -43,7 +46,10 @@ export { ChannelPagination,
     BasePagination,
     PaginationData,
     ButtonData,
-    filterOptions,
-    buttonAction,
-    buttonDisableWhen,
+    FilterOptions,
+    ColletorOptions,
+    ButtonAction,
+    ButtonDisableWhen,
+    AfterSending,
+    OnStop,
     Constants };
