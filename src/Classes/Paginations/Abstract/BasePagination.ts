@@ -29,6 +29,7 @@ import PaginationData from "./PaginationData";
 
 /**
  * Base pagination class that works with collector and it's events.
+ * @template {ReplyMessageOptions | MessageOptions | InteractionReplyOptions} T
  */
 abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | InteractionReplyOptions> extends PaginationData
 {
@@ -43,7 +44,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     private _messageOptions:T;
 
     /**
-     * Options for sending message.
+     * Options for sending out message.
      * @type {T}
      */
     public get messageOptions(): T
@@ -52,8 +53,8 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     };
 
     /**
-     * Sets options for sending message.
-     * @param {T} options Options for sending message.
+     * Sets options for sending out message.
+     * @param {T} options Options for sending out message.
      * @returns {this} Pagination.
      */
     public setMessageOptions(options:T): this
@@ -154,7 +155,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     /**
      * Forms collector.
      * @param {Message} message Message that collector should stick to.
-     * @param {User} user Used only if {@link filterOptions} onlyOne user is true. Needed only if only one user should be able to use pagination.
+     * @param {User} user Used only if {@link singleUserAccess} is true. Needed only if only one user should be able to use pagination.
      * @returns {InteractionCollector<ButtonInteraction>} Interaction Collector.
      */
     protected _formCollector(message:Message, user?:User): InteractionCollector<ButtonInteraction>
