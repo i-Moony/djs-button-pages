@@ -25,16 +25,8 @@ import BasePagination from "./Abstract/BasePagination";
 class ChannelPagination extends BasePagination<MessageOptions>
 {
     /**
-     * Pagination that is sent to a text channel.
-     */
-    public constructor()
-    {
-        super();
-    };
-
-    /**
      * Sends pagination to the specified channel.
-     * @param {TextChannel | DMChannel} channel Channel where the pagination should be sent.
+     * @param {TextBasedChannel} channel Channel where the pagination should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.
      * @returns {Promise<void>} Sends pagination.
      */
@@ -63,12 +55,12 @@ class ChannelPagination extends BasePagination<MessageOptions>
 
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
-        collector.on("end", async () => await this._stop(message));
+        collector.on("end", async (collected, reason) => await this._stop(reason, message));
         
         this._setCollector(collector);
 
-        if (this.actionAfterSending)
-            await this.actionAfterSending();
+        if (this.afterSending)
+            await this.afterSending(message);
 
         return;
     };
