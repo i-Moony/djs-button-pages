@@ -17,7 +17,7 @@
 /**
  * Options for collecting button interactions.
  */
-interface ColletorOptions
+interface CollectorOptions
 {
    /**
     * Maximum number of interactions that pagination can collect during it's life-time.
@@ -33,4 +33,4 @@ interface ColletorOptions
    maxIdleTime?: number,
 };
  
-export default ColletorOptions;
+export default CollectorOptions;

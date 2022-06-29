@@ -19,7 +19,7 @@ import { ButtonInteraction,
     MessageEmbed } from "discord.js";
 import Constants from "../../../Constants";
 import FilterOptions from "../../../Interfaces/FilterOptions";
-import ColletorOptions from "../../../Interfaces/CollectorOptions";
+import CollectorOptions from "../../../Interfaces/CollectorOptions";
 import ButtonData from "../../Buttons/Abstract/ButtonData";
 import OnStop from "../../../Typings/OnStop";
 import AfterSending from "../../../Typings/AfterSending";
@@ -31,7 +31,7 @@ abstract class PaginationData
 {   
     private _isActive = false;
     private _filterOptions:FilterOptions = {singleUserAccess: true, noAccessReply: true, noAccessReplyContent: "You're disallowed to use this very pagination!"};
-    private _collectorOptions:ColletorOptions;
+    private _collectorOptions:CollectorOptions;
     private _buttons:Array<ButtonData> = [];
     private _embeds:Array<MessageEmbed> = [];
     private _currentPage = 0;
@@ -102,9 +102,9 @@ abstract class PaginationData
 
     /**
      * Options for collecting button interactions.
-     * @type {ColletorOptions}
+     * @type {CollectorOptions}
      */
-    public get collectorOptions(): ColletorOptions
+    public get collectorOptions(): CollectorOptions
     {
         return this._collectorOptions;
     };
@@ -325,7 +325,7 @@ abstract class PaginationData
      * @param {FilterOptions} options Options for collecting button interactions.
      * @returns {this} Pagination.
      */
-    public setCollectorOptions(options:ColletorOptions): this
+    public setCollectorOptions(options:CollectorOptions): this
     {
         if (this._isActive)
             throw new Error("The pagination is already sent.");
