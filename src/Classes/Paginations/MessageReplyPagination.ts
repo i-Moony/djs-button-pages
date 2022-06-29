@@ -25,14 +25,6 @@ import BasePagination from "./Abstract/BasePagination";
 class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
 {
     /**
-     * Pagination that is sent as a reply to message.
-     */
-    public constructor()
-    {
-        super();
-    };
-
-    /**
      * Sends pagination as the reply to specified message.
      * @param {Message} message Message to that the reply should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.
@@ -63,12 +55,12 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
         
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
-        collector.on("end", async () => await this._stop(reply));
+        collector.on("end", async (collected, reason) => await this._stop(reason, reply));
 
         this._setCollector(collector);
 
-        if (this.actionAfterSending)
-            await this.actionAfterSending();
+        if (this.afterSending)
+            await this.afterSending(reply);
 
         return;
     };
