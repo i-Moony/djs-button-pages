@@ -1,6 +1,6 @@
 {
   "name": "djs-button-pages",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Fast, reliable and easy to use modern library to implement customizable embed pages in Discord Chat.",
   "main": "dist/Paginations.js",
   "types": "dist/Paginations.d.ts",

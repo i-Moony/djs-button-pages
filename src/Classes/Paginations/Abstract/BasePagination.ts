@@ -253,7 +253,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         {
             actionRows.push(new MessageActionRow());
 
-            this.buttons?.slice(i*Constants.DISCORD_MAX_ROWS_PER_MESSAGE, (i+1)*Constants.DISCORD_MAX_BUTTONS_PER_ROW).forEach((button) =>
+            this.buttons?.slice(i*Constants.DISCORD_MAX_BUTTONS_PER_ROW, (i+1)*Constants.DISCORD_MAX_BUTTONS_PER_ROW).forEach((button) =>
             {
                 if (button.style)
                     actionRows[i].addComponents(button.style.setDisabled(disableButtons));
