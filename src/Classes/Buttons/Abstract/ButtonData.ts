@@ -109,7 +109,7 @@ abstract class ButtonData
     protected _setDisableWhen(disableWhen: ButtonDisableWhen): this
     {
         if (typeof disableWhen === "number" && (!Number.isInteger(disableWhen) || disableWhen < -1))
-            throw new RangeError("Action should return natural number or minus one to be always turned on.");
+            throw new RangeError("DisableWhen should return natural number or minus one to be always turned on.");
 
         this._disableWhen = disableWhen;
 
