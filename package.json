@@ -18,7 +18,7 @@
     "build": "tsc",
     "docs": "typedoc -out docs src/Paginations.ts",
     "lint": "eslint . --ext .ts",
-    "test": "jest --coverage"
+    "test": "jest --config jest.config.json"
   },
 
   "keywords": 
