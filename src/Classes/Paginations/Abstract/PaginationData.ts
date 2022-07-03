@@ -201,7 +201,7 @@ abstract class PaginationData
      * @param {number} index Zero-based location in the array there the embed(-s) should be inserted.
      * @returns {this} Pagination.
      */
-    public insertEmbeds(embeds:MessageEmbed | Array<MessageEmbed>, index:number): this
+    public insertEmbeds(embeds:MessageEmbed | Array<MessageEmbed>, index?:number): this
     {
         if (this._isActive)
             throw new Error("The pagination is already sent.");
@@ -215,10 +215,10 @@ abstract class PaginationData
         if (embeds.some((embed => embed.length > Constants.DISCORD_MAX_EMBED_LENGTH)))
             throw new RangeError(`No embeds from the array can be longer than ${Constants.DISCORD_MAX_EMBED_LENGTH}.`);
 
-        if (index < 0 || !Number.isInteger(index))
+        if (index && (index < 0 || !Number.isInteger(index)))
             throw new RangeError("Index should be natural.");
 
-        index || index === this._embeds?.length ? this._embeds.push(...embeds) : this._embeds.splice(index, 0, ...embeds);
+        !index || index === this._embeds?.length ? this._embeds.push(...embeds) : this._embeds.splice(index, 0, ...embeds);
 
         return this;
     };
