@@ -25,7 +25,7 @@ class LastPageButton extends ButtonData
 {
     /**
      * Button that switches pagination to the last page.
-     * @param {MessageButton} style Button style.
+     * @param {MessageButton} style Data from which to build LastPageButton.
      */
     public constructor(style?:MessageButton)
     {

@@ -25,7 +25,7 @@ class NextPageButton extends ButtonData
 {
     /**
      * Button that switches pagination to the next page.
-     * @param {MessageButton} style Button style.
+     * @param {MessageButton} style Data from which to build NextPageButton.
      */
     public constructor(style?:MessageButton)
     {

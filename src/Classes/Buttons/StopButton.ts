@@ -24,7 +24,7 @@ class StopButton extends ButtonData
 {
     /**
      * Button that stops pagination.
-     * @param {MessageButton} style Button style.
+     * @param {MessageButton} style Data from which to build StopButton.
      */
     public constructor(style?:MessageButton)
     {
