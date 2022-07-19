@@ -1,9 +1,9 @@
-import PaginationData from "../Classes/Paginations/Abstract/PaginationData";
+import PaginationData from "../Classes/Paginations/Basic/PaginationData";
 
 /**
  * Type to represent a condition of disabling button.
  * 
- * May be either a number of a page or a function that determines number of a page.
+ * It may be either a number of a page or a function that determines number of a page.
  */
 type ButtonDisableWhen =
 |   number
