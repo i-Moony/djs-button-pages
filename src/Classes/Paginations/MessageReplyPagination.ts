@@ -38,17 +38,17 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
 
     /**
      * Sends pagination as the reply to specified message.
-     * @param {Message} message Message to that the reply should be sent.
+     * @param {Message} sendTo Message to that the reply should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.
      * @returns {Promise<void>} Sends pagination.
      */
-    public async send(message:Message, user?:User)
+    public async send(sendTo:Message, user?:User)
     {
         if (this.isActive)
-            throw new Error("The pagination is already sent!");
+            throw new Error("The pagination is already sent.");
 
         if (!this.embeds || !this.buttons || !this.time)
-            throw new Error("Pagination should have at least one button and page.");
+            throw new Error("Pagination should have at least one button, page and settep up time.");
 
         let replyOptions = this.messageOptions;
 
@@ -61,7 +61,7 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
         replyOptions.embeds = [this.embeds[this.currentPage]];
         replyOptions.components = await this._getActionRows(0);
 
-        const reply = await message.reply(replyOptions);
+        const reply = await sendTo.reply(replyOptions);
         
         const collector = this._formCollector(reply, user);
         

@@ -38,17 +38,17 @@ class ChannelPagination extends BasePagination<MessageOptions>
 
     /**
      * Sends pagination to the specified channel.
-     * @param {TextBasedChannel} channel Channel where the pagination should be sent.
+     * @param {TextBasedChannel} sendTo Channel where the pagination should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.
      * @returns {Promise<void>} Sends pagination.
      */
-    public async send(channel:TextBasedChannel, user?:User): Promise<void>
+    public override async send(sendTo:TextBasedChannel, user?:User): Promise<void>
     {
         if (this.isActive)
-            throw new Error("The pagination is already sent!");
+            throw new Error("The pagination is already sent.");
 
         if (!this.embeds || !this.buttons || !this.time)
-            throw new Error("Pagination should have at least one button and page.");
+            throw new Error("Pagination should have at least one button, page and settep up time.");
 
         let messageOptions = this.messageOptions;
 
@@ -61,7 +61,7 @@ class ChannelPagination extends BasePagination<MessageOptions>
         messageOptions.embeds = [this.embeds[this.currentPage]];
         messageOptions.components = await this._getActionRows(0);
 
-        const message = await channel.send(messageOptions);
+        const message = await sendTo.send(messageOptions);
 
         const collector = this._formCollector(message, user);
 

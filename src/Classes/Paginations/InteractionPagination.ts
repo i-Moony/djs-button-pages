@@ -55,7 +55,7 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
             throw new RangeError("Pagination should exist at least one second.");
 
         if (time > Constants.DISCORD_MAX_INTERACTION_LIFE_TIME)
-            throw new RangeError(`Interaction pagination total life time should be no more than fifteen minutes.`);
+            throw new RangeError(`Total life time of InteractionPagination should be no more than fifteen minutes.`);
 
         this._setTime(time);
 
@@ -64,25 +64,25 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
 
     /**
      * Sends pagination as the reply to specified interaction.
-     * @param {Interaction} interaction Interaction to that the reply should be sent.
+     * @param {Interaction} sendTo Interaction to that the reply should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.
      * @returns {Promise<void>} Sends pagination.
      */
-    public async send(interaction:Interaction, user?:User)
+    public async send(sendTo:Interaction, user?:User)
     {
         if (this.isActive)
-            throw new Error("The pagination is already sent!");
+            throw new Error("The pagination is already sent.");
 
         if (!this.embeds || !this.buttons || !this.time)
-            throw new Error("Pagination should have at least one button and page.");
+            throw new Error("Pagination should have at least one button, page and settep up time.");
 
-        if (!interaction.isRepliable())
+        if (!sendTo.isRepliable())
             throw new Error("Interaction should be repliable!");
 
         let replyOptions = this.messageOptions;
 
-        if (!interaction.deferred)
-            await interaction.deferReply({ephemeral: replyOptions?.ephemeral ?? false, fetchReply: true});
+        if (!sendTo.deferred)
+            await sendTo.deferReply({ephemeral: replyOptions?.ephemeral ?? false, fetchReply: true});
 
         if (!replyOptions)
             replyOptions = {embeds: []};
@@ -93,13 +93,13 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         replyOptions.embeds = [this.embeds[this.currentPage]];
         replyOptions.components = await this._getActionRows(0);
 
-        const reply = await interaction.editReply(replyOptions);
+        const reply = await sendTo.editReply(replyOptions);
 
         let message:Message;
 
         if (!(reply instanceof Message))
         {
-            message = await this._fetchMessage(interaction, reply.channel_id, reply.id);
+            message = await this._fetchMessage(sendTo, reply.channel_id, reply.id);
         }
         else
         {
@@ -110,7 +110,7 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
-        collector.on("end", async (collected, reason) => await this._stop(reason, interaction));
+        collector.on("end", async (collected, reason) => await this._stop(reason, sendTo));
         
         this._setCollector(collector);
 
