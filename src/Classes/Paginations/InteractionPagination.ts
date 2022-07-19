@@ -28,6 +28,17 @@ import PaginationData from "./Basic/PaginationData";
 class InteractionPagination extends BasePagination<InteractionReplyOptions>
 {
     /**
+     * Pagination that is sent as a reply to interaction.
+     * @param {PaginationData} data Data from which to build interaction pagination.
+     */
+    public constructor(data?:PaginationData)
+    {
+        super(data);
+
+        return;
+    };
+
+    /**
      * Sets life-time of pagination.
      * @param {number} time Time in milliseconds.
      * @returns {this} Pagination.

@@ -26,6 +26,17 @@ import PaginationData from "./Basic/PaginationData";
 class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
 {
     /**
+     * Pagination that is sent as a reply to message.
+     * @param {PaginationData} data Data from which to build message reply pagination.
+     */
+    public constructor(data?:PaginationData)
+    {
+        super(data);
+
+        return;
+    };
+
+    /**
      * Sends pagination as the reply to specified message.
      * @param {Message} message Message to that the reply should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.

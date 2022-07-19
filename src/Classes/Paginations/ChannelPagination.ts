@@ -26,6 +26,17 @@ import PaginationData from "./Basic/PaginationData";
 class ChannelPagination extends BasePagination<MessageOptions>
 {
     /**
+     * Pagination that is sent to a text channel.
+     * @param {PaginationData} data Data from which to build channel pagination.
+     */
+    public constructor(data?:PaginationData)
+    {
+        super(data);
+
+        return;
+    };
+
+    /**
      * Sends pagination to the specified channel.
      * @param {TextBasedChannel} channel Channel where the pagination should be sent.
      * @param {User} user Needed only if one user should be able to use pagination.
