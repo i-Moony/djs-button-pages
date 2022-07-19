@@ -19,6 +19,6 @@ import { Message } from "discord.js";
 /**
  * Type to describe action that injects after sending.
  */
-type AfterSending = (message:Message) => void | Promise<void>;
+type AfterSending = (message:Message) => unknown | Promise<unknown>;
 
 export default AfterSending;

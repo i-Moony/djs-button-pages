@@ -17,6 +17,6 @@
 /**
  * Type that describes action that injects on stop.
  */
-type OnStop = (reason:string) => void | Promise<void>;
+type OnStop = (reason:string) => unknown | Promise<unknown>;
 
 export default OnStop;
