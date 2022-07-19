@@ -1,5 +1,12 @@
 {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "globals":
+    {
+        "ts-jest":
+        {
+            "tsconfig": "tsconfig.json"
+        }
+    }
 }
