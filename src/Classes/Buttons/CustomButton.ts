@@ -26,11 +26,16 @@ class CustomButton extends ButtonData
 {
     /**
      * Button with custom set of scripts.
-     * @param {MessageButton} style Button style.
+     * @param {MessageButton | CustomButton} data Data from which to build CustomButton.
      */
-    public constructor(style?:MessageButton)
+    public constructor(data?:MessageButton | ButtonData)
     {
-        super(style);
+        super(data);
+
+        if (data instanceof CustomButton)
+        {
+            this._setupCustomData(data);
+        };
     };
 
     /**
@@ -51,6 +56,22 @@ class CustomButton extends ButtonData
     public setDisableWhen(disableWhen: ButtonDisableWhen): this
     {
         return this._setDisableWhen(disableWhen);
+    };
+
+    /**
+     * Setups action and disableWhen from ButtonData.
+     * @param {CustomButton} data ButtonData.
+     * @returns {void}
+     */
+    private _setupCustomData(data:CustomButton): void
+    {
+        if (data.action)
+            this._setAction(data.action);
+
+        if (data.disableWhen)
+            this._setDisableWhen(data.disableWhen);
+
+        return;
     };
 };
 
