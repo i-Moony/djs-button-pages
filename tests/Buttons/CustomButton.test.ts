@@ -11,34 +11,16 @@ describe("Button that has custom scripts", () => {
     });
 
     test("should initialize with a given style.", () => {
-        const style = new MessageButton().setCustomId("testid").setLabel("button").setStyle("PRIMARY"),
-        button = new CustomButton(style);
+        const style = new MessageButton().setCustomId("testid").setLabel("button").setStyle("PRIMARY");
 
-        expect(button.style).toBe(style);
-    });
+        expect(new CustomButton(style).style).toBe(style);
 
-    test("setStyle should throw error if there are no customId.", () => {
-        const incorrectStyle = new MessageButton().setLabel("button").setStyle("PRIMARY");
-        
-        expect(() => new CustomButton(incorrectStyle)).toThrow("Button should have customId, emoji or label and style.");
-    });
+        const buttonStyle = new CustomButton().setStyle(new MessageButton().setCustomId("testid").setLabel("button").setStyle("PRIMARY")).setAction(1).setDisableWhen(1),
+        button = new CustomButton(buttonStyle);
 
-    test("setStyle should throw error if there are no label or emoji.", () => {
-        const incorrectStyle = new MessageButton().setCustomId("testid").setStyle("PRIMARY");
-
-        expect(() => new CustomButton(incorrectStyle)).toThrow("Button should have customId, emoji or label and style.");
-    });
-
-    test("setStyle should throw error if there are no style.", () => {
-        const incorrectStyle = new MessageButton().setCustomId("testid").setEmoji("▶");
-
-        expect(() => new CustomButton(incorrectStyle)).toThrow("Button should have customId, emoji or label and style.");
-    });
-
-    test("setStyle should throw error if LINK style is passed.", () => {
-        const incorrectStyle = new MessageButton().setCustomId("testid").setEmoji("▶").setStyle("LINK");
-
-        expect(() => new CustomButton(incorrectStyle)).toThrow("Button can't have link style, because component collector can't collect it's interaction.");
+        expect(button.style).toBe(buttonStyle.style);
+        expect(button.action).toBe(buttonStyle.action);
+        expect(button.disableWhen).toBe(buttonStyle.disableWhen);
     });
 
     test("setAction should throw error if floating point number is passed.", () => {
@@ -61,7 +43,7 @@ describe("Button that has custom scripts", () => {
         expect(() => button.setDisableWhen(2.5)).toThrow("DisableWhen should return natural number or minus one to be always turned on.");
     });
 
-    test("setAction should throw error if negative number, except minus one, is passed.", () => {
+    test("setDisableWhen should throw error if negative number, except minus one, is passed.", () => {
         const button = new CustomButton();
 
         expect(() => button.setDisableWhen(-2)).toThrow("DisableWhen should return natural number or minus one to be always turned on.");

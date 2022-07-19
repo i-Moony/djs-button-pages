@@ -24,12 +24,12 @@ describe("Button that switches pagination to the last page", () => {
         expect(result).toBe(dataMock.embeds.length - 1);
     });
 
-    test("should throw error if no embeds supplied!", async () => {
+    test("should throw error if no embeds supplied.", async () => {
         const button = new LastPageButton();
 
         const dataMock: PaginationData = ({} as unknown) as PaginationData;
 
-        expect(async () => {
+        await expect(async () => {
             if (!(button.action instanceof Function))
                 throw new Error("Action should be a function!");
 
