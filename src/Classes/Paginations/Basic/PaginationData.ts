@@ -20,15 +20,29 @@ import { ButtonInteraction,
 import Constants from "../../../Constants";
 import FilterOptions from "../../../Interfaces/FilterOptions";
 import CollectorOptions from "../../../Interfaces/CollectorOptions";
-import ButtonData from "../../Buttons/Abstract/ButtonData";
+import ButtonData from "../../Buttons/Basic/ButtonData";
 import OnStop from "../../../Typings/OnStop";
 import AfterSending from "../../../Typings/AfterSending";
 
 /**
  * Class for storing and modifying pagination data.
  */
-abstract class PaginationData
-{   
+class PaginationData
+{
+    /**
+     * Class for storing and modifying pagination data.
+     * @param {PaginationData} data Pre-made PaginationData.
+     */
+    public constructor(data?:PaginationData)
+    {
+        if (!data)
+            return;
+
+        this._setup(data);
+
+        return;
+    };
+
     private _isActive = false;
     private _filterOptions:FilterOptions = {singleUserAccess: true, noAccessReply: true, noAccessReplyContent: "You're disallowed to use this very pagination!"};
     private _collectorOptions:CollectorOptions;
@@ -95,18 +109,18 @@ abstract class PaginationData
      * By default {@link singleUserAccess} and {@link noAccessReply} are true. And {@link noAccessReplyContent} is "You're disallowed to use this very pagination!".
      * @type {FilterOptions}
      */
-    public get filterOptions(): FilterOptions
+    public get filterOptions(): FilterOptions | null
     {
-        return this._filterOptions;
+        return this._filterOptions ?? null;
     };
 
     /**
      * Options for collecting button interactions.
      * @type {CollectorOptions}
      */
-    public get collectorOptions(): CollectorOptions
+    public get collectorOptions(): CollectorOptions | null
     {
-        return this._collectorOptions;
+        return this._collectorOptions ?? null;
     };
 
     /**
@@ -153,6 +167,9 @@ abstract class PaginationData
      */
     public setAfterSendingAction(action:AfterSending): this
     {
+        if (this._isActive)
+            throw new Error("The pagination is already sent.");
+
         this._afterSending = action;
 
         return this;
@@ -165,6 +182,9 @@ abstract class PaginationData
      */
     public setOnStopAction(action:OnStop): this
     {
+        if (this._isActive)
+            throw new Error("The pagination is already sent.");
+
         this._onStop = action;
 
         return this;
@@ -258,7 +278,7 @@ abstract class PaginationData
         if (!Array.isArray(embeds))
             embeds = [embeds];
 
-        if (embeds.some((embed) => !embed || !embed.length || embed.length < 1))
+        if (embeds.some((embed) => !embed.length ||embed.length < 1))
             throw new TypeError("No embeds from the array can be empty.");
 
         if (embeds.some((embed => embed.length > Constants.DISCORD_MAX_EMBED_LENGTH)))
@@ -285,17 +305,8 @@ abstract class PaginationData
         if (buttons.length > Constants.DISCORD_MAX_BUTTONS_PER_ROW * Constants.DISCORD_MAX_ROWS_PER_MESSAGE)
             throw new RangeError(`There can not be more than ${Constants.DISCORD_MAX_BUTTONS_PER_ROW * Constants.DISCORD_MAX_ROWS_PER_MESSAGE} buttons per message because of Discord's limit.`);
 
-        if (buttons.some((button) => !button))
-            throw new TypeError("Buttons can not be empty.");
-
-        if (buttons.some((button) => !button.style?.customId || (!button.style?.label && !button.style?.emoji) || (!button.action && button.action !== 0) || !button.style?.style))
-            throw new Error("Every button should have customId, label or emoji, display style and action.");
-
-        if (new Set(buttons.map((val) => JSON.stringify(val))).size < buttons.length)
-            throw new Error("Buttons can not repeat.");
-
         if (new Set(buttons.map((val) => val.style?.customId)).size < buttons.map((val) => val.style?.customId).length)
-            throw new Error("Buttons can not have similar customId.");
+            throw new Error("Buttons can not have similar customIds.");
 
         this._buttons = buttons;
 
@@ -312,7 +323,7 @@ abstract class PaginationData
         if (this._isActive)
             throw new Error("The pagination is already sent.");
 
-        if (options.noAccessReplyContent && typeof options.noAccessReplyContent === "string" && options.noAccessReplyContent.length < 1)
+        if (typeof options.noAccessReplyContent === "string" && options.noAccessReplyContent.length < 1)
             throw new RangeError("Reply should be longer than zero symbols.");
 
         this._filterOptions = options;
@@ -361,9 +372,6 @@ abstract class PaginationData
      */
     protected _setCurrentPage(page = 0): number
     {
-        if (page < 0 || !Number.isInteger(page))
-            throw new RangeError("Page should be natural.");
-
         return this._currentPage = page;
     };
 
@@ -374,15 +382,6 @@ abstract class PaginationData
      */
     protected _setTime(time:number): number
     {
-        if (this._isActive)
-            throw new Error("The pagination is already sent.");
-
-        if (time < 0 || !Number.isInteger(time))
-            throw new RangeError("Time should be natural.");
-
-        if (time < 1000)
-            throw new RangeError("Pagination should exist at least one second.");
-
         return this._time = time;
     };
 
@@ -393,13 +392,32 @@ abstract class PaginationData
      */
     protected _setCollector(collector:InteractionCollector<ButtonInteraction>): InteractionCollector<ButtonInteraction>
     {
-        if (!this._isActive)
-            throw new Error("The pagination should be already sent!");
-
-        if (this._collector)
-            throw new Error("Can't reassign already assigned collector!");
-
         return this._collector = collector;
+    };
+
+    /**
+     * Setups pagination data from another pagination data.
+     * @param {PaginationData} data PaginationData.
+     * @returns {void}
+     */
+    private _setup(data:PaginationData): void
+    {
+        this._filterOptions = data.filterOptions ?? this._filterOptions;
+
+        this._collectorOptions = data.collectorOptions ?? this._collectorOptions;
+
+        this._buttons = data.buttons ?? [];
+
+        this._embeds = data.embeds ?? [];
+
+        this._onStop = data.onStop ?? this._onStop;
+
+        this._afterSending = data.afterSending ?? this._afterSending;
+
+        if (data.time)
+            this.setTime(data.time);
+
+        return;
     };
 };
 

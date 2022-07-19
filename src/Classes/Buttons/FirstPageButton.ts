@@ -15,7 +15,7 @@
  */
 
 import { MessageButton } from "discord.js";
-import ButtonData from "./Abstract/ButtonData";
+import ButtonData from "./Basic/ButtonData";
 
 /**
  * Button that switches pagination to the first page.

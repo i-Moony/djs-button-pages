@@ -21,16 +21,20 @@ import ButtonDisableWhen from "../../../Typings/ButtonDisableWhen";
 /**
  * Class for storing and modifying button data.
  */
-abstract class ButtonData
+class ButtonData
 {
     /**
      * Class for storing and modifying button data.
-     * @param {MessageButton} style Button style.
+     * @param {MessageButton | ButtonData} data Data from which to build ButtonData.
      */
-    protected constructor(style?:MessageButton)
+    public constructor(data?:MessageButton | ButtonData)
     {
-        if (style)
-            this.setStyle(style);
+        if(!data)
+            return;
+
+        this._setup(data);
+
+        return;
     };
 
     private _style:MessageButton;
@@ -114,6 +118,25 @@ abstract class ButtonData
         this._disableWhen = disableWhen;
 
         return this;
+    };
+
+    /**
+     * Setups class from style or ButtonData.
+     * @param {MessageButton | ButtonAction} data Style or data.
+     * @returns {void}
+     */
+    private _setup(data: MessageButton | ButtonData): void
+    {
+        if (data instanceof MessageButton)
+        {
+            this.setStyle(data);
+        }
+        else if (data.style)
+        {
+            this._style = data.style;
+        };
+
+        return;
     };
 };
 

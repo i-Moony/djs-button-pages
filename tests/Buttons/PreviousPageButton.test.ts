@@ -1,5 +1,5 @@
 import PreviousPageButton from "../../src/Classes/Buttons/PreviousPageButton";
-import PaginationData from "../../src/Classes/Paginations/Abstract/PaginationData";
+import PaginationData from "../../src/Classes/Paginations/Basic/PaginationData";
 
 describe("Button that switches pagination to the previous page", () => {
     test("should initialize with action and disableWhen that equals to zero.", async () => {

@@ -15,8 +15,8 @@
  */
 
 import { MessageButton } from "discord.js";
-import PaginationData from "../Paginations/Abstract/PaginationData";
-import ButtonData from "./Abstract/ButtonData";
+import PaginationData from "../Paginations/Basic/PaginationData";
+import ButtonData from "./Basic/ButtonData";
 
 /**
  * Button that switches pagination to previous page.

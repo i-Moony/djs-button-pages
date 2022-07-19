@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import NextPageButton from "../../src/Classes/Buttons/NextPageButton";
-import PaginationData from "../../src/Classes/Paginations/Abstract/PaginationData";
+import PaginationData from "../../src/Classes/Paginations/Basic/PaginationData";
 
 describe("Button that switches pagination to the next page", () => {
     test("should initialize with action and disableWhen.", async () => {

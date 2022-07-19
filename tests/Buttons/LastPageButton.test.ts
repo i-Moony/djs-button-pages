@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import LastPageButton from "../../src/Classes/Buttons/LastPageButton";
-import PaginationData from "../../src/Classes/Paginations/Abstract/PaginationData";
+import PaginationData from "../../src/Classes/Paginations/Basic/PaginationData";
 
 describe("Button that switches pagination to the last page", () => {
     test("should initialize with action and disableWhen.", async () => {

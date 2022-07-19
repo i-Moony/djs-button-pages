@@ -22,8 +22,8 @@ import { ButtonInteraction,
     MessageOptions,
     User,
     InteractionReplyOptions,
-    Interaction, 
-    InteractionCollector} from "discord.js";
+    InteractionCollector,
+    Interaction} from "discord.js";
 import Constants from "../../../Constants";
 import PaginationData from "./PaginationData";
 
@@ -33,13 +33,29 @@ import PaginationData from "./PaginationData";
  */
 abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | InteractionReplyOptions> extends PaginationData
 {
+    /**
+     * Base pagination class that works with collector and it's events.
+     * @param {PaginationData} data Data from which to build BasePagination.
+     */
+    protected constructor(data?:PaginationData)
+    {
+        super(data);
+
+        if (data instanceof BasePagination<T>)
+            this._setupData(data);
+
+        return;
+    };
+
     private _messageOptions:T;
+
+    public abstract send(sendTo:unknown, user?:User): Promise<void>;
 
     /**
      * Options for sending out message.
-     * @type {T}
+     * @type {T | null}
      */
-    public get messageOptions(): T
+    public get messageOptions(): T | null
     {
         return this._messageOptions ?? null;
     };
@@ -72,7 +88,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
      */
     protected async _collected(interaction:ButtonInteraction): Promise<void>
     {
-        if (!this.embeds || !this.collector)
+        if (!this.embeds || !this.collector) /* istanbul ignore next */ 
             throw new Error("This method may be triggered only if the pagination is already sent!");
 
         const nextPage = await this._getPageNumber(interaction.customId);
@@ -81,11 +97,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
             await interaction.deferUpdate();
 
         if (nextPage === -1)
-        {
-            this.collector.stop();
-
-            return;
-        };
+            return this.collector.stop();
 
         const embed = this.embeds[nextPage];
 
@@ -153,7 +165,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
      */
     protected _formCollector(message:Message, user?:User): InteractionCollector<ButtonInteraction>
     {
-        if (!this.time)
+        if (!this.time) /* istanbul ignore next */ 
             throw new Error("This method can be used only if time is already defined!");
 
         return message.createMessageComponentCollector({
@@ -203,15 +215,15 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
      */
     private async _disableButton(button:MessageButton, page:number): Promise<void>
     {
-        if (!button.customId)
+        if (!button.customId) /* istanbul ignore next */ 
             throw new Error("Button should have customId!");
 
         const fullButton = this.getButtonByCustomId(button.customId);
 
-        if (!fullButton)
+        if (!fullButton) /* istanbul ignore next */ 
             throw new Error("No buttons for this customId!");
 
-        if (!fullButton.disableWhen && fullButton.disableWhen !== 0)
+        if (!fullButton.disableWhen && fullButton.disableWhen !== 0) /* istanbul ignore next */ 
             return;
 
         const disableWhen = fullButton.disableWhen instanceof Function ? await fullButton.disableWhen(this, page) : fullButton.disableWhen;
@@ -231,10 +243,10 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     {
         const fullButton = this.getButtonByCustomId(customId);
 
-        if (!fullButton)
+        if (!fullButton) /* istanbul ignore next */ 
             throw new Error("No buttons for this customId!");
 
-        if (!fullButton.action && fullButton.action !== 0)
+        if (!fullButton.action && fullButton.action !== 0) /* istanbul ignore next */ 
             throw new Error("This button doesn't have an action.");
 
         return fullButton.action instanceof Function ? fullButton.action(this) : fullButton.action;
@@ -267,6 +279,19 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         });
 
         return actionRows;
+    };
+
+    /**
+     * Setups data from another base pagination.
+     * @param {BasePagination<T>} data BasePagination.
+     * @returns {void}
+     */
+    private _setupData(data:BasePagination<T>): void
+    {
+        if (data.messageOptions)
+            this._messageOptions = data.messageOptions;
+
+        return;
     };
 };
 

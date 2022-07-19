@@ -17,7 +17,8 @@
 import { Message,
     ReplyMessageOptions,
     User } from "discord.js";
-import BasePagination from "./Abstract/BasePagination";
+import BasePagination from "./Basic/BasePagination";
+import PaginationData from "./Basic/PaginationData";
 
 /**
  * Pagination that is sent as a reply to message.

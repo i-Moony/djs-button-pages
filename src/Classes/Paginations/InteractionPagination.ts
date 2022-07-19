@@ -19,7 +19,8 @@ import { Interaction,
     Message,
     User } from "discord.js";
 import Constants from "../../Constants";
-import BasePagination from "./Abstract/BasePagination";
+import BasePagination from "./Basic/BasePagination";
+import PaginationData from "./Basic/PaginationData";
 
 /**
  * Pagination that is sent as a reply to interaction.
