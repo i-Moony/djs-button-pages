@@ -12,7 +12,7 @@
 
 # 📚 About package:
 
-Simple yet powerful module to create customizable embed pages with buttons. Works with [Discord.JS](https://www.npmjs.com/package/discord.js?source=post_page-----7b5fe27cb6fa----------------------) stating from v13.
+Simple yet powerful module to create customizable embed pages with buttons. Works with [Discord.JS](https://www.npmjs.com/package/discord.js?source=post_page-----7b5fe27cb6fa----------------------) starting from v13.
 
 This package supports creation of custom buttons with custom scripts through a simple API.
 
