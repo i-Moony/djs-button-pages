@@ -16,13 +16,15 @@
 
 import { ButtonInteraction,
     InteractionCollector,
-    MessageEmbed } from "discord.js";
+    Embed,
+    EmbedBuilder } from "discord.js";
 import Constants from "../../../Constants";
 import FilterOptions from "../../../Interfaces/FilterOptions";
 import CollectorOptions from "../../../Interfaces/CollectorOptions";
 import ButtonData from "../../Buttons/Basic/ButtonData";
 import OnStop from "../../../Typings/OnStop";
 import AfterSending from "../../../Typings/AfterSending";
+import { getEmbedLength } from "../../../Utils";
 
 /**
  * Class for storing and modifying pagination data.
@@ -47,7 +49,7 @@ class PaginationData
     private _filterOptions:FilterOptions = {singleUserAccess: true, noAccessReply: true, noAccessReplyContent: "You're disallowed to use this very pagination!"};
     private _collectorOptions:CollectorOptions;
     private _buttons:Array<ButtonData> = [];
-    private _embeds:Array<MessageEmbed> = [];
+    private _embeds:Array<EmbedBuilder> = [];
     private _currentPage = 0;
     private _time = 0;
     private _collector:InteractionCollector<ButtonInteraction>;
@@ -87,9 +89,9 @@ class PaginationData
     /**
      * Embeds of this pagination.
      * By default is an empty array.
-     * @type {Array<MessageEmbed> | null}
+     * @type {Array<EmbedBuilder> | null}
      */
-    public get embeds(): Array<MessageEmbed> | null
+    public get embeds(): Array<EmbedBuilder> | null
     {
         return this._embeds && this._embeds.length !== 0 ? this._embeds : null;
     };
@@ -157,7 +159,7 @@ class PaginationData
      */
     public getButtonByCustomId(customId:string): ButtonData | undefined
     {
-        return this.buttons?.find((but) => but.style?.customId === customId);
+        return this.buttons?.find((but) => but.style?.custom_id === customId);
     };
 
     /**
@@ -217,11 +219,11 @@ class PaginationData
 
     /**
      * Inserts embeds.
-     * @param {MessageEmbed | Array<MessageEmbed>} embeds Embed(-s) that is/are meant to be inserted.
+     * @param {EmbedBuilder | Embed | Array<EmbedBuilder | Embed>} embeds Embed(-s) that is/are meant to be inserted.
      * @param {number} index Zero-based location in the array there the embed(-s) should be inserted.
      * @returns {this} Pagination.
      */
-    public insertEmbeds(embeds:MessageEmbed | Array<MessageEmbed>, index?:number): this
+    public insertEmbeds(embeds:EmbedBuilder | Embed | Array<EmbedBuilder | Embed>, index?:number): this
     {
         if (this._isActive)
             throw new Error("The pagination is already sent.");
@@ -229,16 +231,21 @@ class PaginationData
         if (!Array.isArray(embeds))
             embeds = [embeds];
 
-        if (embeds.some((embed) => !embed || !embed.length || embed.length < 1))
+        const embedBuilders:Array<EmbedBuilder> = [];
+
+        for (const embed of embeds)
+            embedBuilders.push(EmbedBuilder.from(embed));
+
+        if (embedBuilders.some((embed) => !embed || getEmbedLength(embed.data) <= 0))
             throw new Error("No embeds from the array can be empty.");
 
-        if (embeds.some((embed => embed.length > Constants.DISCORD_MAX_EMBED_LENGTH)))
+        if (embedBuilders.some((embed => getEmbedLength(embed.data) > Constants.DISCORD_MAX_EMBED_LENGTH)))
             throw new RangeError(`No embeds from the array can be longer than ${Constants.DISCORD_MAX_EMBED_LENGTH}.`);
 
         if ((index || index === 0) && (index < 0 || !Number.isInteger(index)))
             throw new RangeError("Index should be natural.");
 
-        (!index && index !== 0) || index === this._embeds?.length ? this._embeds.push(...embeds) : this._embeds.splice(index, 0, ...embeds);
+        (!index && index !== 0) || index === this._embeds?.length ? this._embeds.push(...embedBuilders) : this._embeds.splice(index, 0, ...embedBuilders);
 
         return this;
     };
@@ -267,10 +274,10 @@ class PaginationData
 
     /**
      * Sets embed(-s). Overrides current embed(-s).
-     * @param {MessageEmbed | Array<MessageEmbed>} embeds Embed(-s) that is/are meant to be set.
+     * @param {EmbedBuilder | Embed | Array<EmbedBuilder | Embed>} embeds Embed(-s) that is/are meant to be set.
      * @returns {this} Pagination.
      */
-    public setEmbeds(embeds:MessageEmbed | Array<MessageEmbed>): this
+    public setEmbeds(embeds:EmbedBuilder | Embed | Array<EmbedBuilder | Embed>): this
     {
         if (this._isActive)
             throw new Error("The pagination is already sent.");
@@ -278,13 +285,18 @@ class PaginationData
         if (!Array.isArray(embeds))
             embeds = [embeds];
 
-        if (embeds.some((embed) => !embed.length ||embed.length < 1))
+        const embedBuilders:Array<EmbedBuilder> = [];
+
+        for (const embed of embeds)
+            embedBuilders.push(EmbedBuilder.from(embed))
+
+        if (embedBuilders.some((embed) => !embed || getEmbedLength(embed.data) <= 0))
             throw new TypeError("No embeds from the array can be empty.");
 
-        if (embeds.some((embed => embed.length > Constants.DISCORD_MAX_EMBED_LENGTH)))
+        if (embedBuilders.some((embed => getEmbedLength(embed.data) > Constants.DISCORD_MAX_EMBED_LENGTH)))
             throw new RangeError(`No embeds from the array can be longer than ${Constants.DISCORD_MAX_EMBED_LENGTH}.`);
 
-        this._embeds = embeds;
+        this._embeds = embedBuilders;
 
         return this;
     };
@@ -305,7 +317,7 @@ class PaginationData
         if (buttons.length > Constants.DISCORD_MAX_BUTTONS_PER_ROW * Constants.DISCORD_MAX_ROWS_PER_MESSAGE)
             throw new RangeError(`There can not be more than ${Constants.DISCORD_MAX_BUTTONS_PER_ROW * Constants.DISCORD_MAX_ROWS_PER_MESSAGE} buttons per message because of Discord's limit.`);
 
-        if (new Set(buttons.map((val) => val.style?.customId)).size < buttons.map((val) => val.style?.customId).length)
+        if (new Set(buttons.map((val) => val.style?.custom_id)).size < buttons.map((val) => val.style?.custom_id).length)
             throw new Error("Buttons can not have similar customIds.");
 
         this._buttons = buttons;

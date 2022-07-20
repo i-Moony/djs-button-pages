@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MessageButton } from "discord.js";
+import { APIButtonComponentWithCustomId } from "discord.js";
 import PaginationData from "../Paginations/Basic/PaginationData";
 import ButtonData from "./Basic/ButtonData";
 
@@ -25,9 +25,9 @@ class LastPageButton extends ButtonData
 {
     /**
      * Button that switches pagination to the last page.
-     * @param {MessageButton} style Data from which to build LastPageButton.
+     * @param {APIButtonComponentWithCustomId} style Data from which to build LastPageButton.
      */
-    public constructor(style?:MessageButton)
+    public constructor(style?:APIButtonComponentWithCustomId)
     {
         super(style);
 

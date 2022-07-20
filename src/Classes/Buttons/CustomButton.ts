@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MessageButton } from "discord.js";
+ import { APIButtonComponentWithCustomId } from "discord.js";
 import ButtonAction from "../../Typings/ButtonAction";
 import ButtonDisableWhen from "../../Typings/ButtonDisableWhen";
 import ButtonData from "./Basic/ButtonData";
@@ -26,9 +26,9 @@ class CustomButton extends ButtonData
 {
     /**
      * Button with custom set of scripts.
-     * @param {MessageButton | CustomButton} data Data from which to build CustomButton.
+     * @param {APIButtonComponentWithCustomId | CustomButton} data Data from which to build CustomButton.
      */
-    public constructor(data?:MessageButton | ButtonData)
+    public constructor(data?:APIButtonComponentWithCustomId | ButtonData)
     {
         super(data);
 

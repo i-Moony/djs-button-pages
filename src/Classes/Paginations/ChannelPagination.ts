@@ -59,7 +59,7 @@ class ChannelPagination extends BasePagination<MessageOptions>
         this._setCurrentPage();
 
         messageOptions.embeds = [this.embeds[this.currentPage]];
-        messageOptions.components = await this._getActionRows(0);
+        messageOptions.components = await this._getActionRowsByPage(0);
 
         const message = await sendTo.send(messageOptions);
 

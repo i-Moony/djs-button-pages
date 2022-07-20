@@ -16,14 +16,16 @@
 
 import { ButtonInteraction,
     Message,
-    MessageActionRow,
-    MessageButton,
+    ActionRowBuilder,
+    ButtonBuilder,
     ReplyMessageOptions,
     MessageOptions,
     User,
     InteractionReplyOptions,
     InteractionCollector,
-    Interaction} from "discord.js";
+    Interaction,
+    ComponentType,
+    APIButtonComponentWithCustomId} from "discord.js";
 import Constants from "../../../Constants";
 import PaginationData from "./PaginationData";
 
@@ -104,7 +106,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         if (!embed)
             throw new TypeError("Page for this button is not defined!");
 
-        const actionRows = await this._getActionRows(nextPage);
+        const actionRows = await this._getActionRowsByPage(nextPage);
 
         this._setCurrentPage(nextPage);
 
@@ -130,7 +132,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
         {
             await message.edit({components: this.filterOptions?.removeButtonsOnEnd ? [] : actionRows});
         }
-        else if (message instanceof Interaction && message.isRepliable())
+        else if (!(message instanceof Message) && message.isRepliable())
         {
             await message.editReply({components: this.filterOptions?.removeButtonsOnEnd ? [] : actionRows});
         };
@@ -142,19 +144,88 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     };
 
     /**
-     * Gets array of action rows for the page with specified number.
-     * @param {number} page Number of page.
-     * @returns {Promise<Array<MessageActionRow<MessageButton>>>} Array of action rows.
+     * Gets actionRows with buttons for specific page.
+     * @param {number} page Page number.
+     * @returns {Promise<Array<ActionRowBuilder<ButtonBuilder>>>} ActionRows.
      */
-    protected async _getActionRows(page:number): Promise<Array<MessageActionRow<MessageButton>>>
+    protected async _getActionRowsByPage(page:number): Promise<Array<ActionRowBuilder<ButtonBuilder>>>
     {
-        const actionRows = this._buildActionRows();
+        if (!this.buttons)
+            throw new Error("Buttons should be defined!");
 
-        for (const row of actionRows)
+        const rows = this._buildActionRows();
+
+        let buttonNumber = 0;
+
+        for (const row of rows)
+        {
             for (const button of row.components)
-                await this._disableButton(button, page);
+            {
+                const fullButton = this.buttons[buttonNumber];
 
-        return actionRows;
+                if (!fullButton || !fullButton.style)
+                    throw new Error("Button should be defined!");
+
+                await this._disableButton(fullButton.style, button, page);
+
+                buttonNumber++;
+            };
+        };
+
+        return rows;
+    };
+
+    /**
+     * Disables or enables button.
+     * @param {APIButtonComponentWithCustomId} buttonData Raw button data.
+     * @param {ButtonBuilder} buttonBuilder Button builder.
+     * @param {number} page Page number.
+     * @returns {Promise<void>}
+     */
+    private async _disableButton(buttonData:APIButtonComponentWithCustomId, buttonBuilder:ButtonBuilder, page:number): Promise<void>
+    {
+        const fullButton = this.getButtonByCustomId(buttonData.custom_id);
+
+        if (!fullButton) /* istanbul ignore next */ 
+            throw new Error("No buttons for this customId!");
+
+        if (!fullButton.disableWhen && fullButton.disableWhen !== 0) /* istanbul ignore next */ 
+            return;
+
+        const disableWhen = fullButton.disableWhen instanceof Function ? await fullButton.disableWhen(this, page) : fullButton.disableWhen;
+
+        buttonBuilder.setDisabled(disableWhen === page);
+
+        return;
+    };
+
+    /**
+     * Builds action rows with buttons.
+     * @param {boolean} disabled Buttons should be disabled or not.
+     * @returns {Array<ActionRowBuilder<ButtonBuilder>>} ActionRows.
+     */
+    private _buildActionRows(disabled = false): Array<ActionRowBuilder<ButtonBuilder>>
+    {
+        const rows:Array<ActionRowBuilder<ButtonBuilder>> = [];
+
+        for (let i = 0; i < Constants.DISCORD_MAX_ROWS_PER_MESSAGE - 1; i++)
+        {
+            rows.push(new ActionRowBuilder());
+
+            this.buttons?.slice(i*Constants.DISCORD_MAX_BUTTONS_PER_ROW, (i+1)*Constants.DISCORD_MAX_BUTTONS_PER_ROW).forEach((button) =>
+            {
+                if (button.style)
+                    rows[i].addComponents(new ButtonBuilder(button.style).setDisabled(disabled));
+            });
+        };
+
+        rows.forEach((row) =>
+        {
+            if (row.components.length === 0)
+                rows.splice(rows.indexOf(row));
+        });
+
+        return rows;
     };
 
     /**
@@ -170,7 +241,7 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
 
         return message.createMessageComponentCollector({
             time: this.time,
-            componentType: "BUTTON",
+            componentType: ComponentType.Button,
             maxUsers: this.collectorOptions?.maxUsers,
             max: this.collectorOptions?.maxInteractions,
             idle: this.collectorOptions?.maxIdleTime,
@@ -206,33 +277,6 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
             return true;
         };
     };
-    
-    /**
-     * Disables button if needed for the specified page.
-     * @param {MessageButton} button Button style.
-     * @param {number} page Page number.
-     * @returns {Promise<void>} Updates button style.
-     */
-    private async _disableButton(button:MessageButton, page:number): Promise<void>
-    {
-        if (!button.customId) /* istanbul ignore next */ 
-            throw new Error("Button should have customId!");
-
-        const fullButton = this.getButtonByCustomId(button.customId);
-
-        if (!fullButton) /* istanbul ignore next */ 
-            throw new Error("No buttons for this customId!");
-
-        if (!fullButton.disableWhen && fullButton.disableWhen !== 0) /* istanbul ignore next */ 
-            return;
-
-        const disableWhen = fullButton.disableWhen instanceof Function ? await fullButton.disableWhen(this, page) : fullButton.disableWhen;
-
-        if (disableWhen === page)
-            button.setDisabled(true);
-
-        return;
-    };
 
     /**
      * Gets page number from customId of button that was pressed.
@@ -250,35 +294,6 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
             throw new Error("This button doesn't have an action.");
 
         return fullButton.action instanceof Function ? fullButton.action(this) : fullButton.action;
-    };
-
-    /**
-     * Builds array of action rows and disables or enables every button.
-     * @param {boolean} disableButtons Disable or enable all buttons.
-     * @returns {Array<MessageActionRow<MessageButton>>} Array of action rows.
-     */
-    private _buildActionRows(disableButtons = false): Array<MessageActionRow<MessageButton>>
-    {
-        const actionRows:Array<MessageActionRow<MessageButton>> = [];
-
-        for (let i = 0; i < Constants.DISCORD_MAX_ROWS_PER_MESSAGE - 1; i++)
-        {
-            actionRows.push(new MessageActionRow());
-
-            this.buttons?.slice(i*Constants.DISCORD_MAX_BUTTONS_PER_ROW, (i+1)*Constants.DISCORD_MAX_BUTTONS_PER_ROW).forEach((button) =>
-            {
-                if (button.style)
-                    actionRows[i].addComponents(button.style.setDisabled(disableButtons));
-            });
-        };
-
-        actionRows.forEach((row) =>
-        {
-            if (row.components.length === 0)
-                actionRows.splice(actionRows.indexOf(row));
-        });
-
-        return actionRows;
     };
 
     /**

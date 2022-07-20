@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MessageButton } from "discord.js";
+ import { APIButtonComponentWithCustomId } from "discord.js";
 import ButtonData from "./Basic/ButtonData";
 
 /**
@@ -24,9 +24,9 @@ class FirstPageButton extends ButtonData
 {
     /**
      * Button that switches pagination to the first page.
-     * @param {MessageButton} style Data from which to build FirstPageButton.
+     * @param {APIButtonComponentWithCustomId} style Data from which to build FirstPageButton.
      */
-    public constructor(style?:MessageButton)
+    public constructor(style?:APIButtonComponentWithCustomId)
     {
         super(style);
 

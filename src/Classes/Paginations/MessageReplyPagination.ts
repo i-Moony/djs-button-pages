@@ -59,7 +59,7 @@ class MessageReplyPagination extends BasePagination<ReplyMessageOptions>
         this._setCurrentPage();
 
         replyOptions.embeds = [this.embeds[this.currentPage]];
-        replyOptions.components = await this._getActionRows(0);
+        replyOptions.components = await this._getActionRowsByPage(0);
 
         const reply = await sendTo.reply(replyOptions);
         

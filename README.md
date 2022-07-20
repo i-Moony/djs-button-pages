@@ -12,7 +12,10 @@
 
 # 📚 About package:
 
-Simple yet powerful module to create customizable embed pages with buttons. Works with [Discord.JS](https://www.npmjs.com/package/discord.js?source=post_page-----7b5fe27cb6fa----------------------) stating from v13.
+Simple yet powerful module to create customizable embed pages with buttons. Works with [Discord.JS](https://www.npmjs.com/package/discord.js?source=post_page-----7b5fe27cb6fa----------------------) starting from v13.
+
+Now supports **v14**!
+(But it may contain bugs).
 
 This package supports creation of custom buttons with custom scripts through a simple API.
 
@@ -24,7 +27,7 @@ Advantages:
 
 # 📥 Installation:
 
-Requires Node.js 16.6.0 or newer (because of **Discord.JS**).
+Requires Node.js 16.9.0 or newer (because of **Discord.JS**).
 ```bash
 npm install djs-button-pages
 ```
@@ -35,47 +38,59 @@ yarn add djs-button-pages
 pnpm add djs-button-pages
 ```
 
+For v13:
+```bash
+npm install djs-button-pages@djs13
+```
+```bash
+yarn add djs-button-pages@djs13
+```
+```bash
+pnpm add djs-button-pages@djs13
+```
+
 # 📃 Examples:
 
 ## Basic example (previous page and next page buttons):
 ```javascript
-const {MessageEmbed, Client, MessageButton, Intents} = require('discord.js');
-const {ChannelPagination, NextPageButton, PreviousPageButton} = require("djs-button-pages");
+const { Client, EmbedBuilder, ButtonStyle, IntentsBitField } = require("discord.js");
+const { ChannelPagination, NextPageButton, PreviousPageButton } = require("djs-button-pages");
 
 const embeds =
 [
-    new MessageEmbed().setDescription("1!"),
-    new MessageEmbed().setDescription("2"),
-    new MessageEmbed().setDescription("3"),
-    new MessageEmbed().setDescription("4"),
-    new MessageEmbed().setDescription("5"),
-    new MessageEmbed().setDescription("6"),
-    new MessageEmbed().setDescription("7"),
-    new MessageEmbed().setDescription("8"),
-]
+    new EmbedBuilder().setDescription("1"),
+    new EmbedBuilder().setDescription("2"),
+    new EmbedBuilder().setDescription("3"),
+    new EmbedBuilder().setDescription("4"),
+    new EmbedBuilder().setDescription("5"),
+    new EmbedBuilder().setDescription("6"),
+    new EmbedBuilder().setDescription("7"),
+    new EmbedBuilder().setDescription("8"),
+];
 
-const buttons =
+const buttons = 
 [
-    new PreviousPageButton(new MessageButton().setCustomId("prev").setLabel("Previous").setStyle("PRIMARY")),
-    new NextPageButton(new MessageButton().setCustomId("next").setLabel("Next").setStyle("PRIMARY")),
-]
+    new PreviousPageButton({custom_id: "prev_page", label: "Previous", style: ButtonStyle.Success}),
+    new NextPageButton({custom_id: "next_page", label: "Next", style: ButtonStyle.Success}),
+];
 
-const client = new Client({intents: [Intents.FLAGS.GUILD, Intents.FLAGS.GUILD_MESSAGES]});
+const client = new Client({intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.MessageContent]});
 
 client.login("YOUR TOKEN");
 
-client.once("ready", async () => {
-    console.log("ready");
+client.once("ready", () => {
+    console.log("Ready!");
 });
 
 client.on("messageCreate", async (message) => {
     if (message.content === "!pages")
     {
-        const pagination = await new ChannelPagination() //Create pagination.
-            .setButtons(buttons) //Pass buttons.
-            .setEmbeds(embeds) //Pass embeds.
-            .setTime(60000) //Set life-time to 60000.
-            .send(message.channel); //Send.
+        const pagination = new ChannelPagination()
+            .setButtons(buttons)
+            .setEmbeds(embeds)
+            .setTime(60000);
+
+        await pagination.send(message.channel);
     };
 });
 ```

@@ -33,6 +33,7 @@ import ButtonDisableWhen from "./Typings/ButtonDisableWhen";
 import AfterSending from "./Typings/AfterSending";
 import OnStop from "./Typings/OnStop";
 import Constants from "./Constants";
+import { getEmbedLength } from "./Utils";
 
 export { ChannelPagination,
     MessageReplyPagination,
@@ -52,4 +53,5 @@ export { ChannelPagination,
     ButtonDisableWhen,
     AfterSending,
     OnStop,
-    Constants };
+    Constants,
+    getEmbedLength, };

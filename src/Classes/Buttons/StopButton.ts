@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MessageButton } from "discord.js";
+import { APIButtonComponentWithCustomId } from "discord.js";
 import ButtonData from "./Basic/ButtonData";
 
 /**
@@ -24,9 +24,9 @@ class StopButton extends ButtonData
 {
     /**
      * Button that stops pagination.
-     * @param {MessageButton} style Data from which to build StopButton.
+     * @param {APIButtonComponentWithCustomId} style Data from which to build StopButton.
      */
-    public constructor(style?:MessageButton)
+    public constructor(style?:APIButtonComponentWithCustomId)
     {
         super(style);
 

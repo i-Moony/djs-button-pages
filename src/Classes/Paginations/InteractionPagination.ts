@@ -16,7 +16,6 @@
 
 import { Interaction,
     InteractionReplyOptions,
-    Message,
     User } from "discord.js";
 import Constants from "../../Constants";
 import BasePagination from "./Basic/BasePagination";
@@ -91,22 +90,11 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         this._setCurrentPage();
 
         replyOptions.embeds = [this.embeds[this.currentPage]];
-        replyOptions.components = await this._getActionRows(0);
+        replyOptions.components = await this._getActionRowsByPage(0);
 
         const reply = await sendTo.editReply(replyOptions);
-
-        let message:Message;
-
-        if (!(reply instanceof Message))
-        {
-            message = await this._fetchMessage(sendTo, reply.channel_id, reply.id);
-        }
-        else
-        {
-            message = reply;
-        };
         
-        const collector = this._formCollector(message, user);
+        const collector = this._formCollector(reply, user);
         
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
@@ -115,34 +103,9 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         this._setCollector(collector);
 
         if (this.afterSending)
-            await this.afterSending(message);
+            await this.afterSending(reply);
 
         return;
-    };
-    
-    /**
-     * Fetches message using data from APIMessage.
-     * @param {interaction} interaction Interaction that bot got.
-     * @param {string} channelId ID of the channel there was message sent.
-     * @param {string} messageId ID of the message.
-     * @returns {Promise<Message>} Message.
-     */
-    private async _fetchMessage(interaction:Interaction, channelId:string, messageId:string): Promise<Message>
-    {
-        const channel = await interaction.client.channels.fetch(channelId).catch(() => undefined);
-
-        if (!channel)
-            throw new Error("Unable to find specified channel!");
-
-        if (!channel.isText())
-            throw new Error("Specified channel is not a text one!");
-
-        const message = await channel.messages.fetch(messageId).catch(async () => undefined);
-
-        if (!message)
-            throw new Error("No message for this id!");
-
-        return message;
     };
 };
 

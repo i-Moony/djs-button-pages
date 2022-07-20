@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MessageButton } from "discord.js";
+import { APIButtonComponentWithCustomId } from "discord.js";
 import ButtonAction from "../../../Typings/ButtonAction";
 import ButtonDisableWhen from "../../../Typings/ButtonDisableWhen";
 
@@ -25,9 +25,9 @@ class ButtonData
 {
     /**
      * Class for storing and modifying button data.
-     * @param {MessageButton | ButtonData} data Data from which to build ButtonData.
+     * @param {APIButtonComponentWithCustomId | ButtonData} data Data from which to build ButtonData.
      */
-    public constructor(data?:MessageButton | ButtonData)
+    public constructor(data?:APIButtonComponentWithCustomId | ButtonData)
     {
         if(!data)
             return;
@@ -37,15 +37,15 @@ class ButtonData
         return;
     };
 
-    private _style:MessageButton;
+    private _style:APIButtonComponentWithCustomId;
     private _action:ButtonAction;
     private _disableWhen:ButtonDisableWhen;
 
     /**
      * Style of this button.
-     * @type {MessageButton | null}
+     * @type {APIButtonComponentWithCustomId | null}
      */
-    public get style(): MessageButton | null
+    public get style(): APIButtonComponentWithCustomId | null
     {
         return this._style ?? null;
     };
@@ -74,16 +74,13 @@ class ButtonData
 
     /**
      * Sets button style.
-     * @param {MessageButton} style Button style.
+     * @param {APIButtonComponentWithCustomId} style Button style.
      * @returns {this} Button data.
      */
-    public setStyle(style:MessageButton): this
+    public setStyle(style:APIButtonComponentWithCustomId): this
     {
-        if (!style.customId || (!style.emoji && !style.label) || !style.style)
+        if (!style.custom_id || (!style.emoji && !style.label) || !style.style)
             throw new Error("Button should have customId, emoji or label and style.");
-
-        if (style.style === "LINK")
-            throw new Error("Button can't have link style, because component collector can't collect it's interaction.");
 
         this._style = style;
 
@@ -122,12 +119,12 @@ class ButtonData
 
     /**
      * Setups class from style or ButtonData.
-     * @param {MessageButton | ButtonAction} data Style or data.
+     * @param {APIButtonComponentWithCustomId | ButtonAction} data Style or data.
      * @returns {void}
      */
-    private _setup(data: MessageButton | ButtonData): void
+    private _setup(data: APIButtonComponentWithCustomId | ButtonData): void
     {
-        if (data instanceof MessageButton)
+        if (!(data instanceof ButtonData))
         {
             this.setStyle(data);
         }
