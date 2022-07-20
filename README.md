@@ -12,10 +12,8 @@
 
 # 📚 About package:
 
-Simple yet powerful module to create customizable embed pages with buttons. Works with [Discord.JS](https://www.npmjs.com/package/discord.js?source=post_page-----7b5fe27cb6fa----------------------) starting from v13.
-
-Now supports **v14**!
-(But it may contain bugs).
+Simple yet powerful module to create fully-customizable embed pages with buttons. Works with [Discord.JS](https://www.npmjs.com/package/discord.js).
+Supports v13 and **v14**.
 
 This package supports creation of custom buttons with custom scripts through a simple API.
 
@@ -38,7 +36,7 @@ yarn add djs-button-pages
 pnpm add djs-button-pages
 ```
 
-For v13:
+For v13 (requires Node.js 16.6.0 or newer):
 ```bash
 npm install djs-button-pages@djs13
 ```
@@ -71,12 +69,11 @@ const embeds =
 const buttons = 
 [
     new PreviousPageButton({custom_id: "prev_page", label: "Previous", style: ButtonStyle.Success}),
-    new NextPageButton({custom_id: "next_page", label: "Next", style: ButtonStyle.Success}),
+    new NextPageButton().setStyle({custom_id: "next_page", label: "Next", style: ButtonStyle.Success}),
 ];
 
+//These very bitfields are needed for this example.
 const client = new Client({intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.MessageContent]});
-
-client.login("YOUR TOKEN");
 
 client.once("ready", () => {
     console.log("Ready!");
@@ -85,21 +82,23 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
     if (message.content === "!pages")
     {
-        const pagination = new ChannelPagination()
-            .setButtons(buttons)
-            .setEmbeds(embeds)
-            .setTime(60000);
+        const pagination = new ChannelPagination() //Create pagination.
+            .setButtons(buttons) //Insert buttons.
+            .setEmbeds(embeds) //Add embeds.
+            .setTime(60000); //Set time.
 
-        await pagination.send(message.channel);
+        await pagination.send(message.channel); //Send!
     };
 });
+
+//Login.
+client.login("YOUR TOKEN");
 ```
 
-More complicated and interesting examples with commentary can be found at GitHub page.
-There is also documentation that you can read for more information.
+More complicated and interesting examples with commentary may be found at GitHub page.
 
 # ❔ Links:
-* [Additional Examples](https://github.com/i-Moony/djs-button-pages/tree/djs13/examples)
+* [Additional Examples](https://github.com/i-Moony/djs-button-pages/tree/djs14/examples)
 * [Documentation](https://i-moony.github.io/djs-button-pages/)
 * [GitHub](https://github.com/i-Moony/djs-button-pages)
 * [NotABug](https://notabug.org/m00ny/djs-button-pages)
