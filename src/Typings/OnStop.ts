@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+import { Message } from "discord.js";
+
 /**
  * Type that describes action that injects on stop.
  */
-type OnStop = (reason:string) => unknown | Promise<unknown>;
+type OnStop = (reason:string, message:Message) => unknown | Promise<unknown>;
 
 export default OnStop;

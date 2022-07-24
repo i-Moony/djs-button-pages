@@ -98,7 +98,7 @@ class InteractionPagination extends BasePagination<InteractionReplyOptions>
         
         collector.on("collect", async (interaction) => await this._collected(interaction));
 
-        collector.on("end", async (collected, reason) => await this._stop(reason, sendTo));
+        collector.on("end", async (collected, reason) => await this._stop(reason, reply));
         
         this._setCollector(collector);
 

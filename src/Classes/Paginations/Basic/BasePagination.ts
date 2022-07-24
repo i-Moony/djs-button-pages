@@ -23,7 +23,6 @@ import { ButtonInteraction,
     User,
     InteractionReplyOptions,
     InteractionCollector,
-    Interaction,
     ComponentType,
     APIButtonComponentWithCustomId} from "discord.js";
 import Constants from "../../../Constants";
@@ -121,24 +120,20 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
     /**
      * Method that handles `stop` event.
      * @param {string} reason Reason of collector's stop event.
-     * @param {Message | Interaction} message Message that was sent or Interaction that was replied.
+     * @param {Message} message Message that was sent or Interaction that was replied.
      * @returns {Promise<void>} Updates pagination.
      */
-    protected async _stop(reason:string, message:Message | Interaction): Promise<void>
+    protected async _stop(reason:string, message:Message): Promise<void>
     {
         const actionRows = this._buildActionRows(true);
 
-        if (message instanceof Message && message.editable)
+        if (message.editable)
         {
             await message.edit({components: this.filterOptions?.removeButtonsOnEnd ? [] : actionRows});
-        }
-        else if (!(message instanceof Message) && message.isRepliable())
-        {
-            await message.editReply({components: this.filterOptions?.removeButtonsOnEnd ? [] : actionRows});
         };
 
         if (this.onStop)
-            await this.onStop(reason);
+            await this.onStop(reason, message);
 
         return;
     };
