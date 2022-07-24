@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { APIButtonComponentWithCustomId } from "discord.js";
+import ButtonStyling from "../../Interfaces/ButtonStyling";
 import PaginationData from "../Paginations/Basic/PaginationData";
 import ButtonData from "./Basic/ButtonData";
 
@@ -25,9 +25,9 @@ class PreviousPageButton extends ButtonData
 {
     /**
      * Button that switches pagination to previous page.
-     * @param {APIButtonComponentWithCustomId} style Data from which to build PreviousPageButton.
+     * @param {ButtonStyling} style Data from which to build PreviousPageButton.
      */
-    public constructor(style?:APIButtonComponentWithCustomId)
+    public constructor(style?:ButtonStyling)
     {
         super(style);
 

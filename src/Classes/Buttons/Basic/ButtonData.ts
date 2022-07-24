@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { APIButtonComponentWithCustomId } from "discord.js";
+import ButtonStyling from "../../../Interfaces/ButtonStyling";
 import ButtonAction from "../../../Typings/ButtonAction";
 import ButtonDisableWhen from "../../../Typings/ButtonDisableWhen";
 
@@ -25,9 +25,9 @@ class ButtonData
 {
     /**
      * Class for storing and modifying button data.
-     * @param {APIButtonComponentWithCustomId | ButtonData} data Data from which to build ButtonData.
+     * @param {ButtonStyling | ButtonData} data Data from which to build ButtonData.
      */
-    public constructor(data?:APIButtonComponentWithCustomId | ButtonData)
+    public constructor(data?:ButtonStyling | ButtonData)
     {
         if(!data)
             return;
@@ -37,15 +37,15 @@ class ButtonData
         return;
     };
 
-    private _style:APIButtonComponentWithCustomId;
+    private _style:ButtonStyling;
     private _action:ButtonAction;
     private _disableWhen:ButtonDisableWhen;
 
     /**
      * Style of this button.
-     * @type {APIButtonComponentWithCustomId | null}
+     * @type {ButtonStyling | null}
      */
-    public get style(): APIButtonComponentWithCustomId | null
+    public get style(): ButtonStyling | null
     {
         return this._style ?? null;
     };
@@ -74,10 +74,10 @@ class ButtonData
 
     /**
      * Sets button style.
-     * @param {APIButtonComponentWithCustomId} style Button style.
+     * @param {ButtonStyling} style Button style.
      * @returns {this} Button data.
      */
-    public setStyle(style:APIButtonComponentWithCustomId): this
+    public setStyle(style:ButtonStyling): this
     {
         if (!style.custom_id || (!style.emoji && !style.label) || !style.style)
             throw new Error("Button should have customId, emoji or label and style.");
@@ -119,10 +119,10 @@ class ButtonData
 
     /**
      * Setups class from style or ButtonData.
-     * @param {APIButtonComponentWithCustomId | ButtonAction} data Style or data.
+     * @param {ButtonStyling | ButtonAction} data Style or data.
      * @returns {void}
      */
-    private _setup(data: APIButtonComponentWithCustomId | ButtonData): void
+    private _setup(data: ButtonStyling | ButtonData): void
     {
         if (!(data instanceof ButtonData))
         {

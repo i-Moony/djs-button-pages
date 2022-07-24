@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- import { APIButtonComponentWithCustomId } from "discord.js";
+import ButtonStyling from "../../Interfaces/ButtonStyling";
 import ButtonData from "./Basic/ButtonData";
 
 /**
@@ -24,9 +24,9 @@ class FirstPageButton extends ButtonData
 {
     /**
      * Button that switches pagination to the first page.
-     * @param {APIButtonComponentWithCustomId} style Data from which to build FirstPageButton.
+     * @param {ButtonStyling} style Data from which to build FirstPageButton.
      */
-    public constructor(style?:APIButtonComponentWithCustomId)
+    public constructor(style?:ButtonStyling)
     {
         super(style);
 

@@ -28,6 +28,7 @@ import PaginationData from "./Classes/Paginations/Basic/PaginationData";
 import ButtonData from "./Classes/Buttons/Basic/ButtonData";
 import FilterOptions from "./Interfaces/FilterOptions";
 import CollectorOptions from "./Interfaces/CollectorOptions";
+import ButtonStyling from "./Interfaces/ButtonStyling";
 import ButtonAction from "./Typings/ButtonAction";
 import ButtonDisableWhen from "./Typings/ButtonDisableWhen";
 import AfterSending from "./Typings/AfterSending";
@@ -49,6 +50,7 @@ export { ChannelPagination,
     ButtonData,
     FilterOptions,
     CollectorOptions,
+    ButtonStyling,
     ButtonAction,
     ButtonDisableWhen,
     AfterSending,

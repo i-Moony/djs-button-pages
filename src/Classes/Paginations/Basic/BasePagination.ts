@@ -23,9 +23,9 @@ import { ButtonInteraction,
     User,
     InteractionReplyOptions,
     InteractionCollector,
-    ComponentType,
-    APIButtonComponentWithCustomId} from "discord.js";
+    ComponentType } from "discord.js";
 import Constants from "../../../Constants";
+import ButtonStyling from "../../../Interfaces/ButtonStyling";
 import PaginationData from "./PaginationData";
 
 /**
@@ -172,12 +172,12 @@ abstract class BasePagination<T extends ReplyMessageOptions | MessageOptions | I
 
     /**
      * Disables or enables button.
-     * @param {APIButtonComponentWithCustomId} buttonData Raw button data.
+     * @param {ButtonStyling} buttonData Raw button data.
      * @param {ButtonBuilder} buttonBuilder Button builder.
      * @param {number} page Page number.
      * @returns {Promise<void>}
      */
-    private async _disableButton(buttonData:APIButtonComponentWithCustomId, buttonBuilder:ButtonBuilder, page:number): Promise<void>
+    private async _disableButton(buttonData:ButtonStyling, buttonBuilder:ButtonBuilder, page:number): Promise<void>
     {
         const fullButton = this.getButtonByCustomId(buttonData.custom_id);
 
