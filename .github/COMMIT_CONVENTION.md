@@ -1,4 +1,4 @@
-# ✔ Git Commit Message convention.
+# ✔ Git Commit Message Convention:
 
 ## 🕑 In short:
 Message must use this rule:
