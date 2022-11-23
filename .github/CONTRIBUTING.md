@@ -20,7 +20,7 @@ If you want to test changes locally, follow this comprehensive guide:
 1. Run `npm link --workspaces` in project's folder.
 2. Move to the folder with the future test project.
 3. Initialize it using `npm init`.
-4. Run `npm link --save djs-button-pages @djs-button-pages/presets`. You should write here only those packages that you want to test. If you don't need @djs-button-pages/presets, use: `npm link --save djs-button-pages`, etc.
+4. Run `npm link --save djs-button-pages @djs-button-pages/presets`. You should write here only those packages that you want to test. If you don't need `@djs-button-pages/presets`, use: `npm link --save djs-button-pages`, etc.
 5. Run `npm install discord.js`.
 6. Import package(-s).
 

@@ -47,10 +47,10 @@ Though you can use your own, mind that they should be meaningful.
 Place in the codebase that commit changes. It may be anything, but for example `PaginationSent`, `PaginationWrapper`, `ButtonData`...
 
 ## 📜 Brief description:
+* Short.
+* No dots.
 * Imperative verbs, present simple tense.
 * No capitalization for the first letter.
-* No dots.
-* Short.
 
 ## 📕 Full description:
 Just write something meaningful that will definetely denote what changes took place.
