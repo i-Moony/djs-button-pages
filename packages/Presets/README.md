@@ -10,8 +10,8 @@
 </div>
 
 # 📚 About package:
-## ▶️ An extension library for [DJS-Button-Pages](https://www.npmjs.com/package/djs-button-pages).
-## ▶️ Contains most-used pre-made buttons for general purposes.
+### ▶️ An extension library for [DJS-Button-Pages](https://www.npmjs.com/package/djs-button-pages).
+### ▶️ Contains most-used pre-made buttons for general purposes.
 
 # 📥 Installation:
 ### Requires Node **16.9** *(because of Discord.JS)*.
