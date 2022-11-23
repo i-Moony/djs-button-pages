@@ -1,0 +1,55 @@
+{
+    "name": "djs-button-pages",
+    "version": "3.0.0",
+    "description": "A simple yet powerful module for implementing customizable embed pages with buttons in Discord chat. Works only with Discord.js.",
+    "main": "dist/Paginations.js",
+    "types": "dist/Paginations.d.ts",
+
+    "files":
+    [
+        "dist/**/*",
+        "LICENSE.md",
+        "CHANGELOG.md",
+        "README.md"
+    ],
+
+    "scripts":
+    {
+        "build": "tsc"
+    },
+
+    "keywords": 
+    [
+        "djs",
+        "discord",
+        "discord.js",
+        "embed",
+        "embeds",
+        "pages",
+        "button",
+        "page",
+        "paginations",
+        "pagination",
+        "buttons",
+        "node"
+    ],
+  
+    "author": 
+    {
+        "name": "moony",
+        "url": "https://www.notabug.org/m00ny",
+        "discord": "moony#6815"
+    },
+  
+    "license": "Apache-2.0",
+  
+    "dependencies": 
+    {
+        "discord.js": "14.x"
+    },
+
+    "peerDependencies": 
+    {
+        "@djs-button-pages/presets": "^1.0.0"
+    }
+}
