@@ -1,0 +1,13 @@
+{
+    "compilerOptions":
+    {
+        "lib": ["ES5"],
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "target": "ESNext",
+        "declaration": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true
+    }
+}
