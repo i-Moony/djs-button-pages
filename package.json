@@ -3,31 +3,42 @@
     "description": "A simple yet powerful module for implementing customizable embed pages with buttons in Discord chat. Works only with Discord.js.",
     "version": "0.0.0",
     "private": true,
-    "dependencies": {
+
+    "dependencies": 
+    {
         "discord.js": "14.x"
     },
-    "scripts": {
+
+    "scripts":
+    {
         "lint": "eslint packages/**/*.ts",
         "build": "npm run build --workspaces"
     },
-    "devDependencies": {
+
+    "devDependencies":
+    {
         "@typescript-eslint/eslint-plugin": "^5.29.0",
         "@typescript-eslint/parser": "^5.29.0",
         "eslint": "^8.18.0",
-        "eslint-config-prettier": "^8.5.0",
-        "prettier": "^2.7.1",
         "typescript": "^4.7.4"
     },
+
     "license": "Apache-2.0",
-    "author": {
+
+    "author":
+    {
         "name": "moony",
         "url": "https://www.notabug.org/m00ny",
         "discord": "moony#6815"
     },
-    "engines": {
+
+    "engines": 
+    {
         "node": ">=16.9.0"
     },
-    "workspaces": [
+
+    "workspaces": 
+    [
         "packages/*"
     ]
 }
