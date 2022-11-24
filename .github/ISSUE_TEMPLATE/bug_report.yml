@@ -1,0 +1,104 @@
+name: Bug Report
+description: Report incorrect or unexpected behaviour of a package.
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        Use Discord for questions: moony#6815.
+  - type: dropdown
+    id: package
+    attributes:
+      label: 'Which package is this bug report for:'
+      description: Choose package that you have troubles with.
+      multiple: false
+      options:
+        - djs-button-pages
+        - presets
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 'Issue description:'
+      description: |-
+        Describe the issue in as much detail as possible.
+
+        Tip of the day: images or other files may be attached by clicking this area to highlight it and then dragging files right into it.
+      placeholder: |-
+        Guide to reproduce this behaviour with below code sample:
+        1. Do one thing.
+        2. Do another.
+        3. Do thing in Discord.
+        4. Observe behaviour.
+        5. See error logs.
+    validations:
+      required: true
+  - type: textarea
+    id: codesample
+    attributes:
+      label: 'Code sample:'
+      description: Code sample that will help to reproduce the error. It will be automatically parsed into code, so no backticks needed.
+      render: TypeScript
+      placeholder: |-
+        import { PaginationWrapper } from "djs-button-pages";
+
+        ...doStuff();
+
+        NOTE: Code sample should be minimal, yet complete and reproducible.
+  - type: input
+    id: lib-version
+    attributes:
+      label: 'Package version:'
+      description: Which version of package are you using?
+    validations:
+      required: true
+  - type: input
+    id: djs-version
+    attributes:
+      label: 'Discord.JS version:'
+      description: Which version of Discord.JS are you using?
+    validations:
+      required: true
+  - type: input
+    id: node-version
+    attributes:
+      label: 'Node.JS version:'
+      description: |-
+        Which version of Node.JS are you using?
+        If you are using TypeScript, please supply it's version too.
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: 'Operating System:'
+      description: Which OS does your app run on?
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 'Priority which this issue should have:'
+      description: Please be honest and realistic.
+      multiple: false
+      options:
+        - Low (somehow annoying)
+        - Medium (should be fixed soon)
+        - High (immediate attention)
+    validations:
+      required: true
+  - type: dropdown
+    id: intents
+    attributes:
+      label: "Gateway intents which you're subscribing to:"
+      description: |-
+        Check your Client constructor.
+
+        Tip of the day: you can select all items.
+      multiple: true
+      options:
+        - No intents
+        - Guilds
+        - GuildMessages
+        - DirectMessages
+        - MessageContent
+    validations:
+      required: true
