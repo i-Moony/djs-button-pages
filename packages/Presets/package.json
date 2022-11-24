@@ -4,6 +4,7 @@
     "description": "A set of presets that are used for faster development.",
     "main": "dist/Presets.js",
     "types": "dist/Presets.d.ts",
+    "private": false,
 
     "files":
     [
