@@ -17,7 +17,7 @@
 
 **▶️ This packages supports creation of custom buttons with your own scripts through a simple API.**
 
-▶️ If you want some pre-built buttons consider using [@djs-button-pages/presets](). They contain basic ones. But you can contribute some of your own to this package if you want and they may be used in other projects.
+▶️ If you want some pre-built buttons consider using [@djs-button-pages/presets](https://www.npmjs.com/package/@djs-button-pages/presets). They contain basic ones. But you can contribute some of your own to this package if you want and they may be used in other projects.
 
 # 📥 Installation:
 ### Requires Node **16.9** *(because of Discord.JS)*.
