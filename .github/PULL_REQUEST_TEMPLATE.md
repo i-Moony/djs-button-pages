@@ -8,4 +8,5 @@ Please move lines that apply to your PR out of the comment:
 - This PR includes breaking changes.
 - This PR changes library interface.
 - This PR was tested using Unit Tests or|and manually.
+- This PR includes presets for @djs-button-pages/presets.
 -->
