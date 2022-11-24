@@ -64,6 +64,14 @@ export default class PaginationSent
     };
 
     /**
+     * @returns {PaginationState} Pagination's state.
+     */
+    public get state(): PaginationState
+    {
+        return this._state;
+    };
+
+    /**
      * @returns {Message | RepliableInteraction} Message or interaction that pagination should be assigned to.
      */
     public get attachedTo(): Message | RepliableInteraction
