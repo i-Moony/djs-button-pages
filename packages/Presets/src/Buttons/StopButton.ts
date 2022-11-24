@@ -24,7 +24,7 @@ export default class StopButton extends ButtonWrapper
      * @param {PaginationSent} pagination Pagination.
      * @returns {Promise<void>}
      */
-    private static async _doAction(pagination:PaginationSent): Promise<void>
+    private static _doAction(pagination:PaginationSent): void
     {
         return pagination.stop();
     };
