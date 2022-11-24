@@ -17,7 +17,7 @@
     "scripts":
     {
         "build": "tsc",
-        "prepare": "build"
+        "prepare": "npm run build"
     },
 
     "keywords": 
