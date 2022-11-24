@@ -187,11 +187,11 @@ export default class PaginationSent
             this._message instanceof Message
                 ? await this._message.edit(update)
                 : await this._message.editReply(update);
-
-            if (this._data.filterOptions.resetTimer)
-                this._collector.resetTimer();
         }
         catch (e) {/*Catch unexpected errors.*/};
+
+        if (this._data.filterOptions.resetTimer)
+            this._collector.resetTimer();
 
         return;
     };
