@@ -7,7 +7,7 @@ If you wish to contribute to DJS-Button-Pages codebase, feel free to fork and su
 ESLint is used to unify code style, so it'll be great for you to set it up in your editor.
 
 # 💭 Setup:
-To get ready to work on the codebase it is enough to:
+**To get ready to work on the codebase it is enough to:**
 1. Fork & Clone the repository. Switch to the latest branch.
 2. Run `npm install`,
 3. Run `npm run build` _(It is needed because "Presets" package depends on the main package)_.
@@ -16,7 +16,7 @@ To get ready to work on the codebase it is enough to:
 6. If everything is fine, submit a pull request (Make sure that you're following the commit format).
 
 # 🧪 Testing packages locally:
-If you want to test changes locally, follow this comprehensive guide:
+**If you want to test changes locally, follow this comprehensive guide:**
 1. Run `npm link --workspaces` in project's folder.
 2. Move to the folder with the future test project.
 3. Initialize it using `npm init`.
