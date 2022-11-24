@@ -113,7 +113,7 @@ export default class PaginationSent
 
     /**
      * Deletes pagination and stops it.
-     * Doesn't work with ephemeral pagination because of Discord's limitations.
+     * If pagination is an ephemeral interaction stops it instead.
      * @returns {Promise<void>}
      */
     public async delete(): Promise<void>
@@ -237,7 +237,7 @@ export default class PaginationSent
         if (this._beforeStopAction)
             await this._beforeStopAction(reason, this, this._message);
 
-        if (reason !== StopReason.InternalDeletion && reason !== 'messageDelete')
+        if ((!(this._message instanceof Message) && this._message.ephemeral) || (reason !== StopReason.InternalDeletion && reason !== 'messageDelete'))
         {
             const rows = this._buildActionRows(true),
             update:MessageEditOptions = {components: this._data.filterOptions.removeButtonsOnEnd
