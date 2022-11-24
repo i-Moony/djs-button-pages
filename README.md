@@ -40,14 +40,24 @@ pnpm install djs-button-pages
 
 ## Basic example:
 
-### More complicated examples with commentary can be found at [GitHub]() page.
+### More complicated examples with commentary can be found at [GitHub](https://github.com/i-Moony/djs-button-pages) page.
 
 # ❔ Links:
-* [Additional Examples](https://github.com/i-Moony/djs-button-pages/tree/djs14/examples)
-* [Documentation](https://i-moony.github.io/djs-button-pages/)
 * [GitHub](https://github.com/i-Moony/djs-button-pages)
-* [NotABug](https://notabug.org/m00ny/djs-button-pages)
+* [Documentation](https://i-moony.github.io/djs-button-pages/)
 * [NPM](https://www.npmjs.com/package/djs-button-pages)
+* [NotABug](https://notabug.org/m00ny/djs-button-pages)
 * [Discord.JS](https://discord.js.org/)
 * [Discord.JS Documenation](https://discord.js.org/#/docs/)
 * [Discord.JS Guide](https://discordjs.guide/)
+
+# 🐛 Bug Reporting:
+For bug reporting look for [GitHub Issues]().
+
+Or you can DM me in Discord: `moony#6815`.
+
+# © License:
+
+Copyright © 2022 Danila Kononov (nickname: moony). All rights reserved.
+
+Licensed under the Apache License, Version 2.0.
