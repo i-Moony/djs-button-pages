@@ -3,6 +3,7 @@ import LastPageButton from "./Buttons/LastPageButton";
 import NextPageButton from "./Buttons/NextPageButton";
 import PreviousPageButton from "./Buttons/PreviousPageButton";
 import StopButton from "./Buttons/StopButton";
+import DeleteButton from "./Buttons/DeleteButton";
 
 export
 {
@@ -10,5 +11,6 @@ export
     LastPageButton,
     NextPageButton,
     PreviousPageButton,
-    StopButton
+    StopButton,
+    DeleteButton
 };
