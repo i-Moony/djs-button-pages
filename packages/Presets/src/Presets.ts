@@ -4,6 +4,8 @@ import NextPageButton from "./Buttons/NextPageButton";
 import PreviousPageButton from "./Buttons/PreviousPageButton";
 import StopButton from "./Buttons/StopButton";
 import DeleteButton from "./Buttons/DeleteButton";
+import PageTravelButton from "./Buttons/PageTravelButton";
+import LocaleGenerator from "./Types/LocaleGenerator";
 
 export
 {
@@ -12,5 +14,7 @@ export
     NextPageButton,
     PreviousPageButton,
     StopButton,
-    DeleteButton
+    DeleteButton,
+    PageTravelButton,
+    LocaleGenerator,
 };
