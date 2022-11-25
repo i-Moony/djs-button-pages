@@ -222,7 +222,9 @@ export default class PaginationSent
         if (!wrapper)
             throw new Error("[DJS-Button-Pages]: Button should be defined!");
 
-        return wrapper.action(this);
+        await wrapper.action(this, interaction);
+
+        return;
     };
 
     /**

@@ -32,3 +32,4 @@ All notable changes to this project will be documented here.
 * **Promised type:** appear for values that are either promise or synchronous.
 * **PaginationSend & PaginationWrapper:** add `BeforeStopAction`.
 * **PaginationState:** appear to represent PaginationSent's state.
+* **ButtonAction:** now receives interaction object.
