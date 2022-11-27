@@ -6,8 +6,8 @@ import { APIEmbed,
     MessageCreateOptions, 
     MessageReplyOptions, 
     RepliableInteraction, 
-    Snowflake, 
-    TextBasedChannel} from "discord.js";
+    Snowflake,
+    TextBasedChannel } from "discord.js";
 import FilterOptions from "./FilterOptions";
 import PaginationData from "./PaginationData";
 import ButtonWrapper from "./ButtonWrapper";
