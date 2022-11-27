@@ -32,11 +32,11 @@ export default class PaginationSent
      */
     public constructor
     (
-        private _data:PaginationData,
-        private _message:Message | RepliableInteraction,
+        private readonly _data:PaginationData,
+        private readonly _message:Message | RepliableInteraction,
         private _page = 0,
-        private _beforeStopAction:StopAction | undefined,
-        private _onStopAction:StopAction | undefined
+        private readonly _beforeStopAction:StopAction | undefined,
+        private readonly _onStopAction:StopAction | undefined
     ) {};
 
     /**
@@ -249,8 +249,8 @@ export default class PaginationSent
             try
             {
                 this._message instanceof Message
-                    ? this._message.edit(update)
-                    : this._message.editReply(update);
+                    ? await this._message.edit(update)
+                    : await this._message.editReply(update);
             }
             catch (e) {/*Catch unexpected errors.*/};
         };
