@@ -104,7 +104,7 @@ export default class PaginationSent
         this._state = PaginationState.Ready;
         
         this._collector.on("collect", async (interaction) => this._collected(interaction));
-        this._collector.once("end", async (collected, reason) => this._stopped(reason));
+        this._collector.once("end", async (_collected, reason) => this._stopped(reason));
 
         await this.update();
 
