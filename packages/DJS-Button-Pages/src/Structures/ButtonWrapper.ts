@@ -16,9 +16,10 @@ export default class ButtonWrapper
      * Class that wraps button's functionality.
      * @param {Partila<ButtonData> | ButtonWrapper} data Either an interface for button styling or the class to be built from.
      */
-    public constructor(data:Partial<ButtonData> | ButtonWrapper)
+    public constructor(data?:Partial<ButtonData> | ButtonWrapper)
     {
-        this.setData(data);
+        if (data)
+            this.setData(data);
     };
 
     /**
@@ -62,9 +63,9 @@ export default class ButtonWrapper
     {
         if (data instanceof ButtonWrapper)
         {
-            this._data = data.data ? data.data : this._data;
-            this._action = data.action ? data.action : this._action;
-            this._switch = data.switch ? data.switch : this._switch;
+            this._data = data.data;
+            this._action = data.action;
+            this._switch = data.switch;
         }
         else
         {
