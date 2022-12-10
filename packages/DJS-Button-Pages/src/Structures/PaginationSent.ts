@@ -145,14 +145,8 @@ export default class PaginationSent
         if (this._state !== PaginationState.Ready)
             throw new Error("[DJS-Button-Pages]: Pagination should be active!");
 
-        if (!Number.isInteger(page))
+        if (!Number.isInteger(page) || page < 0)
             throw new RangeError("[DJS-Button-Pages]: Page number should be integer!");
-
-        if (page < 0)
-        {
-            page = 0;
-            console.warn("[DJS-Button-Pages]: You're passing in page number that is lesser than pagination has.")
-        };
 
         if (page > this._data.embeds.length - 1)
         {
