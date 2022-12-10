@@ -272,11 +272,10 @@ export default class PaginationWrapper implements PaginationData
             throw new RangeError("[DJS-Button-Pages]: Page number should be integer!");
 
         if (page > this.embeds.length - 1)
+        {
             console.warn("[DJS-Button-Pages]: You're passing in page number that is greater than pagination has.");
-
-        page = page > this.embeds.length
-            ? this.embeds.length
-            : page;
+            page = this.embeds.length - 1;
+        };
 
         options.embeds = [this.embeds[page]];
         options.components = [];
@@ -304,11 +303,10 @@ export default class PaginationWrapper implements PaginationData
             throw new RangeError("[DJS-Button-Pages]: Page number should be integer!");
 
         if (page > this.embeds.length - 1)
+        {
             console.warn("[DJS-Button-Pages]: You're passing in page number that is greater than pagination has.");
-
-        page = page > this.embeds.length
-            ? this.embeds.length
-            : page;
+            page = this.embeds.length - 1;
+        };
 
         options.embeds = [this.embeds[page]];
         options.components = [];
@@ -340,11 +338,10 @@ export default class PaginationWrapper implements PaginationData
             throw new RangeError("[DJS-Button-Pages]: Page number should be integer!");
 
         if (page > this.embeds.length - 1)
+        {
             console.warn("[DJS-Button-Pages]: You're passing in page number that is greater than pagination has.");
-
-        page = page > this.embeds.length
-            ? this.embeds.length
-            : page;
+            page = this.embeds.length - 1;
+        };
 
         options.embeds = [this.embeds[page]];
         options.components = [];
