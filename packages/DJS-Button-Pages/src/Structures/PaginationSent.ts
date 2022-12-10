@@ -272,7 +272,12 @@ export default class PaginationSent
                 .slice(i*Constants.DiscordMaxButtonsPerRow, (i+1)*Constants.DiscordMaxButtonsPerRow)
                 .forEach((button) => 
                 {
-                    rows[i].addComponents(button.builtComponent.setDisabled(disabled));
+                    const row = rows[i];
+
+                    if (!row)
+                        return;
+
+                    row.addComponents(button.builtComponent.setDisabled(disabled));
                 });
         };
 
