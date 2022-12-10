@@ -11,7 +11,7 @@ export default class FirstPageButton extends ButtonWrapper
      * Bind for button that switches pagination to the first page.
      * @param {ButtonData} style Styling for button.
      */
-    public constructor(style:ButtonData)
+    public constructor(style?:ButtonData)
     {
         super(style);
 

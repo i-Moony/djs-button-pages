@@ -11,7 +11,7 @@ export default class StopButton extends ButtonWrapper
      * Bind for button that stop pagination.
      * @param {ButtonData} style Styling for button.
      */
-    public constructor(style:ButtonData)
+    public constructor(style?:ButtonData)
     {
         super(style);
 

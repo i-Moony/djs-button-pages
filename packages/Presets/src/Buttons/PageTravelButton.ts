@@ -22,7 +22,7 @@ export default class PageTravelButton extends ButtonWrapper
      * Bind for button that switches pagination to the page specified by user.
      * @param {ButtonData} style Styling for button.
      */
-    public constructor(style:ButtonData)
+    public constructor(style?:ButtonData)
     {
         super(style);
 

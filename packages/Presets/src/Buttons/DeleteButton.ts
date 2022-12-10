@@ -11,7 +11,7 @@ export default class DeleteButton extends ButtonWrapper
      * Bind for button that delets pagination.
      * @param {ButtonData} style Styling for button.
      */
-    public constructor(style:ButtonData)
+    public constructor(style?:ButtonData)
     {
         super(style);
 

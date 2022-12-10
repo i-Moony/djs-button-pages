@@ -11,7 +11,7 @@ export default class NextPageButton extends ButtonWrapper
      * Bind for button that switches pagination to the next page.
      * @param {ButtonData} style Styling for button.
      */
-    public constructor(style:ButtonData)
+    public constructor(style?:ButtonData)
     {
         super(style);
 
