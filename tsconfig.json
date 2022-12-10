@@ -1,13 +1,32 @@
 {
     "compilerOptions":
     {
-        "lib": ["ES5"],
-        "module": "CommonJS",
-        "moduleResolution": "node",
-        "target": "ESNext",
+        //Type Checking
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "useUnknownInCatchVariables": true,
+        "noUncheckedIndexedAccess": true,
+        "strictFunctionTypes": true,
+
+        //Modules
+        "lib": ["ESNext"],
+        "target": "ES2021",
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        
+        //Emit
         "declaration": true,
+        "removeComments": false,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
         "skipDefaultLibCheck": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true
-    }
+        "skipLibCheck": true
+    },
+
+    "exclude": ["node_modules"]
 }
