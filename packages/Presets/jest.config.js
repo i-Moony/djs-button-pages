@@ -6,7 +6,9 @@ const config =
     collectCoverage: true,
     transform: 
     {
-        '\\.ts$': "ts-jest"
+        '\\.ts$': ["ts-jest", {
+            isolatedModules: true,
+        }]
     },
     coverageReporters: ["text"],
 };
