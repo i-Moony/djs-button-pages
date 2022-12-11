@@ -197,6 +197,9 @@ export default class PaginationWrapper implements PaginationData
         if (buttons.length > Constants.DiscordMaxButtonsPerRow * Constants.DiscordMaxRowsPerMessage)
             throw new RangeError(`[DJS-Button-Pages]: There can not be more than ${Constants.DiscordMaxButtonsPerRow * Constants.DiscordMaxRowsPerMessage}.`);
 
+        if (buttons.some((val) => !val.action || !val.data || !val.switch))
+            throw new Error("[DJS-Button-Pages]: Buttons can not have empty values.");
+
         if (new Set(buttons.map((button) => button.data.custom_id)).size < buttons.length)
             throw new Error("[DJS-Button-Pages]: Buttons can not have similar customIds.");
 
