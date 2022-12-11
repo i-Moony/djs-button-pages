@@ -173,7 +173,7 @@ export default class PaginationWrapper implements PaginationData
     {
         const embedBuilders:Array<EmbedBuilder> = embeds.map((embed) => EmbedBuilder.from(embed));
 
-        if (embedBuilders.some((embed) => !embed || getEmbedLength(embed.data) <= 0))
+        if (embedBuilders.some((embed) => getEmbedLength(embed.data) <= 0))
             throw new Error("[DJS-Button-Pages]: No embeds from the array can be empty!");
 
         if (embedBuilders.some((embed) => getEmbedLength(embed.data) > Constants.DiscordMaxEmbedLength))
