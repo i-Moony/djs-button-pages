@@ -362,7 +362,12 @@ export default class PaginationWrapper implements PaginationData
      */
     public toJSON(): PaginationData
     {
-        return this as PaginationData;
+        return {
+            embeds: this.embeds,
+            buttons: this.buttons,
+            time: this.time,
+            filterOptions: this.filterOptions,
+        } as PaginationData;
     };
 
     /**
