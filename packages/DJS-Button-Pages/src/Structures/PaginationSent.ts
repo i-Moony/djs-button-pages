@@ -35,8 +35,8 @@ export default class PaginationSent
         private readonly _data:PaginationData,
         private readonly _message:Message | RepliableInteraction,
         private _page = 0,
-        private readonly _beforeStopAction:StopAction | undefined,
-        private readonly _onStopAction:StopAction | undefined
+        private readonly _beforeStopAction:StopAction | undefined = undefined,
+        private readonly _onStopAction:StopAction | undefined = undefined
     ) {};
 
     /**
