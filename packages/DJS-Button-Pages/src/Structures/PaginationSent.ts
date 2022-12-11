@@ -102,10 +102,7 @@ export default class PaginationSent
         await this._formCollector();
 
         this._state = PaginationState.Ready;
-        
-        this._collector.on("collect", async (interaction) => this._collected(interaction));
-        this._collector.once("end", async (_collected, reason) => this._stopped(reason));
-
+    
         await this.update();
 
         return this;
@@ -335,6 +332,9 @@ export default class PaginationSent
             idle: this._data.filterOptions.maxIdleTime,
             filter: this._formFilter(message.id),
         });
+
+        this._collector.on("collect", async (interaction) => this._collected(interaction));
+        this._collector.once("end", async (_collected, reason) => this._stopped(reason));
 
         return;
     };
