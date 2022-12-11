@@ -34,7 +34,7 @@ export default class PaginationWrapper implements PaginationData
      * Class that wraps pagination.
      * @param {PaginationData} data Data from which to build pagination.
      */
-    public constructor(data:PaginationData)
+    public constructor(data?:Partial<PaginationData>)
     {
         if (data)
             this.overrideData(data);
@@ -367,10 +367,10 @@ export default class PaginationWrapper implements PaginationData
 
     /**
      * Overrides pagination data.
-     * @param {PaginationData} data Pagination data.
+     * @param {Partial<PaginationData>} data Pagination data.
      * @returns {void}
      */
-    public overrideData(data:PaginationData): void
+    public overrideData(data:Partial<PaginationData>): void
     {
         const { embeds, buttons, filterOptions, time } = data;
 
