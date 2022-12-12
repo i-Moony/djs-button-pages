@@ -1,5 +1,9 @@
-import { EmbedBuilder,
-    Message } from "discord.js";
+import { ButtonInteraction,
+    ButtonStyle,
+    EmbedBuilder,
+    InteractionCollector,
+    Message, 
+    RepliableInteraction } from "discord.js";
 import { ButtonWrapper,
     PaginationSent, 
     PaginationState } from "../../src/Paginations";
@@ -57,7 +61,69 @@ describe("PaginationSent: class that manages pagination after it was sent.", () 
         expect(pagination.getButtonByCustomId("incorrect_Id")).toBeUndefined();
     });
 
-    test("should correctly initialize.", () => {
-        
+    test("should correctly initialize with message.", async () => {
+        const data = 
+        {
+            embeds:
+            [
+                new EmbedBuilder()
+                    .data
+            ],
+            time: 500,
+            filterOptions: {},
+            buttons:
+            [
+                new ButtonWrapper()
+                    .setData({custom_id: "customId", style: ButtonStyle.Primary, label: "Custom Id."})
+                    .setAction(() => false)
+                    .setSwitch(() => false)
+            ],
+        },
+        attachEventMock = jest.fn(),
+        attachOneEventMock = jest.fn(),
+        message = ({createMessageComponentCollector: () => ({on: attachEventMock, once: attachOneEventMock} as unknown) as InteractionCollector<ButtonInteraction>} as unknown) as Message;
+
+        Object.setPrototypeOf(message, Message.prototype);
+
+        const pagination = new PaginationSent(data, message);
+
+        await pagination.init();
+
+        expect(async () => {
+            await pagination.init();
+        }).rejects.toThrow();
+    });
+
+    test("should correctly initialize with interaction.", async () => {
+        const data = 
+        {
+            embeds:
+            [
+                new EmbedBuilder()
+                    .data
+            ],
+            time: 500,
+            filterOptions: {},
+            buttons:
+            [
+                new ButtonWrapper()
+                    .setData({custom_id: "customId", style: ButtonStyle.Primary, label: "Custom Id."})
+                    .setAction(() => false)
+                    .setSwitch(() => false)
+            ],
+        },
+        attachEventMock = jest.fn(),
+        attachOneEventMock = jest.fn(),
+        message = ({createMessageComponentCollector: () => ({on: attachEventMock, once: attachOneEventMock} as unknown) as InteractionCollector<ButtonInteraction>} as unknown) as RepliableInteraction;
+
+        Object.setPrototypeOf(message, Message.prototype);
+
+        const pagination = new PaginationSent(data, message);
+
+        await pagination.init();
+
+        expect(async () => {
+            await pagination.init();
+        }).rejects.toThrow();
     });
 });
