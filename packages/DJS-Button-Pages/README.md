@@ -32,9 +32,10 @@ yarn add djs-button-pages
 pnpm install djs-button-pages
 ```
 
-### Old branches are:
-- *@djs13*
-- *@djs14-legacy*.
+### There are several other branches:
+- **djs14-legacy**
+- **djs13**
+- **djs13-legacy**
 
 # 📃 Examples:
 
