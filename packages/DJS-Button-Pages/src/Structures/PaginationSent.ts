@@ -1,18 +1,17 @@
-import { ActionRowBuilder,
-    ButtonBuilder,
+import { MessageActionRow,
+    MessageButton,
     ButtonInteraction,
-    ComponentType,
     InteractionCollector,
     Message, 
     MessageEditOptions, 
-    RepliableInteraction } from "discord.js";
+    Interaction } from "discord.js";
 import StopReason from "../Enums/StopReason";
 import PaginationData from "./PaginationData";
 import Constants from "../Enums/Constants";
-import ButtonData from "./ButtonData";
 import ButtonWrapper from "./ButtonWrapper";
 import StopAction from "../Types/StopAction";
 import PaginationState from "../Enums/PaginationState";
+import { InteractionResponseFields } from "discord.js";
 
 /**
  * Class that represents pagination that is already sent.
@@ -25,7 +24,7 @@ export default class PaginationSent
     /**
      * Class that represents pagination that is already sent.
      * @param {PaginationData} _data Embeds, buttons and so on.
-     * @param {Message | RepliableInteraction} _message Message or interaction that pagination should be assigned to.
+     * @param {Message | (Interaction & InteractionResponseFields)} _message Message or interaction that pagination should be assigned to.
      * @param {number} _page Page which pagination should start from.
      * @param {StopAction | undefined} _beforeStopAction Action that is completed before the pagination is stopped.
      * @param {StopAction | undefined} _onStopAction Action that is completed after the pagination is stopped.
@@ -33,7 +32,7 @@ export default class PaginationSent
     public constructor
     (
         private readonly _data:PaginationData,
-        private readonly _message:Message | RepliableInteraction,
+        private readonly _message:Message | (Interaction & InteractionResponseFields),
         private _page = 0,
         private readonly _beforeStopAction:StopAction | undefined = undefined,
         private readonly _onStopAction:StopAction | undefined = undefined
@@ -72,21 +71,21 @@ export default class PaginationSent
     };
 
     /**
-     * @returns {Message | RepliableInteraction} Message or interaction that pagination should be assigned to.
+     * @returns {Message | (Interaction & InteractionResponseFields)} Message or interaction that pagination should be assigned to.
      */
-    public get attachedTo(): Message | RepliableInteraction
+    public get attachedTo(): Message | (Interaction & InteractionResponseFields)
     {
         return this._message;
     };
 
     /**
-     * Gets button wrapper by custom id.
-     * @param {string} custom_id Custom id.
+     * Gets button by custom id.
+     * @param {string} customId Custom id.
      * @returns {ButtonWrapper | undefined} Button wrapper.
      */
-    public getButtonByCustomId(custom_id:string): ButtonWrapper | undefined
+    public getButtonByCustomId(customId:string): ButtonWrapper | undefined
     {
-        return this._data.buttons.find((button) => button.data.custom_id === custom_id);
+        return this._data.buttons.find((button) => button.data.customId === customId);
     };
     
     /**
@@ -255,15 +254,15 @@ export default class PaginationSent
     /**
      * Builds action rows with enabled or disabled buttons.
      * @param {boolean} disabled Should be buttons disabled or not.
-     * @returns {Array<ActionRowBuilder<ButtonBuilder>>}
+     * @returns {Array<MessageActionRow<MessageButton>>}
      */
-    private _buildActionRows(disabled = false): Array<ActionRowBuilder<ButtonBuilder>>
+    private _buildActionRows(disabled = false): Array<MessageActionRow<MessageButton>>
     {
-        const rows:Array<ActionRowBuilder<ButtonBuilder>> = [];
+        const rows:Array<MessageActionRow<MessageButton>> = [];
 
         for (let i = 0; i < Constants.DiscordMaxRowsPerMessage - 1; i++)
         {
-            rows.push(new ActionRowBuilder());
+            rows.push(new MessageActionRow());
 
             this._data.buttons
                 .slice(i*Constants.DiscordMaxButtonsPerRow, (i+1)*Constants.DiscordMaxButtonsPerRow)
@@ -289,16 +288,16 @@ export default class PaginationSent
 
     /**
      * Builds action rows for specific page.
-     * @returns {Promise<Array<ActionRowBuilder<ButtonBuilder>>>}
+     * @returns {Promise<Array<MessageActionRow<MessageButton>>>}
      */
-    private async _buildPagedActionRows(): Promise<Array<ActionRowBuilder<ButtonBuilder>>>
+    private async _buildPagedActionRows(): Promise<Array<MessageActionRow<MessageButton>>>
     {
         const rows = this._buildActionRows();
 
         for (const row of rows)
             for (const button of row.components)
             {
-                const wrapper = this.getButtonByCustomId((button.data as ButtonData).custom_id);
+                const wrapper = this.getButtonByCustomId(button.customId);
 
                 if (!wrapper)
                     throw new Error("[DJS-Button-Pages]: Button should be defined!");
@@ -322,10 +321,10 @@ export default class PaginationSent
 
         const message = this._message instanceof Message
             ? this._message
-            : await this._message.fetchReply();
+            : ((await this._message.fetchReply()) as Message);
 
         this._collector = message.createMessageComponentCollector({
-            componentType: ComponentType.Button,
+            componentType: "BUTTON",
             time: this._data.time,
             maxUsers: this._data.filterOptions.maxUsers,
             max: this._data.filterOptions.maxInteractions,

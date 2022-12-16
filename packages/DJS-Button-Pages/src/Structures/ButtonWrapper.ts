@@ -1,4 +1,4 @@
-import { ButtonBuilder } from "discord.js";
+import { MessageButton } from "discord.js";
 import ButtonAction from "../Types/ButtonAction";
 import ButtonSwitch from "../Types/ButtonSwitch";
 import ButtonData from "./ButtonData";
@@ -14,7 +14,7 @@ export default class ButtonWrapper
     
     /**
      * Class that wraps button's functionality.
-     * @param {Partila<ButtonData> | ButtonWrapper} data Either an interface for button styling or the class to be built from.
+     * @param {Partial<ButtonData> | ButtonWrapper} data Either an interface for button styling or the class to be built from.
      */
     public constructor(data?:Partial<ButtonData> | ButtonWrapper)
     {
@@ -47,11 +47,11 @@ export default class ButtonWrapper
     };
 
     /**
-     * @returns {ButtonBuilder} Ready button builder.
+     * @returns {MessageButton} Ready button.
      */
-    public get builtComponent(): ButtonBuilder
+    public get builtComponent(): MessageButton
     {
-        return new ButtonBuilder(this.toJSON());
+        return new MessageButton(this.toJSON());
     };
 
     /**

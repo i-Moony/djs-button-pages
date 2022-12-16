@@ -1,12 +1,12 @@
-import { APIEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 
 /**
  * Gets embed length.
  * Includes author name, footer, fields, description and title.
- * @param {APIEmbed} embed Embed which length should be counted.
+ * @param {MessageEmbed} embed Embed which length should be counted.
  * @returns {number} Embed length.
  */
-function getEmbedLength(embed:APIEmbed): number
+function getEmbedLength(embed:MessageEmbed): number
 {
     return (embed.author?.name.length ?? 0) +
     (embed.footer?.text?.length ?? 0) +

@@ -1,11 +1,10 @@
-import { APIEmbed,
+import { MessageEmbed,
     InteractionReplyOptions,
-    Embed,
-    EmbedBuilder, 
     Message, 
-    MessageCreateOptions, 
-    MessageReplyOptions, 
-    RepliableInteraction, 
+    MessageOptions, 
+    ReplyMessageOptions, 
+    Interaction,
+    InteractionResponseFields, 
     Snowflake,
     TextBasedChannel } from "discord.js";
 import FilterOptions from "./FilterOptions";
@@ -23,7 +22,7 @@ import StopAction from "../Types/StopAction";
 export default class PaginationWrapper implements PaginationData
 {
     private _buttons:Array<ButtonWrapper> = [];
-    private _embeds:Array<EmbedBuilder> = [];
+    private _embeds:Array<MessageEmbed> = [];
     private _time:number;
     private _filterOptions:FilterOptions = {};
     private _afterSendingAction:AfterSendingAction;
@@ -49,11 +48,11 @@ export default class PaginationWrapper implements PaginationData
     };
 
     /**
-     * @returns {Array<APIEmbed>} Embeds for pagination.
+     * @returns {Array<MessageEmbed>} Embeds for pagination.
      */
-    public get embeds(): Array<APIEmbed>
+    public get embeds(): Array<MessageEmbed>
     {
-        return this._embeds.map((embed) => embed.data);
+        return this._embeds;
     };
 
     /**
@@ -98,12 +97,12 @@ export default class PaginationWrapper implements PaginationData
 
     /**
      * Gets button by it's customId.
-     * @param {string} custom_id Custom id.
+     * @param {string} customId Custom id.
      * @returns {ButtonWrapper | undefined} Button.
      */
-    public getButtonByCustomId(custom_id:string): ButtonWrapper | undefined
+    public getButtonByCustomId(customId:string): ButtonWrapper | undefined
     {
-        return this._buttons.find((button) => button.data.custom_id === custom_id);
+        return this._buttons.find((button) => button.data.customId === customId);
     };
 
     /**
@@ -166,20 +165,18 @@ export default class PaginationWrapper implements PaginationData
 
     /**
      * Sets embeds for the pagination.
-     * @param {Array<Embed | EmbedBuilder | APIEmbed>} embeds Embeds.
+     * @param {Array<MessageEmbed>} embeds Embeds.
      * @returns {this}
      */
-    public setEmbeds(embeds:Array<Embed | EmbedBuilder | APIEmbed>): this
+    public setEmbeds(embeds:Array<MessageEmbed>): this
     {
-        const embedBuilders:Array<EmbedBuilder> = embeds.map((embed) => EmbedBuilder.from(embed));
-
-        if (embedBuilders.some((embed) => getEmbedLength(embed.data) <= 0))
+        if (embeds.some((embed) => getEmbedLength(embed) <= 0))
             throw new Error("[DJS-Button-Pages]: No embeds from the array can be empty!");
 
-        if (embedBuilders.some((embed) => getEmbedLength(embed.data) > Constants.DiscordMaxEmbedLength))
+        if (embeds.some((embed) => getEmbedLength(embed) > Constants.DiscordMaxEmbedLength))
             throw new RangeError(`[DJS-Button-Pages]: No embeds from the array can be longer than ${Constants.DiscordMaxEmbedLength}.`);
 
-        this._embeds = embedBuilders;
+        this._embeds = embeds;
 
         return this;
     };
@@ -200,7 +197,7 @@ export default class PaginationWrapper implements PaginationData
         if (buttons.some((val) => !val.action || !val.data || !val.switch))
             throw new Error("[DJS-Button-Pages]: Buttons can not have empty values.");
 
-        if (new Set(buttons.map((button) => button.data.custom_id)).size < buttons.length)
+        if (new Set(buttons.map((button) => button.data.customId)).size < buttons.length)
             throw new Error("[DJS-Button-Pages]: Buttons can not have similar customIds.");
 
         this._buttons = buttons;
@@ -265,11 +262,11 @@ export default class PaginationWrapper implements PaginationData
     /**
      * Sends pagination to the channel.
      * @param {TextBasedChannel} channel Channel.
-     * @param {MessageCreateOptions} options Message options.
+     * @param {MessageOptions} options Message options.
      * @param {number} page Page number which will be the starting point.
      * @returns {Promise<PaginationSent>} Class that represents pagination that is already sent.
      */
-    public async send(channel:TextBasedChannel, options:MessageCreateOptions = {}, page = 0): Promise<PaginationSent>
+    public async send(channel:TextBasedChannel, options:MessageOptions = {}, page = 0): Promise<PaginationSent>
     {
         if (page < 0 || !Number.isInteger(page))
             throw new RangeError("[DJS-Button-Pages]: Page number should be integer!");
@@ -296,11 +293,11 @@ export default class PaginationWrapper implements PaginationData
     /**
      * Sends pagination as a reply to message.
      * @param {Message} replyTo Message.
-     * @param {MessageReplyOptions} options Message options.
+     * @param {ReplyMessageOptions} options Message options.
      * @param {number} page Page number which will be the starting point.
      * @returns {Promise<PaginationSent>} Class that represents pagination that is already sent.
      */
-    public async reply(replyTo:Message, options:MessageReplyOptions = {}, page = 0): Promise<PaginationSent>
+    public async reply(replyTo:Message, options:ReplyMessageOptions = {}, page = 0): Promise<PaginationSent>
     {
         if (page < 0 || !Number.isInteger(page))
             throw new RangeError("[DJS-Button-Pages]: Page number should be integer!");
@@ -326,12 +323,12 @@ export default class PaginationWrapper implements PaginationData
 
     /**
      * Sends pagination as a reply to interaction.
-     * @param {RepliableInteraction} interaction Interaction.
+     * @param {Interaction & InteractionResponseFields} interaction Interaction.
      * @param {InteractionReplyOptions} options Reply options.
      * @param {number} page Page number which will be the starting point.
      * @returns {Promise<PaginationSent>} Class that represents pagination that is already sent.
      */
-    public async interactionReply(interaction:RepliableInteraction, options:InteractionReplyOptions = {}, page = 0): Promise<PaginationSent>
+    public async interactionReply(interaction:Interaction & InteractionResponseFields, options:InteractionReplyOptions = {}, page = 0): Promise<PaginationSent>
     {
         await interaction.deferReply({ephemeral: options.ephemeral
             ? true
@@ -349,7 +346,7 @@ export default class PaginationWrapper implements PaginationData
         options.embeds = [this.embeds[page]];
         options.components = [];
 
-        const reply = await interaction.editReply(options);
+        const reply = (await interaction.editReply(options) as Message);
 
         if (this._afterSendingAction)
             await this._afterSendingAction(reply);

@@ -1,4 +1,4 @@
-import { APIEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import ButtonWrapper from "./ButtonWrapper";
 import FilterOptions from "./FilterOptions";
 
@@ -14,7 +14,7 @@ export default interface PaginationData
     /**
      * Pages.
      */
-    embeds: Array<APIEmbed>,
+    embeds: Array<MessageEmbed>,
     /**
      * Buttons.
      */
