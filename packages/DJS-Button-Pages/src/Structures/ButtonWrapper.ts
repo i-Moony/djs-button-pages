@@ -23,7 +23,7 @@ export default class ButtonWrapper
     };
 
     /**
-     * Button's styling.
+     * @returns {Partial<ButtonData>} Button's styling.
      */
     public get data(): Partial<ButtonData>
     {
@@ -31,7 +31,7 @@ export default class ButtonWrapper
     };
 
     /**
-     * Action that is called after the button is pressed.
+     * @returns {ButtonACtion} Action that is called after the button is pressed.
      */
     public get action(): ButtonAction
     {
@@ -39,7 +39,7 @@ export default class ButtonWrapper
     };
 
     /**
-     * Action that is called to switch button's state.
+     * @returns {ButtonSwitch} Action that is called to switch button's state.
      */
     public get switch(): ButtonSwitch
     {
@@ -47,7 +47,7 @@ export default class ButtonWrapper
     };
 
     /**
-     * Ready button builder.
+     * @returns {ButtonBuilder} Ready button builder.
      */
     public get builtComponent(): ButtonBuilder
     {
