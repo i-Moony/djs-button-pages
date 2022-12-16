@@ -1,6 +1,6 @@
 {
     "name": "@djs-button-pages/presets",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "A set of presets that are used for faster development.",
     "main": "dist/Presets.js",
     "types": "dist/Presets.d.ts",
@@ -59,7 +59,7 @@
 
     "engines": 
     {
-        "node": ">=16.9.0"
+        "node": ">=16.6.0"
     },
 
     "homepage": "https://www.npmjs.com/package/@djs-button-pages/presets",
@@ -68,7 +68,7 @@
   
     "dependencies": 
     {
-        "discord.js": "14.x",
+        "discord.js": "13.x",
         "djs-button-pages": "3.x"
     }
 }

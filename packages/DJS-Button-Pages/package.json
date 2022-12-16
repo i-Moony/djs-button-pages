@@ -57,7 +57,7 @@
 
     "engines": 
     {
-        "node": ">=16.9.0"
+        "node": ">=16.6.0"
     },
 
     "homepage": "https://www.npmjs.com/package/djs-button-pages",
@@ -66,11 +66,11 @@
   
     "dependencies": 
     {
-        "discord.js": "14.x"
+        "discord.js": "13.x"
     },
 
     "peerDependencies": 
     {
-        "@djs-button-pages/presets": "^1.0.0"
+        "@djs-button-pages/presets": "0.x"
     }
 }
