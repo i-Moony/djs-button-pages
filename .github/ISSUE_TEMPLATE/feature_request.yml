@@ -1,0 +1,44 @@
+name: Feature Request
+description: Request a new feature (djs-button-pages can implement only those features that are possible to code via discord.js and which don't violate any of Discord's policies).
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        Only those features that are allowed by Discord API and possible to code via discord.js are accepted.
+        Use Discord for questions: moony#6815.
+  - type: dropdown
+    id: package
+    attributes:
+      label: "Which package is the feature request for:"
+      multiple: false
+      options:
+        - djs-button-pages
+        - presets
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Feature:"
+      description: A clean and concise description of what the feature you want.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Ideal implementation:"
+      description: A clean and concise description of what you want to be implemented.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "What alternative solutions would you like:"
+      description: A clear and concise description of any other ideas of how to implement it.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Anything else that will help to implement this:"
+      description: Any other explanations, screenshots, or files that will help to implement this.

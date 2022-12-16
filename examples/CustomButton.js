@@ -1,6 +1,6 @@
 //Imports.
 const { Client, EmbedBuilder, ButtonStyle, IntentsBitField } = require("discord.js");
-const { PaginationWrapper } = require("djs-button-pages");
+const { PaginationWrapper, ButtonWrapper } = require("djs-button-pages");
 //Pre-made buttons.
 const { NextPageButton, PreviousPageButton } = require('@djs-button-pages/presets');
 
@@ -22,6 +22,16 @@ const buttons =
 [
     new PreviousPageButton({custom_id: "prev_page", emoji: "◀", style: ButtonStyle.Secondary}),
     new NextPageButton({custom_id: "next_page", emoji: "▶", style: ButtonStyle.Secondary}),
+    new ButtonWrapper({custom_id: "custom_button", label: "x2", style: ButtonStyle.Primary})
+        //Setting action that doubles page number.
+        //+1 -1 needed because page number is zero-based.
+        .setAction(async (pagination) => {
+            return pagination.setPage((pagination.page + 1) * 2 - 1).update();
+        })
+        //Setting switch that disables button when pagination doubled page number will be bigger than pagination has.
+        .setSwitch(async (pagination) => {
+            return ((pagination.page + 1) * 2 - 1) > pagination.data.embeds.length;
+        }),
 ];
 
 //These very intents are needed.

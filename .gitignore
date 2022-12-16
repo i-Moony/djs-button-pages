@@ -1,4 +1,3 @@
-node_modules
-/dist
-docs
-coverage
+node_modules/
+
+packages/**/dist/**/*

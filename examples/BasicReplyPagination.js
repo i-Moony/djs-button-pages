@@ -1,48 +1,54 @@
 //Imports.
 const { Client, EmbedBuilder, ButtonStyle, IntentsBitField } = require("discord.js");
-const { MessageReplyPagination, NextPageButton, PreviousPageButton } = require("djs-button-pages");
+const { PaginationWrapper } = require("djs-button-pages");
+//Pre-made buttons.
+const { NextPageButton, PreviousPageButton } = require('@djs-button-pages/presets');
 
 //Array of embeds for pagination.
 const embeds =
 [
-    new EmbedBuilder().setDescription("First page!"),
-    new EmbedBuilder().setDescription("Wow! It's second page!"),
-    new EmbedBuilder().setDescription("Unbelivable! Third class page!"),
-    new EmbedBuilder().setDescription("Not possible! Fourth page!"),
-    new EmbedBuilder().setDescription("Not probable! Special fifth page!"),
-    new EmbedBuilder().setDescription("Progress! It's page with number six that is stored with number five!"),
-    new EmbedBuilder().setDescription("You're feeling with determination because of the seven page!"),
-    new EmbedBuilder().setDescription("You shall not pass! It's the last and the latest page!"),
+    new EmbedBuilder().setColor("Aqua").setTitle("Test!").setDescription("Whoosh! Your first page!"),
+    new EmbedBuilder().setColor("Blurple").setTitle("Test!").setDescription("Wow! It's a second one!"),
+    new EmbedBuilder().setColor("DarkAqua").setTitle("Test!").setDescription("Unbelivable! Third page is available to be bought for 20$!"),
+    new EmbedBuilder().setColor("DarkGold").setTitle("Test!").setDescription("Not possible! This is my fourth page!"),
+    new EmbedBuilder().setColor("Gold").setTitle("Test!").setDescription("Not probable! Special fifth page!"),
+    new EmbedBuilder().setColor("DarkButNotBlack").setTitle("Test!").setDescription("Wow! Another page..."),
+    new EmbedBuilder().setColor("White").setTitle("Test!").setDescription("Don't tell me that it is page number seven!"),
+    new EmbedBuilder().setColor("Red").setTitle("Oh, wow!").setDescription("Looks like it is the last page("),
 ];
 
 //Array of buttons for pagination.
-const buttons = 
+const buttons =
 [
-    new PreviousPageButton({custom_id: "prev_page", label: "Previous", style: ButtonStyle.Success}), //Style can be passed either in constructor.
-    new NextPageButton().setStyle({custom_id: "next_page", label: "Next", style: ButtonStyle.Success}), //Or in special method.
+    new PreviousPageButton({custom_id: "prev_page", emoji: "◀", style: ButtonStyle.Secondary}),
+    new NextPageButton({custom_id: "next_page", emoji: "▶", style: ButtonStyle.Secondary}),
 ];
 
-//These very bitfields are needed for this example. For DM use IntentsBitField.Flags.DirectMessages instead of Guilds and GuildMessages.
+//These very intents are needed.
+//For DMs use IntentBitField.Flags.DirectMessages instead of Guilds and GuildMessages.
 const client = new Client({intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.MessageContent]});
 
-//Ready signal!
-client.once("ready", () => {
+//Ready!
+client.once("ready", async () => {
     console.log("Ready!");
 });
 
-//Action on message.
+//Catch command.
 client.on("messageCreate", async (message) => {
-    //If user wrote `!pages`.
     if (message.content === "!pages")
     {
-        const pagination = new MessageReplyPagination() //Create pagination.
-            .setButtons(buttons) //Insert buttons.
-            .setEmbeds(embeds) //Add embeds.
-            .setTime(60000); //Set time.
+        //Setup pagination.
+        const pagination = new PaginationWrapper()
+            .setButtons(buttons)
+            .setEmbeds(embeds)
+            .setTime(60000);
 
-        await pagination.send(message); //Send!
+        //Send it as a reply to a certain message.
+        await pagination.reply(message);
+        //Alternative way.
+        //await pagination.send(message.channel, {reply: {messageReference: message}});
     };
 });
 
-//Login. Replace YOUR TOKEN with token from Discord Developer Portal!
-client.login("YOUR TOKEN");
+//Login.
+client.login("yourToken");

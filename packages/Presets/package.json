@@ -1,0 +1,74 @@
+{
+    "name": "@djs-button-pages/presets",
+    "version": "1.0.0",
+    "description": "A set of presets that are used for faster development.",
+    "main": "dist/Presets.js",
+    "types": "dist/Presets.d.ts",
+    "private": false,
+
+    "files":
+    [
+        "dist/**/*",
+        "LICENSE.md",
+        "CHANGELOG.md",
+        "README.md"
+    ],
+
+    "scripts":
+    {
+        "build": "tsc",
+        "prepublishOnly": "npm run build",
+        "test": "jest --coverage"
+    },
+
+    "keywords": 
+    [
+        "djs",
+        "discord",
+        "discord.js",
+        "embed",
+        "embeds",
+        "pages",
+        "button",
+        "page",
+        "paginations",
+        "pagination",
+        "buttons",
+        "node",
+        "presets",
+        "djs-button-pages"
+    ],
+  
+    "author": 
+    {
+        "name": "moony",
+        "url": "https://www.notabug.org/m00ny",
+        "discord": "moony#6815"
+    },
+
+    "repository": 
+    {
+        "type": "git",
+        "url": "https://github.com/i-Moony/djs-button-pages.git"
+    },
+
+    "bugs": 
+    {
+        "url": "https://www.github.com/i-Moony/djs-button-pages/issues"
+    },
+
+    "engines": 
+    {
+        "node": ">=16.9.0"
+    },
+
+    "homepage": "https://www.npmjs.com/package/@djs-button-pages/presets",
+  
+    "license": "Apache-2.0",
+  
+    "dependencies": 
+    {
+        "discord.js": "14.x",
+        "djs-button-pages": "3.x"
+    }
+}
