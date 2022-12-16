@@ -112,7 +112,7 @@ client.login("yourToken");
 * [Discord.JS Guide](https://discordjs.guide/)
 
 # 🐛 Bug Reporting:
-For bug reporting look for [GitHub Issues]().
+For bug reporting look for [GitHub Issues](https://github.com/i-Moony/djs-button-pages/issues).
 
 Or you can DM me in Discord: `moony#6815`.
 
