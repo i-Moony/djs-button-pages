@@ -1,8 +1,8 @@
 //Imports.
 const { Client, EmbedBuilder, ButtonStyle, IntentsBitField } = require("discord.js");
-const { PaginationWrapper } = require("djs-button-pages");
+const { PaginationWrapper, ButtonWrapper } = require("djs-button-pages");
 //Pre-made buttons.
-const { NextPageButton, PreviousPageButton, PageTravelButton } = require('@djs-button-pages/presets');
+const { NextPageButton, PreviousPageButton } = require('@djs-button-pages/presets');
 
 //Array of embeds for pagination.
 const embeds =
@@ -22,27 +22,30 @@ const buttons =
 [
     new PreviousPageButton({custom_id: "prev_page", emoji: "◀", style: ButtonStyle.Secondary}),
     new NextPageButton({custom_id: "next_page", emoji: "▶", style: ButtonStyle.Secondary}),
-    //Page travel button. By default page travel lasts 15 seconds. You can also change some tips that PageTravelButton produces. Or disable them by setting them undefined.
-    new PageTravelButton({custom_id: "travel_page", emoji: "✈", style: ButtonStyle.Primary}),
+    new ButtonWrapper({custom_id: "custom_button", label: "x2", style: ButtonStyle.Primary})
+        //Setting action that doubles page number.
+        //+1 -1 needed because page number is zero-based.
+        .setAction(async (pagination) => {
+            return pagination.setPage((pagination.page + 1) * 2 - 1).update();
+        })
+        //Setting switch that disables button when pagination doubled page number will be bigger than pagination has.
+        .setSwitch(async (pagination) => {
+            return ((pagination.page + 1) * 2 - 1) > pagination.data.embeds.length;
+        }),
 ];
 
-//These very bitfields may be needed. The first one will be definetely needed.
-const client = new Client({intents: [IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.DirectMessages]});
+//These very intents are needed.
+//For DMs use IntentBitField.Flags.DirectMessages instead of Guilds and GuildMessages.
+const client = new Client({intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.MessageContent]});
 
 //Ready!
 client.once("ready", async () => {
     console.log("Ready!");
-
-    //Fetch the guild you need.
-    const guild = await client.guilds.fetch("yourGuildId");
-
-    //Add command.
-    guild.commands.create({name: "pages", description: "Testing DJS-Button-Pages!"});
 });
 
 //Catch command.
-client.on("interactionCreate", async (interaction) => {
-    if (interaction.isCommand() && interaction.commandName === "pages")
+client.on("messageCreate", async (message) => {
+    if (message.content === "!pages")
     {
         //Setup pagination.
         const pagination = new PaginationWrapper()
@@ -50,8 +53,8 @@ client.on("interactionCreate", async (interaction) => {
             .setEmbeds(embeds)
             .setTime(60000);
 
-        //Send as a reply to an interaction.
-        await pagination.interactionReply(interaction);
+        //Send it as a message to a certain channel.
+        await pagination.send(message.channel);
     };
 });
 

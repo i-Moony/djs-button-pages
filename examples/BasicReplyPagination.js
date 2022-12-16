@@ -2,7 +2,7 @@
 const { Client, EmbedBuilder, ButtonStyle, IntentsBitField } = require("discord.js");
 const { PaginationWrapper } = require("djs-button-pages");
 //Pre-made buttons.
-const { NextPageButton, PreviousPageButton, PageTravelButton } = require('@djs-button-pages/presets');
+const { NextPageButton, PreviousPageButton } = require('@djs-button-pages/presets');
 
 //Array of embeds for pagination.
 const embeds =
@@ -22,27 +22,20 @@ const buttons =
 [
     new PreviousPageButton({custom_id: "prev_page", emoji: "◀", style: ButtonStyle.Secondary}),
     new NextPageButton({custom_id: "next_page", emoji: "▶", style: ButtonStyle.Secondary}),
-    //Page travel button. By default page travel lasts 15 seconds. You can also change some tips that PageTravelButton produces. Or disable them by setting them undefined.
-    new PageTravelButton({custom_id: "travel_page", emoji: "✈", style: ButtonStyle.Primary}),
 ];
 
-//These very bitfields may be needed. The first one will be definetely needed.
-const client = new Client({intents: [IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.DirectMessages]});
+//These very intents are needed.
+//For DMs use IntentBitField.Flags.DirectMessages instead of Guilds and GuildMessages.
+const client = new Client({intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.MessageContent]});
 
 //Ready!
 client.once("ready", async () => {
     console.log("Ready!");
-
-    //Fetch the guild you need.
-    const guild = await client.guilds.fetch("yourGuildId");
-
-    //Add command.
-    guild.commands.create({name: "pages", description: "Testing DJS-Button-Pages!"});
 });
 
 //Catch command.
-client.on("interactionCreate", async (interaction) => {
-    if (interaction.isCommand() && interaction.commandName === "pages")
+client.on("messageCreate", async (message) => {
+    if (message.content === "!pages")
     {
         //Setup pagination.
         const pagination = new PaginationWrapper()
@@ -50,8 +43,10 @@ client.on("interactionCreate", async (interaction) => {
             .setEmbeds(embeds)
             .setTime(60000);
 
-        //Send as a reply to an interaction.
-        await pagination.interactionReply(interaction);
+        //Send it as a reply to a certain message.
+        await pagination.reply(message);
+        //Alternative way.
+        //await pagination.send(message.channel, {reply: {messageReference: message}});
     };
 });
 

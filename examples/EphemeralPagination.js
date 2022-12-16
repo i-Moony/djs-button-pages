@@ -48,7 +48,7 @@ client.on("interactionCreate", async (interaction) => {
             .setEmbeds(embeds)
             .setTime(60000);
 
-        //Send it is an ephemeral reply.
+        //Send it as an ephemeral reply to an interaction.
         await pagination.interactionReply(interaction, {ephemeral: true});
     };
 });
