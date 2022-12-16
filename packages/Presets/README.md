@@ -17,13 +17,13 @@
 ### Requires Node **16.9** *(because of Discord.JS)*.
 
 ```bash
-npm install djs-button-pages
+npm install @djs-button-pages/presets
 ```
 ```bash
-yarn add djs-button-pages
+yarn add @djs-button-pages/presets
 ```
 ```bash
-pnpm install djs-button-pages
+pnpm install @djs-button-pages/presets
 ```
 
 ### There are several other branches:
