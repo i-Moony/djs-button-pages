@@ -2,8 +2,7 @@ import { ButtonInteraction,
     ButtonStyle,
     EmbedBuilder,
     InteractionCollector,
-    Message, 
-    RepliableInteraction } from "discord.js";
+    Message } from "discord.js";
 import { ButtonWrapper,
     PaginationSent, 
     PaginationState } from "../../src/Paginations";
@@ -114,11 +113,11 @@ describe("PaginationSent: class that manages pagination after it was sent.", () 
         },
         attachEventMock = jest.fn(),
         attachOneEventMock = jest.fn(),
-        message = ({createMessageComponentCollector: () => ({on: attachEventMock, once: attachOneEventMock} as unknown) as InteractionCollector<ButtonInteraction>} as unknown) as RepliableInteraction;
+        interaction = ({createMessageComponentCollector: () => ({on: attachEventMock, once: attachOneEventMock} as unknown) as InteractionCollector<ButtonInteraction>, fetchReply: async () => interaction} as unknown) as ButtonInteraction;
 
-        Object.setPrototypeOf(message, Message.prototype);
+        Object.setPrototypeOf(interaction, ButtonInteraction.prototype);
 
-        const pagination = new PaginationSent(data, message);
+        const pagination = new PaginationSent(data, interaction);
 
         await pagination.init();
 
