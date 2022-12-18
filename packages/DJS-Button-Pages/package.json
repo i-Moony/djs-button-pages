@@ -71,6 +71,6 @@
 
     "peerDependencies": 
     {
-        "@djs-button-pages/presets": "^1.0.0"
+        "@djs-button-pages/presets": "1.x"
     }
 }
