@@ -1,7 +1,7 @@
 # ♻ Changelog:
 All notable changes to this project will be documented here.
 
-# 3.0.0 (2022-xx-xx)
+# 3.0.0 (2022-12-18)
 
 ## ♻ Refactor:
 * **PaginationData & BasicPagination:** merge into `PaginationWrapper`.
