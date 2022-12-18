@@ -69,6 +69,6 @@
     "dependencies": 
     {
         "discord.js": "14.x",
-        "djs-button-pages": "3.x"
+        "djs-button-pages": "4.x"
     }
 }
