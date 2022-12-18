@@ -1,4 +1,4 @@
-import { ButtonInteraction, EmbedBuilder } from "discord.js";
+import { ButtonInteraction, MessageEmbed } from "discord.js";
 import { PaginationSent } from "djs-button-pages";
 import { LastPageButton } from "../src/Presets";
 
@@ -13,8 +13,8 @@ describe("LastPageButton: button that switches pagination to the last page.", ()
             {
                 embeds: 
                 [
-                    new EmbedBuilder(),
-                    new EmbedBuilder()
+                    new MessageEmbed(),
+                    new MessageEmbed()
                 ]
             }} as unknown) as PaginationSent,
         interactionMock = ({} as unknown) as ButtonInteraction;
@@ -34,10 +34,10 @@ describe("LastPageButton: button that switches pagination to the last page.", ()
             {
                 embeds:
                 [
-                    new EmbedBuilder(),
-                    new EmbedBuilder(),
-                    new EmbedBuilder(),
-                    new EmbedBuilder()
+                    new MessageEmbed(),
+                    new MessageEmbed(),
+                    new MessageEmbed(),
+                    new MessageEmbed()
                 ]
             }} as unknown) as PaginationSent;
         
@@ -51,8 +51,8 @@ describe("LastPageButton: button that switches pagination to the last page.", ()
             {
                 embeds:
                 [
-                    new EmbedBuilder(), 
-                    new EmbedBuilder()
+                    new MessageEmbed(), 
+                    new MessageEmbed()
                 ]
             }} as unknown) as PaginationSent;
 

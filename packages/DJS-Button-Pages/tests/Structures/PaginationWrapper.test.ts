@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { PaginationWrapper,
     ButtonWrapper,
     Constants } from "../../src/Paginations";
@@ -58,7 +58,7 @@ describe("PaginationWrapper: class that wrapps pagination functionality.", () =>
     test("should correctly find button by customId.", () => {
         const button = new ButtonWrapper()
             .setAction(() => false)
-            .setData({custom_id: "custom_Id"})
+            .setData({customId: "custom_Id"})
             .setSwitch(() => false);
 
         const pagination = new PaginationWrapper()
@@ -71,9 +71,9 @@ describe("PaginationWrapper: class that wrapps pagination functionality.", () =>
     test("should correctly set embeds if they meet conditions.", () => {
         const embeds =
         [
-            new EmbedBuilder()
+            new MessageEmbed()
                 .setDescription("Totally normal description."),
-            new EmbedBuilder(),
+            new MessageEmbed(),
         ];
 
         const pagination = new PaginationWrapper();
@@ -100,7 +100,7 @@ describe("PaginationWrapper: class that wrapps pagination functionality.", () =>
             pagination.setEmbeds(embeds);
         }).toThrow();
 
-        expect(pagination.setEmbeds([embeds[0]]).embeds).toStrictEqual([embeds[0].data]);
+        expect(pagination.setEmbeds([embeds[0]]).embeds).toStrictEqual([embeds[0]]);
     });
 
     test("should correctly set buttons if they meet the conditions.", () =>
@@ -121,7 +121,7 @@ describe("PaginationWrapper: class that wrapps pagination functionality.", () =>
 
         const buttons2 = new Array(2).fill(
             new ButtonWrapper()
-                .setData({custom_id: "custom_Id"})
+                .setData({customId: "custom_Id"})
                 .setAction(() => false)
                 .setSwitch(() => false)
         );
@@ -131,7 +131,7 @@ describe("PaginationWrapper: class that wrapps pagination functionality.", () =>
         }).toThrow();
 
         const normalButton = new ButtonWrapper()
-            .setData({custom_id: "custom_Id"})
+            .setData({customId: "custom_Id"})
             .setAction(() => false)
             .setSwitch(() => false)
 
@@ -193,18 +193,16 @@ describe("PaginationWrapper: class that wrapps pagination functionality.", () =>
         const previousPagination = {
             embeds: 
             [
-                new EmbedBuilder()
+                new MessageEmbed()
+                    .setDescription("Description."),
+                new MessageEmbed()
                     .setDescription("Description.")
-                    .data,
-                new EmbedBuilder()
-                    .setDescription("Description.")
-                    .data
             ],
             time: 10 * 1000,
             filterOptions: {},
             buttons:
             [
-                new ButtonWrapper({custom_id: "customId"})
+                new ButtonWrapper({customId: "customId"})
                     .setAction(() => false)
                     .setSwitch(() => false)
             ],

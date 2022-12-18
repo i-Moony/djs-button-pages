@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { getEmbedLength } from "../../src/Paginations";
 
 describe("getEmbedLength: function that counts embed's length.", () => {
@@ -10,7 +10,7 @@ describe("getEmbedLength: function that counts embed's length.", () => {
         text = "Sample text.",
         title = "Sample title.";
 
-        const embed = new EmbedBuilder()
+        const embed = new MessageEmbed()
             .setAuthor({name})
             .setDescription(description)
             .setFields([
@@ -22,12 +22,12 @@ describe("getEmbedLength: function that counts embed's length.", () => {
             .setFooter({text})
             .setTitle(title);
     
-        expect(getEmbedLength(embed.data)).toBe(name.length + description.length + fieldName.length + fieldValue.length + text.length + title.length);
+        expect(getEmbedLength(embed)).toBe(name.length + description.length + fieldName.length + fieldValue.length + text.length + title.length);
     });
 
     test("correctly count empty embed's length.", () => {
-        const embed = new EmbedBuilder();
+        const embed = new MessageEmbed();
 
-        expect(getEmbedLength(embed.data)).toBe(0);
+        expect(getEmbedLength(embed)).toBe(0);
     });
 });

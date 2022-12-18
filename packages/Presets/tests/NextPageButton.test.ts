@@ -1,4 +1,4 @@
-import { ButtonInteraction, EmbedBuilder } from "discord.js";
+import { ButtonInteraction, MessageEmbed } from "discord.js";
 import { PaginationSent } from "djs-button-pages";
 import { NextPageButton } from "../src/Presets";
 
@@ -28,10 +28,10 @@ describe("NextPageButton: button that switches pagination to the next page.", ()
             {
                 embeds:
                 [
-                    new EmbedBuilder(),
-                    new EmbedBuilder(),
-                    new EmbedBuilder(),
-                    new EmbedBuilder()
+                    new MessageEmbed(),
+                    new MessageEmbed(),
+                    new MessageEmbed(),
+                    new MessageEmbed()
                 ]
             }} as unknown) as PaginationSent;
         
@@ -45,8 +45,8 @@ describe("NextPageButton: button that switches pagination to the next page.", ()
             {
                 embeds:
                 [
-                    new EmbedBuilder(), 
-                    new EmbedBuilder()
+                    new MessageEmbed(), 
+                    new MessageEmbed()
                 ]
             }} as unknown) as PaginationSent;
 

@@ -1,6 +1,5 @@
 import { ButtonInteraction,
-    ButtonStyle,
-    EmbedBuilder,
+    MessageEmbed,
     InteractionCollector,
     Message } from "discord.js";
 import { ButtonWrapper,
@@ -13,8 +12,7 @@ describe("PaginationSent: class that manages pagination after it was sent.", () 
         {
             embeds:
             [
-                new EmbedBuilder()
-                    .data
+                new MessageEmbed()
             ],
             time: 500,
             filterOptions: {},
@@ -37,13 +35,12 @@ describe("PaginationSent: class that manages pagination after it was sent.", () 
 
     test("should correctly find button by customId.", () => {
         const button = new ButtonWrapper()
-            .setData({custom_id: "custom_Id"}),
+            .setData({customId: "custom_Id"}),
         data = 
         {
             embeds:
             [
-                new EmbedBuilder()
-                    .data
+                new MessageEmbed()
             ],
             time: 500,
             filterOptions: {},
@@ -65,15 +62,14 @@ describe("PaginationSent: class that manages pagination after it was sent.", () 
         {
             embeds:
             [
-                new EmbedBuilder()
-                    .data
+                new MessageEmbed()
             ],
             time: 500,
             filterOptions: {},
             buttons:
             [
                 new ButtonWrapper()
-                    .setData({custom_id: "customId", style: ButtonStyle.Primary, label: "Custom Id."})
+                    .setData({customId: "customId", style: "PRIMARY", label: "Custom Id."})
                     .setAction(() => false)
                     .setSwitch(() => false)
             ],
@@ -98,15 +94,14 @@ describe("PaginationSent: class that manages pagination after it was sent.", () 
         {
             embeds:
             [
-                new EmbedBuilder()
-                    .data
+                new MessageEmbed()
             ],
             time: 500,
             filterOptions: {},
             buttons:
             [
                 new ButtonWrapper()
-                    .setData({custom_id: "customId", style: ButtonStyle.Primary, label: "Custom Id."})
+                    .setData({customId: "customId", style: "PRIMARY", label: "Custom Id."})
                     .setAction(() => false)
                     .setSwitch(() => false)
             ],
