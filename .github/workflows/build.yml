@@ -1,12 +1,12 @@
-name: Build
+name: Test
 
 on:
   push:
   pull_request:
 
 jobs:
-  tsc:
-    name: tsc
+  test:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -22,3 +22,9 @@ jobs:
         
       - name: Build package
         run: npm run build
+
+      - name: Lint packages
+        run: npm run lint
+
+      - name: Test packages
+        run: npm run test
