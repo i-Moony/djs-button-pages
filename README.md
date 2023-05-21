@@ -1,14 +1,18 @@
 <div align = "center">
-    <br />
+    <br>
     <p>
-        <a href = "https://i-moony.github.io/djs-button-pages/"><img src = "https://user-images.githubusercontent.com/80977522/174433134-54e6e9f6-b618-4d94-8552-5b5ba3c22a88.png" alt = "logo" /></a>
+        <a href = "https://i-moony.github.io/djs-button-pages/"><img src = "./assets/djs-button-pages-cropped.png" alt = "logo" /></a>
     </p>
     <p>
         <a href = "https://www.npmjs.com/package/djs-button-pages"><img src = "https://img.shields.io/npm/v/djs-button-pages?color=FF4433&style=flat-square" alt = "npm-version" /></a>
         <a href = "https://www.npmjs.com/package/djs-button-pages"><img src = "https://img.shields.io/npm/dt/djs-button-pages?color=FF4433&style=flat-square" alt = "npm-downloads" /></a>
         <a href = "https://github.com/i-Moony/djs-button-pages"><img src = "https://img.shields.io/github/issues/i-Moony/djs-button-pages?color=FF4433&style=flat-square" alt = "github-issues" /></a>
     </p>
+    <video loop autoplay muted>
+        <source src = "./assets/showcase.mp4" type = "video/mp4">
+    </video>
 </div>
+<br>
 
 # 📚 About package:
 ### **Simple yet powerful and extensible module to create fully-customizable embed pages with buttons.**
@@ -114,7 +118,7 @@ client.login("yourToken");
 # 🐛 Bug Reporting:
 For bug reporting look for [GitHub Issues](https://github.com/i-Moony/djs-button-pages/issues).
 
-Or you can DM me in Discord: `moony#6815`.
+If you need support, you can join my [Discord Server](https://discord.gg/WRKyCpHRAP).
 
 # © License:
 
