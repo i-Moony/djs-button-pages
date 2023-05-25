@@ -8,9 +8,7 @@
         <a href = "https://www.npmjs.com/package/djs-button-pages"><img src = "https://img.shields.io/npm/dt/djs-button-pages?color=FF4433&style=flat-square" alt = "npm-downloads" /></a>
         <a href = "https://github.com/i-Moony/djs-button-pages"><img src = "https://img.shields.io/github/issues/i-Moony/djs-button-pages?color=FF4433&style=flat-square" alt = "github-issues" /></a>
     </p>
-    <video loop autoplay muted>
-        <source src = "./assets/showcase.mp4" type = "video/mp4">
-    </video>
+    <img src="./assets/showcase.gif" />
 </div>
 <br>
 
