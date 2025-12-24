@@ -333,10 +333,13 @@ export default class PaginationWrapper implements PaginationData
      */
     public async interactionReply(interaction:RepliableInteraction, options:InteractionReplyOptions = {}, page = 0): Promise<PaginationSent>
     {
-        if (!interaction.deferred)  
-            await interaction.deferReply({ephemeral: options.ephemeral
-                ? true
-                : false});
+        if (!interaction.deferred) {
+            if (options.ephemeral) {
+                await interaction.deferReply({ flags: [ "Ephemeral" ] });
+            } else {
+                await interaction.deferReply();
+            }
+        }
 
         if (page < 0 || !Number.isInteger(page))
             throw new RangeError("[DJS-Button-Pages]: Page number should be integer!");
